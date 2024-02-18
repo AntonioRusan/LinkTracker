@@ -13,7 +13,7 @@ import edu.java.bot.commands.UntrackCommand;
 import java.util.List;
 
 public class BotMessageProcessor implements MessageProcessor {
-    private final List<String> commandDescriptionList = List.of(
+    public final List<String> commandDescriptionList = List.of(
             new StartCommand().commandNameAndDescription(),
             new ListCommand().commandNameAndDescription(),
             new HelpCommand().commandNameAndDescription(),

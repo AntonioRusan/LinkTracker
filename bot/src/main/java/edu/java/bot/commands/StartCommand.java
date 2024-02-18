@@ -18,7 +18,7 @@ public class StartCommand implements Command {
     public SendMessage handleCommand(Update update) {
         Long chatId = update.message().chat().id();
         String response = "Привет, " + update.message().chat().firstName()
-                + " " + update.message().chat().lastName() + "!";
+                + " " + update.message().chat().lastName() + "!\nВы зарегистрированы!";
         return new SendMessage(chatId, response);
     }
 }
