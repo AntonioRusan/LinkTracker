@@ -1,4 +1,4 @@
-package bot;
+package edu.bot;
 
 import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
