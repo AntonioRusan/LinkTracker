@@ -2,23 +2,25 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import java.util.ArrayList;
+import java.util.List;
 
-public class StartCommand implements Command {
+public class ListCommand implements Command {
     @Override
     public String commandName() {
-        return "/start";
+        return "/list";
     }
 
     @Override
     public String description() {
-        return "Регистрация пользователя";
+        return "Вывести список отслеживаемых ссылок";
     }
 
     @Override
     public SendMessage handleCommand(Update update) {
         Long chatId = update.message().chat().id();
-        String response = "Привет, " + update.message().chat().firstName()
-                + " " + update.message().chat().lastName() + "!";
+        List<String> trackedUrls = new ArrayList<>();
+        String response = !trackedUrls.isEmpty() ? "Отслеживаемые ссылки:\n" : "Нет отслеживаемых ссылок!";
         return new SendMessage(chatId, response);
     }
 }

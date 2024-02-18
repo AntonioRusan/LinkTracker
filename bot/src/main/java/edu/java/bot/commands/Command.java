@@ -9,9 +9,13 @@ public interface Command {
 
     String description();
 
+    default String commandNameAndDescription() {
+        return commandName() + " -- " + description();
+    }
+
     SendMessage handleCommand(Update update);
 
-    default BotCommand toApiCommand() {
+    default BotCommand toBotCommand() {
         return new BotCommand(commandName(), description());
     }
 

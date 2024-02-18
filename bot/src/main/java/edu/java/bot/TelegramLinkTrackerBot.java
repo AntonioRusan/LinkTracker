@@ -17,11 +17,13 @@ public class TelegramLinkTrackerBot {
     public TelegramLinkTrackerBot(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
         this.telegramBot = new TelegramBot(applicationConfig.telegramToken());
+        telegramBot.execute(messageProcessor.createCommandsMenu());
         telegramBot.setUpdatesListener(updateList -> {
             updateList.forEach(System.out::println);
             updateList.forEach(update -> telegramBot.execute(messageProcessor.processMessage(update)));
             return CONFIRMED_UPDATES_ALL;
         });
+
     }
 
 }
