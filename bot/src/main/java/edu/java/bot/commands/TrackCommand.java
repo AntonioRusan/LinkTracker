@@ -2,11 +2,21 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import edu.java.bot.repository.UserRepository;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
 public class TrackCommand implements Command {
+    private UserRepository userRepository;
+
+    public TrackCommand() {
+    }
+
+    public TrackCommand(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     @Override
     public String commandName() {
         return "/track";
@@ -22,8 +32,12 @@ public class TrackCommand implements Command {
         Long chatId = update.message().chat().id();
         String commandText = update.message().text();
         String url = commandText.substring(commandName().length()).trim();
-        String response = isValidUrl(url) ? "Отслеживаем изменения по ссылке: "
-                + url : "Введена неверная или пустая ссылка!";
+        String response;
+        if (isValidUrl(url)) {
+            response = userRepository.addLinkToUser(chatId, url);
+        } else {
+            response = "Введена неверная или пустая ссылка!";
+        }
         return new SendMessage(chatId, response);
     }
 

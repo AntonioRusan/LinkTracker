@@ -9,11 +9,12 @@ import org.springframework.stereotype.Service;
 public class TelegramLinkTrackerBot {
 
     private final TelegramBot telegramBot;
-    private final MessageProcessor messageProcessor = new BotMessageProcessor();
+    private final MessageProcessor messageProcessor;
 
     @Autowired
-    public TelegramLinkTrackerBot(TelegramBot telegramBot) {
+    public TelegramLinkTrackerBot(TelegramBot telegramBot, MessageProcessor messageProcessor) {
         this.telegramBot = telegramBot;
+        this.messageProcessor = messageProcessor;
     }
 
     @PostConstruct

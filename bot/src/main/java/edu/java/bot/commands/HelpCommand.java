@@ -5,7 +5,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import java.util.List;
 
 public class HelpCommand implements Command {
-    List<String> commandList;
+    private List<String> commandList;
 
     public HelpCommand() {
 
