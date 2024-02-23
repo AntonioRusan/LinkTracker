@@ -7,23 +7,21 @@ import edu.java.github.GitHubClientImpl;
 import edu.java.github.RepositoryResponse;
 import java.time.OffsetDateTime;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.reactive.function.client.WebClient;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(SpringExtension.class)
+@SpringBootTest
 public class GitHubClientTest {
     @TestConfiguration
-    static class Config {
+    static class TestConfig {
         @Bean
         public WireMockServer wireMockServer() {
             WireMockServer wireMockServer = new WireMockServer(options().dynamicPort());
-            // required so we can use `baseUrl()` in the construction of `webClient` below
             wireMockServer.start();
             return wireMockServer;
         }
