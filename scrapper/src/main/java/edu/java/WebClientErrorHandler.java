@@ -1,4 +1,4 @@
-package edu.java.github;
+package edu.java;
 
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import reactor.core.publisher.Mono;

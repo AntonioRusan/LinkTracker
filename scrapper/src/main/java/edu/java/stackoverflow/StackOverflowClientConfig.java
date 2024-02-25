@@ -1,4 +1,4 @@
-package edu.java.github;
+package edu.java.stackoverflow;
 
 import edu.java.WebClientErrorHandler;
 import edu.java.configuration.ApplicationConfig;
@@ -7,19 +7,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
-public class GitHubClientConfig {
+public class StackOverflowClientConfig {
     private final ApplicationConfig applicationConfig;
 
-    public GitHubClientConfig(ApplicationConfig applicationConfig) {
+    public StackOverflowClientConfig(ApplicationConfig applicationConfig) {
         this.applicationConfig = applicationConfig;
     }
 
-    @Bean("gitHubWebClient")
-    public WebClient gitHubWebClient() {
+    @Bean("stackOverflowWebClient")
+    public WebClient stackOverflowWebClient() {
         return WebClient
             .builder()
             .filter(WebClientErrorHandler.errorHandler())
-            .baseUrl(applicationConfig.githubBaseUrl())
+            .baseUrl(applicationConfig.stackoverflowBaseUrl())
             .build();
     }
 }

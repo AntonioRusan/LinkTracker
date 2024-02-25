@@ -5,7 +5,7 @@ app:
     force-check-delay: 10s
 
   github_base_url: ${GITHUB_BASE_URL}
-  stackoverflow_base_url: ${STACKOVERFLOW_BASE_URL}
+  stackoverflow_base_url: ${STACK_OVERFLOW_BASE_URL}
 
 spring:
   application:
