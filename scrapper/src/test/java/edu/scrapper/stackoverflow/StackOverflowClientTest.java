@@ -3,6 +3,7 @@ package edu.scrapper.stackoverflow;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import edu.java.ScrapperApplication;
 import edu.java.stackoverflow.QuestionResponse;
 import edu.java.stackoverflow.StackOverflowClient;
 import java.time.OffsetDateTime;
@@ -16,7 +17,7 @@ import org.springframework.test.context.DynamicPropertySource;
 import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {ScrapperApplication.class})
 @WireMockTest
 public class StackOverflowClientTest {
 
