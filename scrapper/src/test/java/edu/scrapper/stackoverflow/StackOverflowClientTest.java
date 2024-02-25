@@ -1,4 +1,4 @@
-package edu.java.scrapper.stackoverflow;
+package edu.scrapper.stackoverflow;
 
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
