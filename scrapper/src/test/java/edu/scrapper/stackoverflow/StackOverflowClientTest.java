@@ -6,8 +6,12 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import edu.java.ScrapperApplication;
 import edu.java.stackoverflow.QuestionResponse;
 import edu.java.stackoverflow.StackOverflowClient;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,27 +50,17 @@ public class StackOverflowClientTest {
     }
 
     @Test
-    public void testGetQuestion() {
+    public void testGetQuestion() throws IOException {
+        String okResponse = FileUtils.readFileToString(
+            new File("src/test/resources/stackoverflow/stackoverflow_ok_response.json"),
+            StandardCharsets.UTF_8
+        );
         OffsetDateTime updateTime = OffsetDateTime.parse("2024-02-27T12:00:00Z"); //1709035200
         wireMockExtension.stubFor(WireMock.get(WireMock.urlPathEqualTo("/questions/1"))
             .withQueryParam("site", WireMock.equalTo("stackoverflow"))
             .willReturn(WireMock.aResponse()
                 .withHeader("Content-Type", "application/json")
-                .withBody(
-                    "{\n" +
-                        "  \"items\": [\n" +
-                        "    {\n" +
-                        "      \"is_answered\": true,\n" +
-                        "      \"answer_count\": 2,\n" +
-                        "      \"last_activity_date\": 1709035200,\n" +
-                        "      \"creation_date\": 1256799465,\n" +
-                        "      \"question_id\": 1,\n" +
-                        "      \"link\": \"https://stackoverflow.com/questions/1/test-question\",\n" +
-                        "      \"title\": \"Test question\"\n" +
-                        "    }\n" +
-                        "  ]\n" +
-                        "}"
-                )
+                .withBody(okResponse)
             )
         );
 

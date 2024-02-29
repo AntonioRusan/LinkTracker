@@ -1,7 +1,6 @@
-package edu.java.stackoverflow;
+package edu.java.configuration;
 
 import edu.java.WebClientErrorHandler;
-import edu.java.configuration.ApplicationConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,9 +16,9 @@ public class StackOverflowClientConfig {
     @Bean("stackOverflowWebClient")
     public WebClient stackOverflowWebClient() {
         return WebClient
-            .builder()
-            .filter(WebClientErrorHandler.errorHandler())
-            .baseUrl(applicationConfig.stackoverflowBaseUrl())
-            .build();
+                .builder()
+                .filter(WebClientErrorHandler.errorHandler())
+                .baseUrl(applicationConfig.stackoverflowBaseUrl())
+                .build();
     }
 }
