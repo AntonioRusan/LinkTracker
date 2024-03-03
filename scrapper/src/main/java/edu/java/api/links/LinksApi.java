@@ -82,6 +82,7 @@ public interface LinksApi {
      * @param tgChatId (required)
      * @return Ссылки успешно получены (status code 200)
      *     or Некорректные параметры запроса (status code 400)
+     *     or Чат не найден (status code 404)
      */
     @Operation(
         operationId = "linksGet",
@@ -92,7 +93,10 @@ public interface LinksApi {
             }),
             @ApiResponse(responseCode = "400", description = "Некорректные параметры запроса", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))
-            })
+            }),
+            @ApiResponse(responseCode = "404", description = "Чат не найден", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))
+            }),
         }
     )
     @RequestMapping(
@@ -115,6 +119,8 @@ public interface LinksApi {
      * @param addLinkRequest (required)
      * @return Ссылка успешно добавлена (status code 200)
      *     or Некорректные параметры запроса (status code 400)
+     *     or Повторное добавление ссылки (status code 409)
+     *     or Чат не найден (status code 404)
      */
     @Operation(
         operationId = "linksPost",
@@ -125,7 +131,13 @@ public interface LinksApi {
             }),
             @ApiResponse(responseCode = "400", description = "Некорректные параметры запроса", content = {
                 @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))
-            })
+            }),
+            @ApiResponse(responseCode = "409", description = "Повторное добавление ссылки", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))
+            }),
+            @ApiResponse(responseCode = "404", description = "Чат не найден", content = {
+                @Content(mediaType = "application/json", schema = @Schema(implementation = ApiErrorResponse.class))
+            }),
         }
     )
     @RequestMapping(

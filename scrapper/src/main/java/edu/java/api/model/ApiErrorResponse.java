@@ -24,6 +24,20 @@ public class ApiErrorResponse {
     @Valid
     private List<String> stacktrace;
 
+    public ApiErrorResponse(
+        String description,
+        String code,
+        String exceptionName,
+        String exceptionMessage,
+        List<String> stacktrace
+    ) {
+        this.description = description;
+        this.code = code;
+        this.exceptionName = exceptionName;
+        this.exceptionMessage = exceptionMessage;
+        this.stacktrace = stacktrace;
+    }
+
     public ApiErrorResponse description(String description) {
         this.description = description;
         return this;
