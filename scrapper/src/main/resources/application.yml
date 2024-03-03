@@ -4,9 +4,14 @@ app:
     interval: 10s
     force-check-delay: 10s
 
+  github_base_url: ${GITHUB_BASE_URL:https://api.github.com/}
+  stackoverflow_base_url: ${STACK_OVERFLOW_BASE_URL:https://api.stackexchange.com/2.3/}
+
 spring:
   application:
     name: scrapper
+  config:
+    import: optional:file:.env[.properties]
 
 server:
   port: 8080
