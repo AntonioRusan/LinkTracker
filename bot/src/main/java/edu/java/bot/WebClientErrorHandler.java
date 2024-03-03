@@ -1,7 +1,7 @@
-package edu.java;
+package edu.java.bot;
 
-import edu.java.api.exception.base.ConflictException;
-import edu.java.api.exception.base.NotFoundException;
+import edu.java.bot.api.exception.base.ConflictException;
+import edu.java.bot.api.exception.base.NotFoundException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -10,6 +10,7 @@ import reactor.core.publisher.Mono;
 
 public class WebClientErrorHandler {
     private WebClientErrorHandler() {
+
     }
 
     public static ExchangeFilterFunction errorHandler() {
