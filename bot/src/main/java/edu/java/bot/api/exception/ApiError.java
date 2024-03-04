@@ -2,7 +2,7 @@ package edu.java.bot.api.exception;
 
 public enum ApiError {
     CHATS_NOT_FOUND("Чаты не найдены"),
-    LINK_CHAT_NOT_FOUND("Ссылка не найдена");
+    LINK_NOT_FOUND("Ссылка не найдена");
 
     private final String message;
 

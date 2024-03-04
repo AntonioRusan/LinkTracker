@@ -4,10 +4,8 @@ import edu.java.api.model.AddLinkRequest;
 import edu.java.api.model.LinkResponse;
 import edu.java.api.model.ListLinksResponse;
 import edu.java.api.model.RemoveLinkRequest;
-import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.context.request.NativeWebRequest;
 
 /**
  * A delegate to be called by the {@link LinksApiController}}.
@@ -15,10 +13,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 @SuppressWarnings("MultipleStringLiterals")
 public interface LinksApiDelegate {
-
-    default Optional<NativeWebRequest> getRequest() {
-        return Optional.empty();
-    }
 
     /**
      * DELETE /links : Убрать отслеживание ссылки

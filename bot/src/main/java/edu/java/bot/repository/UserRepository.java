@@ -64,4 +64,13 @@ public class UserRepository {
             return new ArrayList<>();
         }
     }
+
+    public Optional<User> getUser(Long userId) {
+        if (chatIdToUser.containsKey(userId)) {
+            return Optional.of(chatIdToUser.get(userId));
+        } else {
+            return Optional.empty();
+        }
+    }
+
 }
