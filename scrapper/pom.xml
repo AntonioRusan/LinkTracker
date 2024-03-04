@@ -162,6 +162,11 @@
             <version>2.3.0</version>
         </dependency>
 
+        <dependency>
+            <groupId>edu.java</groupId>
+            <artifactId>common</artifactId>
+            <version>${revision}</version>
+        </dependency>
 
 
     </dependencies>

@@ -1,4 +1,4 @@
-package edu.java.clients.bot.models;
+package edu.java.clients.bot.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;

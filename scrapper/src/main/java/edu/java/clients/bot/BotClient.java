@@ -1,6 +1,6 @@
 package edu.java.clients.bot;
 
-import edu.java.clients.bot.models.LinkUpdate;
+import edu.java.clients.bot.model.LinkUpdate;
 
 public interface BotClient {
 
