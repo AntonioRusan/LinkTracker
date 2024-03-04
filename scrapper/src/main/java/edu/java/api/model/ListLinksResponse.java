@@ -1,6 +1,7 @@
 package edu.java.api.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import edu.java.model.Link;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,11 @@ public class ListLinksResponse {
     private List<@Valid LinkResponse> links;
 
     private Integer size;
+
+    public ListLinksResponse(List<Link> links) {
+        this.links = links.stream().map(LinkResponse::new).toList();
+        this.size = links.size();
+    }
 
     public ListLinksResponse links(List<@Valid LinkResponse> links) {
         this.links = links;

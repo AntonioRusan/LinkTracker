@@ -1,19 +1,16 @@
 package edu.java.api.links;
 
-import edu.java.api.ApiUtil;
 import edu.java.api.model.AddLinkRequest;
 import edu.java.api.model.LinkResponse;
 import edu.java.api.model.ListLinksResponse;
 import edu.java.api.model.RemoveLinkRequest;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.context.request.NativeWebRequest;
 
 /**
  * A delegate to be called by the {@link LinksApiController}}.
- * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 
 @SuppressWarnings("MultipleStringLiterals")
@@ -37,15 +34,6 @@ public interface LinksApiDelegate {
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"id\" : 0, \"url\" : \"https://openapi-generator.tech\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
     }
@@ -59,18 +47,7 @@ public interface LinksApiDelegate {
      * @see LinksApi#linksGet
      */
     default ResponseEntity<ListLinksResponse> linksGet(Long tgChatId) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString =
-                        "{ \"size\" : 6, \"links\" : [ { \"id\" : 0, \"url\" : \"https://openapi-generator.tech\" }, { \"id\" : 0, \"url\" : \"https://openapi-generator.tech\" } ] }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -86,17 +63,7 @@ public interface LinksApiDelegate {
         Long tgChatId,
         AddLinkRequest addLinkRequest
     ) {
-        getRequest().ifPresent(request -> {
-            for (MediaType mediaType : MediaType.parseMediaTypes(request.getHeader("Accept"))) {
-                if (mediaType.isCompatibleWith(MediaType.valueOf("application/json"))) {
-                    String exampleString = "{ \"id\" : 0, \"url\" : \"https://openapi-generator.tech\" }";
-                    ApiUtil.setExampleResponse(request, "application/json", exampleString);
-                    break;
-                }
-            }
-        });
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }

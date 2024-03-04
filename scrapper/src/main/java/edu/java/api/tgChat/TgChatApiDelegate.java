@@ -7,7 +7,6 @@ import org.springframework.web.context.request.NativeWebRequest;
 
 /**
  * A delegate to be called by the {@link TgChatApiController}}.
- * Implement this interface with a {@link org.springframework.stereotype.Service} annotated class.
  */
 
 public interface TgChatApiDelegate {
@@ -21,13 +20,12 @@ public interface TgChatApiDelegate {
      *
      * @param id (required)
      * @return Чат успешно удалён (status code 200)
-     * or Некорректные параметры запроса (status code 400)
-     * or Чат не существует (status code 404)
+     *     or Некорректные параметры запроса (status code 400)
+     *     or Чат не существует (status code 404)
      * @see TgChatApi#tgChatIdDelete
      */
     default ResponseEntity<Void> tgChatIdDelete(Long id) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
     /**
@@ -35,12 +33,11 @@ public interface TgChatApiDelegate {
      *
      * @param id (required)
      * @return Чат зарегистрирован (status code 200)
-     * or Некорректные параметры запроса (status code 400)
+     *     or Некорректные параметры запроса (status code 400)
      * @see TgChatApi#tgChatIdPost
      */
     default ResponseEntity<Void> tgChatIdPost(Long id) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-
     }
 
 }
