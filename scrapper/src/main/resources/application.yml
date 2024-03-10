@@ -13,7 +13,8 @@ spring:
     name: scrapper
   config:
     import: optional:file:.env[.properties]
-
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
 
 server:
   port: 8080
