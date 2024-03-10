@@ -1,6 +1,6 @@
 package edu.java.configuration;
 
-import edu.java.WebClientErrorHandler;
+import edu.java.handlers.WebClientErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
