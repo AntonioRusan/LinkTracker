@@ -1,5 +1,8 @@
 package edu.java.bot.clients.scrapper;
 
+import edu.java.bot.api.exceptions.base.BadRequestException;
+import edu.java.bot.api.exceptions.base.ConflictException;
+import edu.java.bot.api.exceptions.base.NotFoundException;
 import edu.java.bot.clients.scrapper.model.AddLinkRequest;
 import edu.java.bot.clients.scrapper.model.LinkResponse;
 import edu.java.bot.clients.scrapper.model.ListLinksResponse;
@@ -8,11 +11,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
-@SuppressWarnings("MultipleStringLiterals")
+@SuppressWarnings({"MultipleStringLiterals", "MagicNumber"})
 @Service
 public class ScrapperClientImpl implements ScrapperClient {
     private final WebClient webClient;
@@ -30,6 +36,14 @@ public class ScrapperClientImpl implements ScrapperClient {
             .uri("/api/tg-chat/{id}", id)
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
+            .onStatus(
+                HttpStatusCode::isError,
+                response -> switch (response.statusCode().value()) {
+                    case 400 -> response.bodyToMono(BadRequestException.class).flatMap(Mono::error);
+                    case 409 -> response.bodyToMono(ConflictException.class).flatMap(Mono::error);
+                    default -> Mono.error(new Exception("Неизвестная ошибка"));
+                }
+            )
             .bodyToMono(Void.class)
             .block();
     }
@@ -41,6 +55,14 @@ public class ScrapperClientImpl implements ScrapperClient {
             .uri("/api/tg-chat/{id}", id)
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
+            .onStatus(
+                HttpStatusCode::isError,
+                response -> switch (response.statusCode().value()) {
+                    case 400 -> response.bodyToMono(BadRequestException.class).flatMap(Mono::error);
+                    case 404 -> response.bodyToMono(NotFoundException.class).flatMap(Mono::error);
+                    default -> Mono.error(new Exception("Неизвестная ошибка"));
+                }
+            )
             .bodyToMono(Void.class)
             .block();
     }
@@ -53,6 +75,14 @@ public class ScrapperClientImpl implements ScrapperClient {
             .header("id", String.valueOf(tgChatId))
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
+            .onStatus(
+                HttpStatusCode::isError,
+                response -> switch (response.statusCode().value()) {
+                    case 400 -> response.bodyToMono(BadRequestException.class).flatMap(Mono::error);
+                    case 404 -> response.bodyToMono(NotFoundException.class).flatMap(Mono::error);
+                    default -> Mono.error(new Exception("Неизвестная ошибка"));
+                }
+            )
             .bodyToMono(ListLinksResponse.class)
             .block();
     }
@@ -63,8 +93,18 @@ public class ScrapperClientImpl implements ScrapperClient {
             .post()
             .uri("/api/links")
             .header("id", String.valueOf(tgChatId))
+            .bodyValue(addLinkRequest)
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
+            .onStatus(
+                HttpStatusCode::isError,
+                response -> switch (response.statusCode().value()) {
+                    case 400 -> response.bodyToMono(BadRequestException.class).flatMap(Mono::error);
+                    case 404 -> response.bodyToMono(NotFoundException.class).flatMap(Mono::error);
+                    case 409 -> response.bodyToMono(ConflictException.class).flatMap(Mono::error);
+                    default -> Mono.error(new Exception("Неизвестная ошибка"));
+                }
+            )
             .bodyToMono(LinkResponse.class)
             .block();
     }
@@ -72,11 +112,20 @@ public class ScrapperClientImpl implements ScrapperClient {
     @Override
     public LinkResponse deleteLink(Long tgChatId, RemoveLinkRequest removeLinkRequest) {
         return webClient
-            .delete()
+            .method(HttpMethod.DELETE)
             .uri("/api/links")
             .header("id", String.valueOf(tgChatId))
             .accept(MediaType.APPLICATION_JSON)
+            .bodyValue(removeLinkRequest)
             .retrieve()
+            .onStatus(
+                HttpStatusCode::isError,
+                response -> switch (response.statusCode().value()) {
+                    case 400 -> response.bodyToMono(BadRequestException.class).flatMap(Mono::error);
+                    case 404 -> response.bodyToMono(NotFoundException.class).flatMap(Mono::error);
+                    default -> Mono.error(new Exception("Неизвестная ошибка"));
+                }
+            )
             .bodyToMono(LinkResponse.class)
             .block();
     }

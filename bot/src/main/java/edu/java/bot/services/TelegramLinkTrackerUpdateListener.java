@@ -4,7 +4,6 @@ import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
 import edu.java.bot.messageProcessors.MessageProcessor;
-
 import java.util.List;
 
 public class TelegramLinkTrackerUpdateListener implements UpdatesListener {

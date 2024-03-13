@@ -16,6 +16,11 @@ public class LinkResponse {
 
     private URI url;
 
+    public LinkResponse(Long id, URI url) {
+        this.id = id;
+        this.url = url;
+    }
+
     public LinkResponse id(Long id) {
         this.id = id;
         return this;

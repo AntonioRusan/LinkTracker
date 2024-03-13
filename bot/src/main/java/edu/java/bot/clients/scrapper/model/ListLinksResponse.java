@@ -18,6 +18,16 @@ public class ListLinksResponse {
 
     private Integer size;
 
+    public ListLinksResponse() {
+        this.links = new ArrayList<>();
+        this.size = 0;
+    }
+
+    public ListLinksResponse(List<@Valid LinkResponse> links) {
+        this.links = links;
+        this.size = links.size();
+    }
+
     public ListLinksResponse links(List<@Valid LinkResponse> links) {
         this.links = links;
         return this;
