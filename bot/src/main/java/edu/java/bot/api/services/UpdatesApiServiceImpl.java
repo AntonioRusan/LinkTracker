@@ -1,8 +1,8 @@
 package edu.java.bot.api.services;
 
+import api.bot.models.LinkUpdate;
 import edu.java.bot.api.exceptions.ApiError;
 import edu.java.bot.api.exceptions.base.BadRequestException;
-import edu.java.bot.api.models.LinkUpdate;
 import edu.java.bot.models.User;
 import edu.java.bot.repositories.UserRepository;
 import java.util.List;

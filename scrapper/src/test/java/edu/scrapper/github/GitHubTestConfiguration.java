@@ -1,8 +1,8 @@
 package edu.scrapper.github;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
-import edu.java.github.GitHubClient;
-import edu.java.github.GitHubClientImpl;
+import edu.java.clients.github.GitHubClient;
+import edu.java.clients.github.GitHubClientImpl;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.reactive.function.client.WebClient;

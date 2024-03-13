@@ -1,9 +1,9 @@
 package edu.java.bot.clients.scrapper;
 
-import edu.java.bot.clients.scrapper.model.AddLinkRequest;
-import edu.java.bot.clients.scrapper.model.LinkResponse;
-import edu.java.bot.clients.scrapper.model.ListLinksResponse;
-import edu.java.bot.clients.scrapper.model.RemoveLinkRequest;
+import api.scrapper.models.AddLinkRequest;
+import api.scrapper.models.LinkResponse;
+import api.scrapper.models.ListLinksResponse;
+import api.scrapper.models.RemoveLinkRequest;
 
 public interface ScrapperClient {
     void registerChat(Long id);

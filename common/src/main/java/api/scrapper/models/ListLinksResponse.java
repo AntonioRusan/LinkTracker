@@ -1,7 +1,6 @@
-package edu.java.api.models;
+package api.scrapper.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.java.models.Link;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,13 @@ public class ListLinksResponse {
 
     private Integer size;
 
-    public ListLinksResponse(List<Link> links) {
-        this.links = links.stream().map(LinkResponse::new).toList();
+    public ListLinksResponse() {
+        this.links = new ArrayList<>();
+        this.size = 0;
+    }
+
+    public ListLinksResponse(List<@Valid LinkResponse> links) {
+        this.links = links;
         this.size = links.size();
     }
 

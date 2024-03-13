@@ -1,5 +1,6 @@
-package edu.java.github;
+package edu.java.clients.github;
 
+import edu.java.clients.github.models.RepositoryResponse;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;

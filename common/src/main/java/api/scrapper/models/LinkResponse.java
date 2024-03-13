@@ -1,7 +1,6 @@
-package edu.java.api.models;
+package api.scrapper.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import edu.java.models.Link;
 import io.swagger.v3.oas.annotations.media.Schema;
 import java.net.URI;
 import java.util.Objects;
@@ -17,9 +16,9 @@ public class LinkResponse {
 
     private URI url;
 
-    public LinkResponse(Link link) {
-        this.id = link.id();
-        this.url = link.url();
+    public LinkResponse(Long id, URI url) {
+        this.id = id;
+        this.url = url;
     }
 
     public LinkResponse id(Long id) {

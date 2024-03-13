@@ -6,7 +6,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import edu.java.ScrapperApplication;
 import edu.java.api.exceptions.base.BadRequestException;
 import edu.java.clients.bot.BotClient;
-import edu.java.clients.bot.models.LinkUpdate;
+import api.bot.models.LinkUpdate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;

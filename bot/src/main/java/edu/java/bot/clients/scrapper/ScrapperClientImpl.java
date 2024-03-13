@@ -1,12 +1,12 @@
 package edu.java.bot.clients.scrapper;
 
+import api.scrapper.models.AddLinkRequest;
+import api.scrapper.models.LinkResponse;
+import api.scrapper.models.ListLinksResponse;
+import api.scrapper.models.RemoveLinkRequest;
 import edu.java.bot.api.exceptions.base.BadRequestException;
 import edu.java.bot.api.exceptions.base.ConflictException;
 import edu.java.bot.api.exceptions.base.NotFoundException;
-import edu.java.bot.clients.scrapper.model.AddLinkRequest;
-import edu.java.bot.clients.scrapper.model.LinkResponse;
-import edu.java.bot.clients.scrapper.model.ListLinksResponse;
-import edu.java.bot.clients.scrapper.model.RemoveLinkRequest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

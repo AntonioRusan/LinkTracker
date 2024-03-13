@@ -1,4 +1,4 @@
-package edu.java.api.models;
+package api.scrapper.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -7,14 +7,18 @@ import java.util.Objects;
 import javax.validation.Valid;
 
 /**
- * RemoveLinkRequest
+ * AddLinkRequest
  */
 
-public class RemoveLinkRequest {
+public class AddLinkRequest {
 
     private URI link;
 
-    public RemoveLinkRequest link(URI link) {
+    public AddLinkRequest(URI link) {
+        this.link = link;
+    }
+
+    public AddLinkRequest link(URI link) {
         this.link = link;
         return this;
     }
@@ -43,8 +47,8 @@ public class RemoveLinkRequest {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        RemoveLinkRequest removeLinkRequest = (RemoveLinkRequest) o;
-        return Objects.equals(this.link, removeLinkRequest.link);
+        AddLinkRequest addLinkRequest = (AddLinkRequest) o;
+        return Objects.equals(this.link, addLinkRequest.link);
     }
 
     @Override
@@ -55,7 +59,7 @@ public class RemoveLinkRequest {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("class RemoveLinkRequest {\n");
+        sb.append("class AddLinkRequest {\n");
         sb.append("    link: ").append(toIndentedString(link)).append("\n");
         sb.append("}");
         return sb.toString();

@@ -1,11 +1,11 @@
 package edu.java.api.services.links;
 
+import api.scrapper.models.AddLinkRequest;
+import api.scrapper.models.LinkResponse;
+import api.scrapper.models.ListLinksResponse;
+import api.scrapper.models.RemoveLinkRequest;
 import edu.java.api.controllers.links.LinksApi;
 import edu.java.api.controllers.links.LinksApiController;
-import edu.java.api.models.AddLinkRequest;
-import edu.java.api.models.LinkResponse;
-import edu.java.api.models.ListLinksResponse;
-import edu.java.api.models.RemoveLinkRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

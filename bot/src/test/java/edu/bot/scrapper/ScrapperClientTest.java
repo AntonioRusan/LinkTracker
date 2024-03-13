@@ -1,5 +1,9 @@
 package edu.bot.scrapper;
 
+import api.scrapper.models.AddLinkRequest;
+import api.scrapper.models.LinkResponse;
+import api.scrapper.models.ListLinksResponse;
+import api.scrapper.models.RemoveLinkRequest;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
@@ -8,10 +12,6 @@ import edu.java.bot.api.exceptions.base.BadRequestException;
 import edu.java.bot.api.exceptions.base.ConflictException;
 import edu.java.bot.api.exceptions.base.NotFoundException;
 import edu.java.bot.clients.scrapper.ScrapperClient;
-import edu.java.bot.clients.scrapper.model.AddLinkRequest;
-import edu.java.bot.clients.scrapper.model.LinkResponse;
-import edu.java.bot.clients.scrapper.model.ListLinksResponse;
-import edu.java.bot.clients.scrapper.model.RemoveLinkRequest;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;

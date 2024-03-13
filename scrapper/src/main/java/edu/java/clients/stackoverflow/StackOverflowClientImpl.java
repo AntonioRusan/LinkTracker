@@ -1,5 +1,6 @@
-package edu.java.stackoverflow;
+package edu.java.clients.stackoverflow;
 
+import edu.java.clients.stackoverflow.models.QuestionResponse;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;

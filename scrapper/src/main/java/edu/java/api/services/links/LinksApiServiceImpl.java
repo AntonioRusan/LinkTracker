@@ -1,11 +1,11 @@
 package edu.java.api.services.links;
 
+import api.scrapper.models.AddLinkRequest;
+import api.scrapper.models.LinkResponse;
+import api.scrapper.models.ListLinksResponse;
+import api.scrapper.models.RemoveLinkRequest;
 import edu.java.api.exceptions.base.ConflictException;
 import edu.java.api.exceptions.base.NotFoundException;
-import edu.java.api.models.AddLinkRequest;
-import edu.java.api.models.LinkResponse;
-import edu.java.api.models.ListLinksResponse;
-import edu.java.api.models.RemoveLinkRequest;
 import edu.java.models.Link;
 import edu.java.repositories.ChatRepository;
 import edu.java.repositories.LinkRepository;
@@ -32,7 +32,12 @@ public class LinksApiServiceImpl implements LinksApiService {
     public ResponseEntity<ListLinksResponse> linksGet(Long tgChatId) {
         if (chatRepository.getChatById(tgChatId).isPresent()) {
             return new ResponseEntity<>(
-                new ListLinksResponse(linkRepository.getLinksByChatId(tgChatId)),
+                new ListLinksResponse(
+                    linkRepository.getLinksByChatId(tgChatId)
+                        .stream()
+                        .map(link -> new LinkResponse(link.id(), link.url()))
+                        .toList()
+                ),
                 HttpStatus.OK
             );
         } else {
@@ -53,8 +58,9 @@ public class LinksApiServiceImpl implements LinksApiService {
             if (foundLinkOpt.isPresent()) {
                 throw new ConflictException(LINK_ALREADY_ADDED);
             } else {
+                Link addedLink = linkRepository.addLink(tgChatId, addLinkRequest.getLink());
                 return new ResponseEntity<>(
-                    new LinkResponse(linkRepository.addLink(tgChatId, addLinkRequest.getLink())),
+                    new LinkResponse(addedLink.id(), addedLink.url()),
                     HttpStatus.OK
                 );
             }
@@ -71,8 +77,9 @@ public class LinksApiServiceImpl implements LinksApiService {
         if (chatRepository.getChatById(tgChatId).isPresent()) {
             Optional<Link> foundLinkOpt = linkRepository.getLinksByChatIdAndUri(tgChatId, removeLinkRequest.getLink());
             if (foundLinkOpt.isPresent()) {
+                Link deletedLink = linkRepository.deleteLinkById(foundLinkOpt.get().id());
                 return new ResponseEntity<>(
-                    new LinkResponse(linkRepository.deleteLinkById(foundLinkOpt.get().id())),
+                    new LinkResponse(deletedLink.id(), deletedLink.url()),
                     HttpStatus.OK
                 );
             } else {

@@ -6,11 +6,11 @@
 
 package edu.java.api.controllers.links;
 
-import edu.java.api.models.AddLinkRequest;
-import edu.java.api.models.ApiErrorResponse;
-import edu.java.api.models.LinkResponse;
-import edu.java.api.models.ListLinksResponse;
-import edu.java.api.models.RemoveLinkRequest;
+import api.models.ApiErrorResponse;
+import api.scrapper.models.AddLinkRequest;
+import api.scrapper.models.LinkResponse;
+import api.scrapper.models.ListLinksResponse;
+import api.scrapper.models.RemoveLinkRequest;
 import edu.java.api.services.links.LinksApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
