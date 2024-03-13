@@ -1,6 +1,5 @@
 package edu.java.configuration;
 
-import edu.java.handlers.WebClientErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -17,7 +16,6 @@ public class BotClientConfig {
     public WebClient botWebClient() {
         return WebClient
             .builder()
-            .filter(WebClientErrorHandler.errorHandler())
             .baseUrl(applicationConfig.botApiUrl())
             .build();
     }
