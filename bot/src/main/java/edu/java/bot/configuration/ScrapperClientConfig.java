@@ -14,7 +14,7 @@ public class ScrapperClientConfig {
     }
 
     @Bean("scrapperWebClient")
-    public WebClient gitHubWebClient() {
+    public WebClient scrapperWebClient() {
         return WebClient
             .builder()
             .filter(WebClientErrorHandler.errorHandler())

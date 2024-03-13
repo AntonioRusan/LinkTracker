@@ -23,10 +23,18 @@ public class LinkUpdate {
     @Valid
     private List<Long> tgChatIds;
 
+    public LinkUpdate(Long id, URI url, String description, List<Long> tgChatIds) {
+        this.id = id;
+        this.url = url;
+        this.description = description;
+        this.tgChatIds = tgChatIds;
+    }
+
     public LinkUpdate id(Long id) {
         this.id = id;
         return this;
     }
+
 
     /**
      * Get id

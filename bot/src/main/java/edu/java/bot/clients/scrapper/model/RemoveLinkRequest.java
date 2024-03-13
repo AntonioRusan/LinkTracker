@@ -14,6 +14,10 @@ public class RemoveLinkRequest {
 
     private URI link;
 
+    public RemoveLinkRequest(URI link) {
+        this.link = link;
+    }
+
     public RemoveLinkRequest link(URI link) {
         this.link = link;
         return this;

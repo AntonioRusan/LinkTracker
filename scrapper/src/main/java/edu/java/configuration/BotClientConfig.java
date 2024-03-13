@@ -14,7 +14,7 @@ public class BotClientConfig {
     }
 
     @Bean("botWebClient")
-    public WebClient gitHubWebClient() {
+    public WebClient botWebClient() {
         return WebClient
             .builder()
             .filter(WebClientErrorHandler.errorHandler())
