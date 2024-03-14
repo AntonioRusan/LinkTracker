@@ -3,7 +3,7 @@ package edu.java.bot.commands;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.models.User;
-import edu.java.bot.repository.UserRepository;
+import edu.java.bot.repositories.UserRepository;
 
 public class StartCommand implements Command {
     private UserRepository userRepository;

@@ -1,6 +1,5 @@
 package edu.java.bot.configuration;
 
-import edu.java.bot.WebClientErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,10 +13,9 @@ public class ScrapperClientConfig {
     }
 
     @Bean("scrapperWebClient")
-    public WebClient gitHubWebClient() {
+    public WebClient scrapperWebClient() {
         return WebClient
             .builder()
-            .filter(WebClientErrorHandler.errorHandler())
             .baseUrl(applicationConfig.scrapperApiUrl())
             .build();
     }
