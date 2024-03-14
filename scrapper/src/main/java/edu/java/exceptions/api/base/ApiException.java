@@ -1,4 +1,4 @@
-package edu.java.bot.api.exceptions.base;
+package edu.java.exceptions.api.base;
 
 public abstract class ApiException extends RuntimeException {
     private final String description;

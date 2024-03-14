@@ -1,8 +1,8 @@
 package edu.java.bot.services.updates_api;
 
 import api.bot.models.LinkUpdate;
-import edu.java.bot.api.controllers.UpdatesApi;
-import edu.java.bot.api.controllers.UpdatesApiController;
+import edu.java.bot.controllers.updates_api.UpdatesApi;
+import edu.java.bot.controllers.updates_api.UpdatesApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

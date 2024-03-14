@@ -4,7 +4,7 @@
  * Do not edit the class manually.
  */
 
-package edu.java.bot.api.controllers;
+package edu.java.bot.controllers.updates_api;
 
 import api.bot.models.LinkUpdate;
 import api.models.ApiErrorResponse;

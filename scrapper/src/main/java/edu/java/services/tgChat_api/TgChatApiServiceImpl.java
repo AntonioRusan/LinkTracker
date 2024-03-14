@@ -1,13 +1,13 @@
 package edu.java.services.tgChat_api;
 
-import edu.java.api.exceptions.base.ConflictException;
-import edu.java.api.exceptions.base.NotFoundException;
+import edu.java.exceptions.api.base.ConflictException;
+import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.repositories.ChatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import static edu.java.api.exceptions.ApiError.TG_CHAT_ALREADY_REGISTERED;
-import static edu.java.api.exceptions.ApiError.TG_CHAT_NOT_FOUND;
+import static edu.java.exceptions.api.ApiError.TG_CHAT_ALREADY_REGISTERED;
+import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
 @Service
 public class TgChatApiServiceImpl implements TgChatApiService {

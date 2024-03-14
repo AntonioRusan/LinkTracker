@@ -1,6 +1,6 @@
-package edu.java.bot.api.exceptions.base;
+package edu.java.exceptions.api.base;
 
-import edu.java.bot.api.exceptions.ApiError;
+import edu.java.exceptions.api.ApiError;
 
 public class NotFoundException extends ApiException {
     public NotFoundException(String description) {

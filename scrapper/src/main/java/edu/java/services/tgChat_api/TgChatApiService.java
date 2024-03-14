@@ -1,7 +1,7 @@
 package edu.java.services.tgChat_api;
 
-import edu.java.api.controllers.tgChat.TgChatApi;
-import edu.java.api.controllers.tgChat.TgChatApiController;
+import edu.java.controllers.tgChat.TgChatApi;
+import edu.java.controllers.tgChat.TgChatApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

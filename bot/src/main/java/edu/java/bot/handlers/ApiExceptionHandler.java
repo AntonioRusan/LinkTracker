@@ -1,9 +1,9 @@
-package edu.java.bot.api.handlers;
+package edu.java.bot.handlers;
 
 import api.models.ApiErrorResponse;
-import edu.java.bot.api.exceptions.base.BadRequestException;
-import edu.java.bot.api.exceptions.base.ConflictException;
-import edu.java.bot.api.exceptions.base.NotFoundException;
+import edu.java.bot.exceptions.api.base.BadRequestException;
+import edu.java.bot.exceptions.api.base.ConflictException;
+import edu.java.bot.exceptions.api.base.NotFoundException;
 import java.util.Arrays;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

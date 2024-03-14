@@ -1,6 +1,6 @@
-package edu.java.bot.api.exceptions.base;
+package edu.java.bot.exceptions.api.base;
 
-import edu.java.bot.api.exceptions.ApiError;
+import edu.java.bot.exceptions.api.ApiError;
 
 public class ConflictException extends ApiException {
     public ConflictException(String description) {

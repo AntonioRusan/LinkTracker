@@ -1,4 +1,4 @@
-package edu.java.bot.api.controllers;
+package edu.java.bot.controllers.updates_api;
 
 import edu.java.bot.services.updates_api.UpdatesApiService;
 import java.util.Optional;

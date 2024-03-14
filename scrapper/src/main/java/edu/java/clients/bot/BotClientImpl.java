@@ -1,9 +1,9 @@
 package edu.java.clients.bot;
 
 import api.bot.models.LinkUpdate;
-import edu.java.api.exceptions.base.BadRequestException;
-import edu.java.api.exceptions.base.ConflictException;
-import edu.java.api.exceptions.base.NotFoundException;
+import edu.java.exceptions.api.base.BadRequestException;
+import edu.java.exceptions.api.base.ConflictException;
+import edu.java.exceptions.api.base.NotFoundException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

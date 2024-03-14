@@ -4,7 +4,7 @@
  * Do not edit the class manually.
  */
 
-package edu.java.api.controllers.tgChat;
+package edu.java.controllers.tgChat;
 
 import api.models.ApiErrorResponse;
 import edu.java.services.tgChat_api.TgChatApiService;

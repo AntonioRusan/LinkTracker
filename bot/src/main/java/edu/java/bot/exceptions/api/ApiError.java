@@ -1,4 +1,4 @@
-package edu.java.bot.api.exceptions;
+package edu.java.bot.exceptions.api;
 
 public enum ApiError {
     CHATS_NOT_FOUND("Чаты не найдены"),

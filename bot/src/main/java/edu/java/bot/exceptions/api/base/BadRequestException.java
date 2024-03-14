@@ -1,6 +1,6 @@
-package edu.java.api.exceptions.base;
+package edu.java.bot.exceptions.api.base;
 
-import edu.java.api.exceptions.ApiError;
+import edu.java.bot.exceptions.api.ApiError;
 
 public class BadRequestException extends ApiException {
     public BadRequestException(String description) {

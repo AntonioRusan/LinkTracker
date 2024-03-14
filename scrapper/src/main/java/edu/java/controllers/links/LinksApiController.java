@@ -1,4 +1,4 @@
-package edu.java.api.controllers.links;
+package edu.java.controllers.links;
 
 import edu.java.services.links_api.LinksApiService;
 import java.util.Optional;

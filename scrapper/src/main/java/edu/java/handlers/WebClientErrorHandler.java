@@ -1,7 +1,7 @@
 package edu.java.handlers;
 
-import edu.java.api.exceptions.base.ConflictException;
-import edu.java.api.exceptions.base.NotFoundException;
+import edu.java.exceptions.api.base.ConflictException;
+import edu.java.exceptions.api.base.NotFoundException;
 import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

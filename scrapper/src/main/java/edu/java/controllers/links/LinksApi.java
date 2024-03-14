@@ -4,7 +4,7 @@
  * Do not edit the class manually.
  */
 
-package edu.java.api.controllers.links;
+package edu.java.controllers.links;
 
 import api.models.ApiErrorResponse;
 import api.scrapper.models.AddLinkRequest;

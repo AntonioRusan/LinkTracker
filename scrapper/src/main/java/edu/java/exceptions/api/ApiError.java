@@ -1,4 +1,4 @@
-package edu.java.api.exceptions;
+package edu.java.exceptions.api;
 
 public enum ApiError {
     TG_CHAT_NOT_FOUND("Чат не найден"),

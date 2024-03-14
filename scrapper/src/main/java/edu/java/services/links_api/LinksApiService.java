@@ -4,8 +4,8 @@ import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;
 import api.scrapper.models.ListLinksResponse;
 import api.scrapper.models.RemoveLinkRequest;
-import edu.java.api.controllers.links.LinksApi;
-import edu.java.api.controllers.links.LinksApiController;
+import edu.java.controllers.links.LinksApi;
+import edu.java.controllers.links.LinksApiController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
