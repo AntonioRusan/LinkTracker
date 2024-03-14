@@ -2,8 +2,8 @@ package edu.scrapper.github;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
-import edu.java.github.GitHubClientImpl;
-import edu.java.github.RepositoryResponse;
+import edu.java.clients.github.GitHubClientImpl;
+import edu.java.clients.github.models.RepositoryResponse;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

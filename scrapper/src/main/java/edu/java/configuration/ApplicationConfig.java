@@ -13,7 +13,8 @@ public record ApplicationConfig(
     @NotNull
     Scheduler scheduler,
     String githubBaseUrl,
-    String stackoverflowBaseUrl
+    String stackoverflowBaseUrl,
+    String botApiUrl
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }

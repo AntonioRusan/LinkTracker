@@ -2,7 +2,7 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.repository.UserRepository;
+import edu.java.bot.repositories.UserRepository;
 import java.util.List;
 
 public class ListCommand implements Command {
