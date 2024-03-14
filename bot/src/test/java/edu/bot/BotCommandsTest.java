@@ -4,7 +4,7 @@ import com.pengrad.telegrambot.model.Chat;
 import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.messageProcessors.BotMessageProcessor;
+import edu.java.bot.message_processors.BotMessageProcessor;
 import edu.java.bot.models.User;
 import edu.java.bot.repositories.UserRepository;
 import java.util.List;

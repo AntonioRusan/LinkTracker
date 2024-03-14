@@ -1,6 +1,6 @@
 package edu.java.bot.api.controllers;
 
-import edu.java.bot.api.services.UpdatesApiService;
+import edu.java.bot.services.updates_api.UpdatesApiService;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

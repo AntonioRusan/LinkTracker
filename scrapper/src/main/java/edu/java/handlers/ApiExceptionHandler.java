@@ -1,4 +1,4 @@
-package edu.java.api.handlers;
+package edu.java.handlers;
 
 import api.models.ApiErrorResponse;
 import edu.java.api.exceptions.base.BadRequestException;

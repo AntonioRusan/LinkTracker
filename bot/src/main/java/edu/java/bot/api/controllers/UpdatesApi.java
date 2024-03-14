@@ -8,7 +8,7 @@ package edu.java.bot.api.controllers;
 
 import api.bot.models.LinkUpdate;
 import api.models.ApiErrorResponse;
-import edu.java.bot.api.services.UpdatesApiService;
+import edu.java.bot.services.updates_api.UpdatesApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -7,7 +7,7 @@
 package edu.java.api.controllers.tgChat;
 
 import api.models.ApiErrorResponse;
-import edu.java.api.services.tgChat.TgChatApiService;
+import edu.java.services.tgChat_api.TgChatApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

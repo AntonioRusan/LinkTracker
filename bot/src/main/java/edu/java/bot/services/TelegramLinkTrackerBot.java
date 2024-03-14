@@ -1,7 +1,7 @@
 package edu.java.bot.services;
 
 import com.pengrad.telegrambot.TelegramBot;
-import edu.java.bot.messageProcessors.MessageProcessor;
+import edu.java.bot.message_processors.MessageProcessor;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

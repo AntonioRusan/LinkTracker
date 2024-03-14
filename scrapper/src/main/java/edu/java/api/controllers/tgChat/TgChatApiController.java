@@ -1,6 +1,6 @@
 package edu.java.api.controllers.tgChat;
 
-import edu.java.api.services.tgChat.TgChatApiService;
+import edu.java.services.tgChat_api.TgChatApiService;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

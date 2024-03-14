@@ -1,4 +1,4 @@
-package edu.java.bot.messageProcessors;
+package edu.java.bot.message_processors;
 
 import com.pengrad.telegrambot.model.BotCommand;
 import com.pengrad.telegrambot.model.Update;

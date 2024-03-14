@@ -11,7 +11,7 @@ import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;
 import api.scrapper.models.ListLinksResponse;
 import api.scrapper.models.RemoveLinkRequest;
-import edu.java.api.services.links.LinksApiService;
+import edu.java.services.links_api.LinksApiService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;

@@ -3,7 +3,7 @@ package edu.java.bot.services;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.UpdatesListener;
 import com.pengrad.telegrambot.model.Update;
-import edu.java.bot.messageProcessors.MessageProcessor;
+import edu.java.bot.message_processors.MessageProcessor;
 import java.util.List;
 
 public class TelegramLinkTrackerUpdateListener implements UpdatesListener {

@@ -1,4 +1,4 @@
-package edu.java.bot.api.services;
+package edu.java.bot.services.updates_api;
 
 import api.bot.models.LinkUpdate;
 import edu.java.bot.api.controllers.UpdatesApi;

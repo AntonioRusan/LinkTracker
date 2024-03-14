@@ -1,4 +1,4 @@
-package edu.java.api.services.links;
+package edu.java.services.links_api;
 
 import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;

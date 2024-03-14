@@ -1,6 +1,6 @@
 package edu.java.api.controllers.links;
 
-import edu.java.api.services.links.LinksApiService;
+import edu.java.services.links_api.LinksApiService;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package edu.java.api.services.tgChat;
+package edu.java.services.tgChat_api;
 
 import edu.java.api.exceptions.base.ConflictException;
 import edu.java.api.exceptions.base.NotFoundException;

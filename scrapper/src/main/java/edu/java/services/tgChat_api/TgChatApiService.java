@@ -1,4 +1,4 @@
-package edu.java.api.services.tgChat;
+package edu.java.services.tgChat_api;
 
 import edu.java.api.controllers.tgChat.TgChatApi;
 import edu.java.api.controllers.tgChat.TgChatApiController;
