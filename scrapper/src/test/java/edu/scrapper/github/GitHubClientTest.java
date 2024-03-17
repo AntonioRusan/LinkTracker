@@ -6,6 +6,8 @@ import edu.java.clients.github.GitHubClientImpl;
 import edu.java.clients.github.models.RepositoryResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import org.apache.commons.io.FileUtils;
@@ -26,17 +28,18 @@ public class GitHubClientTest {
     private GitHubClientImpl gitHubClient;
 
     @Test
-    public void testGetRepositoryNotFound() {
+    public void testGetRepositoryNotFound() throws URISyntaxException {
         wireMockServer.stubFor(WireMock.get(WireMock.urlPathEqualTo("/repos/testOwner/testRepo"))
             .willReturn(WireMock.aResponse()
                 .withHeader("Content-Type", "application/json")
                 .withStatus(404)));
-        RepositoryResponse repositoryResponse = gitHubClient.getRepository("https://github.com/testOwner/testRepo");
+        RepositoryResponse repositoryResponse =
+            gitHubClient.getRepository(new URI("https://github.com/testOwner/testRepo"));
         assertThat(repositoryResponse).isNull();
     }
 
     @Test
-    public void testGetRepository() throws IOException {
+    public void testGetRepository() throws IOException, URISyntaxException {
         String okResponse = FileUtils.readFileToString(
             new File("src/test/resources/github/github_ok_response.json"),
             StandardCharsets.UTF_8
@@ -48,7 +51,8 @@ public class GitHubClientTest {
             )
         );
 
-        RepositoryResponse repositoryResponse = gitHubClient.getRepository("https://github.com/testOwner/testRepo");
+        RepositoryResponse repositoryResponse =
+            gitHubClient.getRepository(new URI("https://github.com/testOwner/testRepo"));
         RepositoryResponse expectedResponse = new RepositoryResponse(
             1L,
             "testRepo",

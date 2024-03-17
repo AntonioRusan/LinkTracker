@@ -3,7 +3,6 @@ package edu.java.clients.stackoverflow;
 import edu.java.clients.stackoverflow.models.QuestionResponse;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,8 +25,7 @@ public class StackOverflowClientImpl implements StackOverflowClient {
         this.webClient = webClient;
     }
 
-    @Override
-    public QuestionResponse getQuestionResponse(Long questionId) {
+    private QuestionResponse getQuestionResponse(Long questionId) {
         return webClient
             .get()
             .uri("/questions/{questionId}?site=stackoverflow", questionId)
@@ -39,7 +37,7 @@ public class StackOverflowClientImpl implements StackOverflowClient {
     }
 
     @Override
-    public QuestionResponse getQuestion(String url) {
+    public QuestionResponse getQuestion(URI url) {
         try {
             Long questionId = getQuestionIdFromUrl(url);
             return getQuestionResponse(questionId);
@@ -49,9 +47,9 @@ public class StackOverflowClientImpl implements StackOverflowClient {
         }
     }
 
-    public Long getQuestionIdFromUrl(String inputUrl) {
+    public Long getQuestionIdFromUrl(URI inputUrl) {
         try {
-            URL url = new URI(inputUrl).toURL();
+            URL url = inputUrl.toURL();
             String path = url.getPath();
             Pattern patternPath = Pattern.compile("^/questions/(\\d+)/");
             Matcher matcherPath = patternPath.matcher(path);
@@ -60,7 +58,7 @@ public class StackOverflowClientImpl implements StackOverflowClient {
             } else {
                 throw new MalformedURLException();
             }
-        } catch (MalformedURLException | URISyntaxException ex) {
+        } catch (MalformedURLException ex) {
             throw new RuntimeException("Неправильная ссылка на StackOverflow");
         }
     }

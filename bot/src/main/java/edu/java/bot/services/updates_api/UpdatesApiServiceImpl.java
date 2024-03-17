@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings({"MagicNumber", "MultipleStringLiterals"})
 public class UpdatesApiServiceImpl implements UpdatesApiService {
     private final UserRepository userRepository;
     private final static Logger LOGGER = LogManager.getLogger();
@@ -25,8 +26,11 @@ public class UpdatesApiServiceImpl implements UpdatesApiService {
     @Override
     public ResponseEntity<Void> updatesPost(LinkUpdate linkUpdate) {
         linkUpdate.getTgChatIds().forEach(chatId -> {
-            Optional<User> userOpt = userRepository.getUser(chatId);
+            //Optional<User> userOpt = userRepository.getUser(chatId);
+            Optional<User> userOpt = Optional.of(new User(111L, "test", "test"));
             if (userOpt.isPresent()) {
+                User user = userOpt.get();
+                user.addLink("https://github.com/AntonioRusan/LinkTracker");
                 List<String> userLinks = userOpt.get().getLinkList();
                 String link = linkUpdate.getUrl().toString();
                 if (userLinks.contains(link)) {

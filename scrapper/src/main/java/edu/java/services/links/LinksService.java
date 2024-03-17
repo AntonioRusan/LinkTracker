@@ -6,6 +6,12 @@ import api.scrapper.models.ListLinksResponse;
 import api.scrapper.models.RemoveLinkRequest;
 import edu.java.controllers.links.LinksApi;
 import edu.java.controllers.links.LinksApiController;
+import edu.java.models.Chat;
+import edu.java.models.Link;
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -60,6 +66,20 @@ public interface LinksService {
         AddLinkRequest addLinkRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    default List<Link> findOlderThanIntervalLinks(Duration interval) {
+        return new ArrayList<>();
+    }
+
+    default void updateLinkCheckAndUpdatedTime(Long linkId, OffsetDateTime lastCheckTime, OffsetDateTime updatedAt) {
+    }
+
+    default void updateLinkCheckTime(Long linkId, OffsetDateTime lastCheckTime) {
+    }
+
+    default List<Chat> findAllChatByLinkId(Long linkId) {
+        return new ArrayList<>();
     }
 
 }

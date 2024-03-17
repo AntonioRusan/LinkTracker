@@ -1,6 +1,8 @@
 package edu.java.repositories;
 
 import edu.java.models.Link;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,4 +16,10 @@ public interface LinkRepositoryInterface {
     Long add(Link chat);
 
     Integer delete(Long id);
+
+    List<Link> findOlderThanIntervalLinks(Duration dur);
+
+    void updateLastCheckAndUpdatedTime(Long id, OffsetDateTime lastCheckTime, OffsetDateTime updatedAt);
+
+    void updateLastCheckTime(Long id, OffsetDateTime lastCheckTime);
 }

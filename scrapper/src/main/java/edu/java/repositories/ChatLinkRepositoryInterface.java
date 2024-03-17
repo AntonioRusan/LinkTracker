@@ -14,4 +14,5 @@ public interface ChatLinkRepositoryInterface {
     Integer delete(Long chatId, Long linkId);
 
     Integer deleteByChatId(Long chatId);
+
 }

@@ -6,11 +6,14 @@ import api.scrapper.models.ListLinksResponse;
 import api.scrapper.models.RemoveLinkRequest;
 import edu.java.exceptions.api.base.ConflictException;
 import edu.java.exceptions.api.base.NotFoundException;
+import edu.java.models.Chat;
 import edu.java.models.Link;
 import edu.java.repositories.jdbc.JdbcChatLinkRepository;
 import edu.java.repositories.jdbc.JdbcChatRepository;
 import edu.java.repositories.jdbc.JdbcLinkRepository;
 import java.net.URI;
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -107,4 +110,25 @@ public class JdbcLinksServiceImpl implements LinksService {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
         }
     }
+
+    @Override
+    public List<Link> findOlderThanIntervalLinks(Duration interval) {
+        return linkRepository.findOlderThanIntervalLinks(interval);
+    }
+
+    @Override
+    public void updateLinkCheckAndUpdatedTime(Long linkId, OffsetDateTime lastCheckTime, OffsetDateTime updatedAt) {
+        linkRepository.updateLastCheckAndUpdatedTime(linkId, lastCheckTime, updatedAt);
+    }
+
+    @Override
+    public void updateLinkCheckTime(Long linkId, OffsetDateTime lastCheckTime) {
+        linkRepository.updateLastCheckTime(linkId, lastCheckTime);
+    }
+
+    @Override
+    public List<Chat> findAllChatByLinkId(Long linkId) {
+        return chatLinkRepository.findAllChatsByLinkId(linkId);
+    }
+
 }

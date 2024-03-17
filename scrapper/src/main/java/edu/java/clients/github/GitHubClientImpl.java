@@ -3,7 +3,6 @@ package edu.java.clients.github;
 import edu.java.clients.github.models.RepositoryResponse;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,8 +26,7 @@ public class GitHubClientImpl implements GitHubClient {
         this.webClient = webClient;
     }
 
-    @Override
-    public RepositoryResponse getRepositoryResponse(String owner, String repo) {
+    private RepositoryResponse getRepositoryResponse(String owner, String repo) {
         return webClient
             .get()
             .uri("/repos/{owner}/{repo}", owner, repo)
@@ -40,7 +38,7 @@ public class GitHubClientImpl implements GitHubClient {
     }
 
     @Override
-    public RepositoryResponse getRepository(String url) {
+    public RepositoryResponse getRepository(URI url) {
         try {
             Pair<String, String> ownerAndRepo = getOwnerAndRepoFromUrl(url);
             return getRepositoryResponse(ownerAndRepo.getValue0(), ownerAndRepo.getValue1());
@@ -50,9 +48,9 @@ public class GitHubClientImpl implements GitHubClient {
         }
     }
 
-    private Pair<String, String> getOwnerAndRepoFromUrl(String inputUrl) {
+    private Pair<String, String> getOwnerAndRepoFromUrl(URI inputUrl) {
         try {
-            URL url = new URI(inputUrl).toURL();
+            URL url = inputUrl.toURL();
             String path = url.getPath();
             Pattern patternPath = Pattern.compile("/(\\w+)/(\\w+)");
             Matcher matcherPath = patternPath.matcher(path);
@@ -63,7 +61,7 @@ public class GitHubClientImpl implements GitHubClient {
             } else {
                 throw new MalformedURLException();
             }
-        } catch (MalformedURLException | URISyntaxException ex) {
+        } catch (MalformedURLException ex) {
             throw new RuntimeException("Неправильная ссылка на GitHub");
         }
     }
