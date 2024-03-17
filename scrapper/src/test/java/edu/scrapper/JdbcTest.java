@@ -37,7 +37,7 @@ public class JdbcTest extends IntegrationTest {
         Integer updated = jdbcLinkRepository.add(link);
         assertThat(updated).isEqualTo(1);
 
-        Optional<Link> linFromDb = jdbcLinkRepository.findById(1L);
+        Optional<Link> linFromDb = jdbcLinkRepository.findById(2L);
         assertTrue(linFromDb.isPresent());
         assertThat(linFromDb.get().url()).isEqualTo(TEST_URL);
     }
@@ -48,7 +48,7 @@ public class JdbcTest extends IntegrationTest {
     void deleteTest() {
         Link link = Link.create(TEST_URL);
         Integer updated = jdbcLinkRepository.add(link);
-        Integer deleted = jdbcLinkRepository.delete(1L);
+        Integer deleted = jdbcLinkRepository.delete(3L);
         assertThat(deleted).isEqualTo(1);
     }
 }
