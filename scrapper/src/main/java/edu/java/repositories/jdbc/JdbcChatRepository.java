@@ -1,6 +1,7 @@
-package edu.java.repositories;
+package edu.java.repositories.jdbc;
 
 import edu.java.models.Chat;
+import edu.java.repositories.ChatRepositoryInterface;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.simple.JdbcClient;

@@ -1,4 +1,4 @@
-package edu.scrapper;
+package edu.scrapper.database;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;

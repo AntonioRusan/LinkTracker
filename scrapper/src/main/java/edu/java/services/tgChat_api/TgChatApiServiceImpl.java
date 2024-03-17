@@ -3,7 +3,7 @@ package edu.java.services.tgChat_api;
 import edu.java.exceptions.api.base.ConflictException;
 import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.Chat;
-import edu.java.repositories.JdbcChatRepository;
+import edu.java.repositories.jdbc.JdbcChatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;

@@ -9,7 +9,7 @@ public interface LinkRepositoryInterface {
 
     List<Link> findAll();
 
-    Integer add(Link chat);
+    Long add(Link chat);
 
     Integer delete(Long id);
 }

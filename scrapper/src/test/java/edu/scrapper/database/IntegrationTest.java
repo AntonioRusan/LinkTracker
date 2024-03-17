@@ -1,4 +1,4 @@
-package edu.scrapper;
+package edu.scrapper.database;
 
 import java.io.FileNotFoundException;
 import java.nio.file.Path;

@@ -1,7 +1,8 @@
-package edu.java.repositories;
+package edu.java.repositories.jdbc;
 
 import edu.java.models.Chat;
 import edu.java.models.Link;
+import edu.java.repositories.ChatLinkRepositoryInterface;
 import java.util.List;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -21,7 +22,7 @@ public class JdbcChatLinkRepository implements ChatLinkRepositoryInterface {
                 SELECT l.*
                 FROM chat_link
                 INNER JOIN link l
-                ON link.id = chat_link.link_id
+                ON l.id = chat_link.link_id
                 WHERE chat_link.chat_id = :chatId
                 """)
             .param("chatId", chatId)
@@ -35,7 +36,7 @@ public class JdbcChatLinkRepository implements ChatLinkRepositoryInterface {
                 SELECT c.*
                 FROM chat_link
                 INNER JOIN chat c
-                ON chat.id = chat_link.chat_id
+                ON c.id = chat_link.chat_id
                 WHERE chat_link.link_id = :linkId
                 """)
             .param("linkId", linkId)
@@ -53,7 +54,7 @@ public class JdbcChatLinkRepository implements ChatLinkRepositoryInterface {
 
     @Override
     public Integer delete(Long chatId, Long linkId) {
-        return jdbcClient.sql("DELETE FROM chat WHERE chat_id = :chatId AND link_id = :linkId")
+        return jdbcClient.sql("DELETE FROM chat_link WHERE chat_id = :chatId AND link_id = :linkId")
             .param("chatId", chatId)
             .param("linkId", linkId)
             .update();
@@ -61,7 +62,7 @@ public class JdbcChatLinkRepository implements ChatLinkRepositoryInterface {
 
     @Override
     public Integer deleteByChatId(Long chatId) {
-        return jdbcClient.sql("DELETE FROM chat WHERE chat_id = :chatId")
+        return jdbcClient.sql("DELETE FROM chat_link WHERE chat_id = :chatId")
             .param("chatId", chatId)
             .update();
     }

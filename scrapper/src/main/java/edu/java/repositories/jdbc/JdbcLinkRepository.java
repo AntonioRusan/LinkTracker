@@ -1,14 +1,15 @@
-package edu.java.repositories;
+package edu.java.repositories.jdbc;
 
 import edu.java.models.Link;
+import edu.java.repositories.LinkRepositoryInterface;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-@Transactional
 public class JdbcLinkRepository implements LinkRepositoryInterface {
     private final JdbcClient jdbcClient;
 
@@ -32,14 +33,16 @@ public class JdbcLinkRepository implements LinkRepositoryInterface {
     }
 
     @Override
-    public Integer add(Link link) {
-        return jdbcClient.sql(
+    public Long add(Link link) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcClient.sql(
                 "INSERT INTO link(url, last_check_time, updated_at) VALUES (:url, :lastCheckTime, :updatedAt)"
             )
             .param("url", link.url())
             .param("lastCheckTime", link.lastCheckTime())
             .param("updatedAt", link.updatedAt())
-            .update();
+            .update(keyHolder, "id");
+        return (Long) keyHolder.getKey();
     }
 
     @Override
