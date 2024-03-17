@@ -10,6 +10,7 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@SuppressWarnings("MultipleStringLiterals")
 public class JdbcLinkRepository implements LinkRepositoryInterface {
     private final JdbcClient jdbcClient;
 
@@ -21,6 +22,14 @@ public class JdbcLinkRepository implements LinkRepositoryInterface {
     public Optional<Link> findById(Long id) {
         return jdbcClient.sql("SELECT * FROM link WHERE id = :id")
             .param("id", id)
+            .query(Link.class)
+            .optional();
+    }
+
+    @Override
+    public Optional<Link> findByUrl(String url) {
+        return jdbcClient.sql("SELECT * FROM link WHERE url = :url")
+            .param("url", url)
             .query(Link.class)
             .optional();
     }

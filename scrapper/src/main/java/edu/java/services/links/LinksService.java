@@ -1,4 +1,4 @@
-package edu.java.services.links_api;
+package edu.java.services.links;
 
 import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;
@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
  */
 
 @SuppressWarnings("MultipleStringLiterals")
-public interface LinksApiService {
+public interface LinksService {
 
     /**
      * DELETE /links : Убрать отслеживание ссылки
@@ -26,7 +26,7 @@ public interface LinksApiService {
      *     or Ссылка не найдена (status code 404)
      * @see LinksApi#linksDelete
      */
-    default ResponseEntity<LinkResponse> linksDelete(
+    default ResponseEntity<LinkResponse> removeLink(
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
     ) {
@@ -42,7 +42,7 @@ public interface LinksApiService {
      *     or Некорректные параметры запроса (status code 400)
      * @see LinksApi#linksGet
      */
-    default ResponseEntity<ListLinksResponse> linksGet(Long tgChatId) {
+    default ResponseEntity<ListLinksResponse> getAllLinks(Long tgChatId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -55,7 +55,7 @@ public interface LinksApiService {
      *     or Некорректные параметры запроса (status code 400)
      * @see LinksApi#linksPost
      */
-    default ResponseEntity<LinkResponse> linksPost(
+    default ResponseEntity<LinkResponse> addLink(
         Long tgChatId,
         AddLinkRequest addLinkRequest
     ) {

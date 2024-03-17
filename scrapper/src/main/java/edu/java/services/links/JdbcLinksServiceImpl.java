@@ -1,4 +1,4 @@
-package edu.java.services.links_api;
+package edu.java.services.links;
 
 import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;
@@ -17,15 +17,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import static edu.java.exceptions.api.ApiError.LINK_ALREADY_ADDED;
+import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
 @Service
-public class LinksApiServiceImpl implements LinksApiService {
+public class JdbcLinksServiceImpl implements LinksService {
     private final JdbcLinkRepository linkRepository;
     private final JdbcChatRepository chatRepository;
     private final JdbcChatLinkRepository chatLinkRepository;
 
-    public LinksApiServiceImpl(
+    public JdbcLinksServiceImpl(
         JdbcLinkRepository linkRepository, JdbcChatRepository chatRepository,
         JdbcChatLinkRepository chatLinkRepository
     ) {
@@ -35,7 +36,7 @@ public class LinksApiServiceImpl implements LinksApiService {
     }
 
     @Override
-    public ResponseEntity<ListLinksResponse> linksGet(Long tgChatId) {
+    public ResponseEntity<ListLinksResponse> getAllLinks(Long tgChatId) {
         if (chatRepository.findById(tgChatId).isPresent()) {
             return new ResponseEntity<>(
                 new ListLinksResponse(
@@ -52,23 +53,26 @@ public class LinksApiServiceImpl implements LinksApiService {
     }
 
     @Override
-    public ResponseEntity<LinkResponse> linksPost(
+    public ResponseEntity<LinkResponse> addLink(
         Long tgChatId,
         AddLinkRequest addLinkRequest
     ) {
         if (chatRepository.findById(tgChatId).isPresent()) {
             List<Link> chatLinks = chatLinkRepository.findAllLinksByChatId(tgChatId);
             Optional<Link> foundLinkOpt = chatLinks.stream()
-                .filter(link -> link.url().equals(addLinkRequest.getLink()))
+                .filter(link -> link.url().equals(addLinkRequest.getLink().toString()))
                 .findFirst();
             if (foundLinkOpt.isPresent()) {
                 throw new ConflictException(LINK_ALREADY_ADDED);
             } else {
+                String url = addLinkRequest.getLink().toString();
+                Optional<Link> foundLinkByUrl = linkRepository.findByUrl(url);
                 Link addedLink = Link.create(addLinkRequest.getLink().toString());
-                linkRepository.add(addedLink);
-                chatLinkRepository.add(tgChatId, addedLink.id());
+                Long addedLinkId =
+                    foundLinkByUrl.isPresent() ? foundLinkByUrl.get().id() : linkRepository.add(addedLink);
+                chatLinkRepository.add(tgChatId, addedLinkId);
                 return new ResponseEntity<>(
-                    new LinkResponse(addedLink.id(), URI.create(addedLink.url())),
+                    new LinkResponse(addedLinkId, URI.create(addedLink.url())),
                     HttpStatus.OK
                 );
             }
@@ -78,20 +82,22 @@ public class LinksApiServiceImpl implements LinksApiService {
     }
 
     @Override
-    public ResponseEntity<LinkResponse> linksDelete(
+    public ResponseEntity<LinkResponse> removeLink(
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
     ) {
-        return new ResponseEntity<>(
-            new LinkResponse(1L, URI.create("https://test.com")),
-            HttpStatus.OK
-        );
-        /*if (chatRepository.findById(tgChatId).isPresent()) {
-            Optional<Link> foundLinkOpt = linkRepository.getLinksByChatIdAndUri(tgChatId, removeLinkRequest.getLink());
+        if (chatRepository.findById(tgChatId).isPresent()) {
+            List<Link> chatLinks = chatLinkRepository.findAllLinksByChatId(tgChatId);
+            Optional<Link> foundLinkOpt = chatLinks.stream()
+                .filter(link -> link.url().equals(removeLinkRequest.getLink().toString()))
+                .findFirst();
+
             if (foundLinkOpt.isPresent()) {
-                linkRepository.delete(foundLinkOpt.get().id());
+                Link link = foundLinkOpt.get();
+                chatLinkRepository.delete(tgChatId, link.id());
+                //linkRepository.delete(link.id());
                 return new ResponseEntity<>(
-                    new LinkResponse(deletedLink.id(), deletedLink.url()),
+                    new LinkResponse(link.id(), URI.create(link.url())),
                     HttpStatus.OK
                 );
             } else {
@@ -99,6 +105,6 @@ public class LinksApiServiceImpl implements LinksApiService {
             }
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
-        }*/
+        }
     }
 }
