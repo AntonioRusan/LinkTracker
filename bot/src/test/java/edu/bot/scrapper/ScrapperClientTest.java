@@ -61,7 +61,7 @@ public class ScrapperClientTest {
         String okResponse = getJsonResponseFromFile(responsesDir + "remove_link_ok.json");
         String requestJson = getJsonResponseFromFile(requestsDir + "remove_link_request.json");
         wireMockExtension.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/links"))
-            .withHeader("id", equalTo("1"))
+            .withHeader("Tg-Chat-Id", equalTo("1"))
             .withRequestBody(equalToJson(requestJson))
             .willReturn(WireMock.aResponse()
                 .withHeader("Content-Type", "application/json")
@@ -98,7 +98,7 @@ public class ScrapperClientTest {
     public void testListLinks() throws URISyntaxException {
         String okResponse = getJsonResponseFromFile(responsesDir + "list_links_ok.json");
         wireMockExtension.stubFor(WireMock.get(WireMock.urlPathEqualTo("/api/links"))
-            .withHeader("id", equalTo("1"))
+            .withHeader("Tg-Chat-Id", equalTo("1"))
             .willReturn(WireMock.aResponse()
                 .withHeader("Content-Type", "application/json")
                 .withBody(okResponse)
@@ -115,7 +115,7 @@ public class ScrapperClientTest {
     @Test
     public void testListLinksError() {
         wireMockExtension.stubFor(WireMock.get(WireMock.urlPathEqualTo("/api/links"))
-            .withHeader("id", equalTo("1"))
+            .withHeader("Tg-Chat-Id", equalTo("1"))
             .willReturn(WireMock.aResponse()
                 .withHeader("Content-Type", "application/json")
                 .withBody("""
@@ -133,7 +133,7 @@ public class ScrapperClientTest {
         String okResponse = getJsonResponseFromFile(responsesDir + "remove_link_ok.json");
         String requestJson = getJsonResponseFromFile(requestsDir + "remove_link_request.json");
         wireMockExtension.stubFor(WireMock.delete(WireMock.urlPathEqualTo("/api/links"))
-            .withHeader("id", equalTo("1"))
+            .withHeader("Tg-Chat-Id", equalTo("1"))
             .withRequestBody(equalToJson(requestJson))
             .willReturn(WireMock.aResponse()
                 .withHeader("Content-Type", "application/json")
