@@ -17,7 +17,7 @@ public interface LinkRepositoryInterface {
 
     Integer delete(Long id);
 
-    List<Link> findOlderThanIntervalLinks(Duration dur);
+    List<Link> findOlderThanIntervalLinks(Duration interval);
 
     void updateLastCheckAndUpdatedTime(Long id, OffsetDateTime lastCheckTime, OffsetDateTime updatedAt);
 

@@ -8,14 +8,15 @@ import edu.java.exceptions.api.base.ConflictException;
 import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.Chat;
 import edu.java.models.Link;
-import edu.java.repositories.jdbc.JdbcChatLinkRepository;
-import edu.java.repositories.jdbc.JdbcChatRepository;
-import edu.java.repositories.jdbc.JdbcLinkRepository;
+import edu.java.repositories.jooq.JooqChatLinkRepository;
+import edu.java.repositories.jooq.JooqChatRepository;
+import edu.java.repositories.jooq.JooqLinkRepository;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,15 +25,16 @@ import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
 @Service
+@Primary
+public class JooqLinkServiceImpl implements LinksService {
+    private final JooqLinkRepository linkRepository;
+    private final JooqChatRepository chatRepository;
+    private final JooqChatLinkRepository chatLinkRepository;
 
-public class JdbcLinksServiceImpl implements LinksService {
-    private final JdbcLinkRepository linkRepository;
-    private final JdbcChatRepository chatRepository;
-    private final JdbcChatLinkRepository chatLinkRepository;
-
-    public JdbcLinksServiceImpl(
-        JdbcLinkRepository linkRepository, JdbcChatRepository chatRepository,
-        JdbcChatLinkRepository chatLinkRepository
+    public JooqLinkServiceImpl(
+        JooqLinkRepository linkRepository,
+        JooqChatRepository chatRepository,
+        JooqChatLinkRepository chatLinkRepository
     ) {
         this.linkRepository = linkRepository;
         this.chatRepository = chatRepository;
@@ -131,5 +133,4 @@ public class JdbcLinksServiceImpl implements LinksService {
     public List<Chat> findAllChatByLinkId(Long linkId) {
         return chatLinkRepository.findAllChatsByLinkId(linkId);
     }
-
 }
