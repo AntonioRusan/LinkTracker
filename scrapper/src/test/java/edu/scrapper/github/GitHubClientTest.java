@@ -10,6 +10,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
+import edu.scrapper.database.IntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @Import({GitHubTestConfiguration.class})
 @ExtendWith(SpringExtension.class)
-public class GitHubClientTest {
+public class GitHubClientTest extends IntegrationTest {
 
     @Autowired
     private WireMockServer wireMockServer;
