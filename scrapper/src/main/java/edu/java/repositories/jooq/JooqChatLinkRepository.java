@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import static edu.java.domain.jooq.Tables.CHAT;
 import static edu.java.domain.jooq.Tables.CHAT_LINK;
 import static edu.java.domain.jooq.Tables.LINK;
-import static org.jooq.impl.DSL.select;
 
 @Repository
 public class JooqChatLinkRepository implements ChatLinkRepositoryInterface {
@@ -21,7 +20,7 @@ public class JooqChatLinkRepository implements ChatLinkRepositoryInterface {
 
     @Override
     public List<Link> findAllLinksByChatId(Long chatId) {
-        return select()
+        return dsl.select(LINK.fields())
             .from(CHAT_LINK
                 .join(LINK)
                 .on(CHAT_LINK.LINK_ID.eq(LINK.ID))
@@ -31,7 +30,7 @@ public class JooqChatLinkRepository implements ChatLinkRepositoryInterface {
 
     @Override
     public List<Chat> findAllChatsByLinkId(Long linkId) {
-        return select()
+        return dsl.select(CHAT.fields())
             .from(CHAT_LINK
                 .join(CHAT)
                 .on(CHAT_LINK.CHAT_ID.eq(CHAT.ID))

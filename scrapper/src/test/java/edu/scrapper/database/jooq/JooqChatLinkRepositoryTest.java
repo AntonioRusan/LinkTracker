@@ -3,9 +3,9 @@ package edu.scrapper.database.jooq;
 import edu.java.ScrapperApplication;
 import edu.java.models.Chat;
 import edu.java.models.Link;
-import edu.java.repositories.jdbc.JdbcChatRepository;
-import edu.java.repositories.jdbc.JdbcLinkRepository;
 import edu.java.repositories.jooq.JooqChatLinkRepository;
+import edu.java.repositories.jooq.JooqChatRepository;
+import edu.java.repositories.jooq.JooqLinkRepository;
 import edu.scrapper.database.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +23,10 @@ public class JooqChatLinkRepositoryTest extends IntegrationTest {
     private JooqChatLinkRepository jooqChatLinkRepository;
 
     @Autowired
-    private JdbcChatRepository jdbcChatRepository;
+    private JooqChatRepository jooqChatRepository;
 
     @Autowired
-    private JdbcLinkRepository jdbcLinkRepository;
+    private JooqLinkRepository jooqLinkRepository;
     private static final Long CHAT_TEST_ID = 111L;
     private static final String TEST_URL = "test.com";
 
@@ -36,8 +36,8 @@ public class JooqChatLinkRepositoryTest extends IntegrationTest {
     void findAllLinksByChatIdTest() {
         Chat chat = new Chat(CHAT_TEST_ID);
         Link link = Link.create(TEST_URL);
-        jdbcChatRepository.add(chat);
-        Long linkId = jdbcLinkRepository.add(link);
+        jooqChatRepository.add(chat);
+        Long linkId = jooqLinkRepository.add(link);
         Integer updated = jooqChatLinkRepository.add(CHAT_TEST_ID, linkId);
         assertThat(updated).isEqualTo(1);
 
@@ -51,9 +51,9 @@ public class JooqChatLinkRepositoryTest extends IntegrationTest {
     void findAllChatsByLinkIdTest() {
         Chat chat = new Chat(CHAT_TEST_ID);
         Link link = Link.create(TEST_URL);
-        jdbcChatRepository.add(chat);
+        jooqChatRepository.add(chat);
 
-        Long linkId = jdbcLinkRepository.add(link);
+        Long linkId = jooqLinkRepository.add(link);
         Integer updated = jooqChatLinkRepository.add(CHAT_TEST_ID, linkId);
         assertThat(updated).isEqualTo(1);
 
@@ -67,9 +67,9 @@ public class JooqChatLinkRepositoryTest extends IntegrationTest {
     void deleteTest() {
         Chat chat = new Chat(CHAT_TEST_ID);
         Link link = Link.create(TEST_URL);
-        jdbcChatRepository.add(chat);
+        jooqChatRepository.add(chat);
 
-        Long linkId = jdbcLinkRepository.add(link);
+        Long linkId = jooqLinkRepository.add(link);
         Integer updated = jooqChatLinkRepository.add(CHAT_TEST_ID, linkId);
         assertThat(updated).isEqualTo(1);
 
