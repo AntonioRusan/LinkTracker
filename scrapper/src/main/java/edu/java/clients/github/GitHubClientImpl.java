@@ -1,9 +1,12 @@
 package edu.java.clients.github;
 
 import edu.java.clients.github.models.RepositoryResponse;
+import edu.java.clients.github.models.events.EventsResponse;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.logging.log4j.LogManager;
@@ -16,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
+@SuppressWarnings("MultipleStringLiterals")
 public class GitHubClientImpl implements GitHubClient {
 
     private final WebClient webClient;
@@ -42,6 +46,29 @@ public class GitHubClientImpl implements GitHubClient {
         try {
             Pair<String, String> ownerAndRepo = getOwnerAndRepoFromUrl(url);
             return getRepositoryResponse(ownerAndRepo.getValue0(), ownerAndRepo.getValue1());
+        } catch (Exception ex) {
+            LOGGER.error("Не удалось отследить ссылку: " + ex.getMessage());
+            return null;
+        }
+    }
+
+    private EventsResponse[] getEventsResponse(String owner, String repo) {
+        return webClient
+            .get()
+            .uri("/repos/{owner}/{repo}/events", owner, repo)
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(EventsResponse[].class)
+            .doOnError(error -> LOGGER.error("An error has occurred {}", error.getMessage()))
+            .block();
+    }
+
+    @Override
+    public List<EventsResponse> getEvents(URI url) {
+        try {
+            Pair<String, String> ownerAndRepo = getOwnerAndRepoFromUrl(url);
+            return Arrays.stream(getEventsResponse(ownerAndRepo.getValue0(), ownerAndRepo.getValue1()))
+                .filter(item -> item.type().equals("PullRequestEvent")).toList();
         } catch (Exception ex) {
             LOGGER.error("Не удалось отследить ссылку: " + ex.getMessage());
             return null;

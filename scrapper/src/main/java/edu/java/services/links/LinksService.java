@@ -7,11 +7,13 @@ import api.scrapper.models.RemoveLinkRequest;
 import edu.java.controllers.links.LinksApi;
 import edu.java.controllers.links.LinksApiController;
 import edu.java.models.Chat;
+import edu.java.models.GitHubLink;
 import edu.java.models.Link;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -82,4 +84,11 @@ public interface LinksService {
         return new ArrayList<>();
     }
 
+    default Optional<GitHubLink> findGitHubByLinkId(Long linkId) {
+        return Optional.empty();
+    }
+
+    default void updateGitHubLinkLastPullRequestTime(Long gitHubLinkId, OffsetDateTime pullRequestTime) {
+
+    }
 }

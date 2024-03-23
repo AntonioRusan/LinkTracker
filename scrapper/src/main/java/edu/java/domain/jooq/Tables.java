@@ -6,6 +6,7 @@ package edu.java.domain.jooq;
 
 import edu.java.domain.jooq.tables.Chat;
 import edu.java.domain.jooq.tables.ChatLink;
+import edu.java.domain.jooq.tables.GithubLink;
 import edu.java.domain.jooq.tables.Link;
 import javax.annotation.processing.Generated;
 
@@ -31,6 +32,11 @@ public class Tables {
      * The table <code>CHAT_LINK</code>.
      */
     public static final ChatLink CHAT_LINK = ChatLink.CHAT_LINK;
+
+    /**
+     * The table <code>GITHUB_LINK</code>.
+     */
+    public static final GithubLink GITHUB_LINK = GithubLink.GITHUB_LINK;
 
     /**
      * The table <code>LINK</code>.

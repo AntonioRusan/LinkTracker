@@ -8,6 +8,7 @@ import edu.java.domain.jooq.DefaultSchema;
 import edu.java.domain.jooq.Keys;
 import edu.java.domain.jooq.tables.Chat.ChatPath;
 import edu.java.domain.jooq.tables.ChatLink.ChatLinkPath;
+import edu.java.domain.jooq.tables.GithubLink.GithubLinkPath;
 import edu.java.domain.jooq.tables.records.LinkRecord;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
@@ -199,6 +200,20 @@ public class Link extends TableImpl<LinkRecord> {
         }
 
         return _chatLink;
+    }
+
+    private transient GithubLinkPath _githubLink;
+
+    /**
+     * Get the implicit to-many join path to the <code>PUBLIC.GITHUB_LINK</code>
+     * table
+     */
+    public GithubLinkPath githubLink() {
+        if (_githubLink == null) {
+            _githubLink = new GithubLinkPath(this, null, Keys.CONSTRAINT_D.getInverseKey());
+        }
+
+        return _githubLink;
     }
 
     /**

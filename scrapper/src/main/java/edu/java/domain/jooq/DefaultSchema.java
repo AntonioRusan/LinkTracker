@@ -6,6 +6,7 @@ package edu.java.domain.jooq;
 
 import edu.java.domain.jooq.tables.Chat;
 import edu.java.domain.jooq.tables.ChatLink;
+import edu.java.domain.jooq.tables.GithubLink;
 import edu.java.domain.jooq.tables.Link;
 import java.util.Arrays;
 import java.util.List;
@@ -46,6 +47,11 @@ public class DefaultSchema extends SchemaImpl {
     public final ChatLink CHAT_LINK = ChatLink.CHAT_LINK;
 
     /**
+     * The table <code>GITHUB_LINK</code>.
+     */
+    public final GithubLink GITHUB_LINK = GithubLink.GITHUB_LINK;
+
+    /**
      * The table <code>LINK</code>.
      */
     public final Link LINK = Link.LINK;
@@ -69,6 +75,7 @@ public class DefaultSchema extends SchemaImpl {
         return Arrays.asList(
             Chat.CHAT,
             ChatLink.CHAT_LINK,
+            GithubLink.GITHUB_LINK,
             Link.LINK
         );
     }

@@ -6,9 +6,11 @@ package edu.java.domain.jooq;
 
 import edu.java.domain.jooq.tables.Chat;
 import edu.java.domain.jooq.tables.ChatLink;
+import edu.java.domain.jooq.tables.GithubLink;
 import edu.java.domain.jooq.tables.Link;
 import edu.java.domain.jooq.tables.records.ChatLinkRecord;
 import edu.java.domain.jooq.tables.records.ChatRecord;
+import edu.java.domain.jooq.tables.records.GithubLinkRecord;
 import edu.java.domain.jooq.tables.records.LinkRecord;
 import javax.annotation.processing.Generated;
 import org.jooq.ForeignKey;
@@ -42,6 +44,11 @@ public class Keys {
         new TableField[] {ChatLink.CHAT_LINK.CHAT_ID, ChatLink.CHAT_LINK.LINK_ID},
         true
     );
+    public static final UniqueKey<GithubLinkRecord> CONSTRAINT_D8 = Internal.createUniqueKey(GithubLink.GITHUB_LINK,
+        DSL.name("CONSTRAINT_D8"),
+        new TableField[] {GithubLink.GITHUB_LINK.LINK_ID},
+        true
+    );
     public static final UniqueKey<LinkRecord> CONSTRAINT_2 =
         Internal.createUniqueKey(Link.LINK, DSL.name("CONSTRAINT_2"), new TableField[] {Link.LINK.ID}, true);
     public static final UniqueKey<LinkRecord> CONSTRAINT_23 =
@@ -63,6 +70,14 @@ public class Keys {
         Internal.createForeignKey(ChatLink.CHAT_LINK,
             DSL.name("CONSTRAINT_86"),
             new TableField[] {ChatLink.CHAT_LINK.LINK_ID},
+            Keys.CONSTRAINT_2,
+            new TableField[] {Link.LINK.ID},
+            true
+        );
+    public static final ForeignKey<GithubLinkRecord, LinkRecord> CONSTRAINT_D =
+        Internal.createForeignKey(GithubLink.GITHUB_LINK,
+            DSL.name("CONSTRAINT_D"),
+            new TableField[] {GithubLink.GITHUB_LINK.LINK_ID},
             Keys.CONSTRAINT_2,
             new TableField[] {Link.LINK.ID},
             true

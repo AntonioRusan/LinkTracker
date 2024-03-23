@@ -25,7 +25,8 @@ public class UpdatesApiServiceImpl implements UpdatesApiService {
     public ResponseEntity<Void> updatesPost(LinkUpdate linkUpdate) {
         linkUpdate.getTgChatIds().forEach(chatId -> {
             String link = linkUpdate.getUrl().toString();
-            telegramBot.execute(new SendMessage(chatId, String.format("Обновление ссылки %s", link)));
+            String message = String.format("Обновление ссылки %s\n\n: %s", link, linkUpdate.getDescription());
+            telegramBot.execute(new SendMessage(chatId, message));
             LOGGER.info(String.format("Обновление ссылки %s пользователя %d", link, chatId));
         });
 

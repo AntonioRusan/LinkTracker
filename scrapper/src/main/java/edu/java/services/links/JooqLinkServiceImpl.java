@@ -7,16 +7,17 @@ import api.scrapper.models.RemoveLinkRequest;
 import edu.java.exceptions.api.base.ConflictException;
 import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.Chat;
+import edu.java.models.GitHubLink;
 import edu.java.models.Link;
 import edu.java.repositories.jooq.JooqChatLinkRepository;
 import edu.java.repositories.jooq.JooqChatRepository;
+import edu.java.repositories.jooq.JooqGitHubLinkRepository;
 import edu.java.repositories.jooq.JooqLinkRepository;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -25,20 +26,24 @@ import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
 @Service
-@Primary
+@SuppressWarnings("NestedIfDepth")
 public class JooqLinkServiceImpl implements LinksService {
     private final JooqLinkRepository linkRepository;
     private final JooqChatRepository chatRepository;
     private final JooqChatLinkRepository chatLinkRepository;
 
+    private final JooqGitHubLinkRepository gitHubLinkRepository;
+
     public JooqLinkServiceImpl(
         JooqLinkRepository linkRepository,
         JooqChatRepository chatRepository,
-        JooqChatLinkRepository chatLinkRepository
+        JooqChatLinkRepository chatLinkRepository,
+        JooqGitHubLinkRepository gitHubLinkRepository
     ) {
         this.linkRepository = linkRepository;
         this.chatRepository = chatRepository;
         this.chatLinkRepository = chatLinkRepository;
+        this.gitHubLinkRepository = gitHubLinkRepository;
     }
 
     @Override
@@ -74,9 +79,16 @@ public class JooqLinkServiceImpl implements LinksService {
                 String url = addLinkRequest.getLink().toString();
                 Optional<Link> foundLinkByUrl = linkRepository.findByUrl(url);
                 Link addedLink = Link.create(addLinkRequest.getLink().toString());
-                Long addedLinkId =
-                    foundLinkByUrl.isPresent() ? foundLinkByUrl.get().id() : linkRepository.add(addedLink);
-                chatLinkRepository.add(tgChatId, addedLinkId);
+                Long addedLinkId;
+                if (foundLinkByUrl.isPresent()) {
+                    addedLinkId = foundLinkByUrl.get().id();
+                } else {
+                    addedLinkId = linkRepository.add(addedLink);
+                    chatLinkRepository.add(tgChatId, addedLinkId);
+                    if (URI.create(url).getHost().equals("github.com")) {
+                        gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
+                    }
+                }
                 return new ResponseEntity<>(
                     new LinkResponse(addedLinkId, URI.create(addedLink.url())),
                     HttpStatus.OK
@@ -132,5 +144,15 @@ public class JooqLinkServiceImpl implements LinksService {
     @Override
     public List<Chat> findAllChatByLinkId(Long linkId) {
         return chatLinkRepository.findAllChatsByLinkId(linkId);
+    }
+
+    @Override
+    public Optional<GitHubLink> findGitHubByLinkId(Long linkId) {
+        return gitHubLinkRepository.findByLinkId(linkId);
+    }
+
+    @Override
+    public void updateGitHubLinkLastPullRequestTime(Long gitHubLinkId, OffsetDateTime pullRequestTime) {
+        gitHubLinkRepository.updateLastPullRequestTime(gitHubLinkId, pullRequestTime);
     }
 }

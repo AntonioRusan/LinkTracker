@@ -1,14 +1,12 @@
 package edu.java.schedulers;
 
 import api.bot.models.LinkUpdate;
-import edu.java.DataFetcher;
-import edu.java.FetchedLinkData;
 import edu.java.clients.bot.BotClient;
 import edu.java.configuration.ApplicationConfig;
+import edu.java.data_fetchers.DataFetcher;
 import edu.java.models.Chat;
 import edu.java.services.links.LinksService;
 import java.net.URI;
-import java.time.OffsetDateTime;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,24 +43,18 @@ public class LinkUpdaterScheduler {
                 LOGGER.info("Проверка ссылки: {}", link.url());
                 URI uri = URI.create(link.url());
 
-                FetchedLinkData fetchedLinkData = dataFetcher.fetchData(uri);
-
-                if (fetchedLinkData.lastUpdatedAt().isAfter(link.updatedAt())) {
+                String fetchedLinkData = dataFetcher.fetchData(link);
+                if (!fetchedLinkData.isEmpty()) {
                     LOGGER.info(
-                        "Cсылка обновилась: {}, прошлое обновление {}",
-                        fetchedLinkData.lastUpdatedAt(),
-                        link.updatedAt()
-                    );
-                    linksService.updateLinkCheckAndUpdatedTime(
+                        "Cсылка обновилась с id: {}, прошлое обновление {}",
                         link.id(),
-                        OffsetDateTime.now(),
-                        fetchedLinkData.lastUpdatedAt()
+                        link.updatedAt()
                     );
                     List<Long> tgChatIds = linksService.findAllChatByLinkId(link.id()).stream().map(Chat::id).toList();
                     botClient.sendUpdate(new LinkUpdate(
                         link.id(),
                         uri,
-                        fetchedLinkData.description(),
+                        fetchedLinkData,
                         tgChatIds
                     ));
                 } else {
@@ -70,7 +62,6 @@ public class LinkUpdaterScheduler {
                         "Cсылка не обновилась, последнее обновление {}",
                         link.updatedAt()
                     );
-                    linksService.updateLinkCheckTime(link.id(), OffsetDateTime.now());
                 }
             }
         );
