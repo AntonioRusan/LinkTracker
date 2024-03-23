@@ -35,7 +35,7 @@ public class JdbcGitHubLinkRepository implements GitHubLinkRepositoryInterface {
     }
 
     @Override
-    public void updateLastPullRequestTime(Long linkId, OffsetDateTime lastPullRequestDate) {
+    public void updateLastPullRequestDate(Long linkId, OffsetDateTime lastPullRequestDate) {
         jdbcClient.sql("UPDATE github_link SET last_pull_request_date = :lastPullRequestDate WHERE link_id = :linkId")
             .param("linkId", linkId)
             .param("lastPullRequestDate", lastPullRequestDate)

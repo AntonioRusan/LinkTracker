@@ -39,7 +39,7 @@ public class GithubDataFetcher {
         if (!fetchedPullRequests.isEmpty()) {
             List<String> pullRequestsDescription =
                 fetchedPullRequests.stream().map(PullRequestUpdate::toString).toList();
-            description.add("Обновление Pull Requests:\n" + String.join("\n", pullRequestsDescription));
+            description.add("Обновление Pull Requests:\n\n" + String.join("\n", pullRequestsDescription));
         }
         linksService.updateLinkCheckTime(link.id(), OffsetDateTime.now());
         return String.join("\n\n", description);
@@ -83,7 +83,7 @@ public class GithubDataFetcher {
                 }
             });
             pullRequests.stream().max(Comparator.comparing(PullRequestUpdate::createdAt)).ifPresent(
-                lastPR -> linksService.updateGitHubLinkLastPullRequestTime(gitHubLink.linkId(), lastPR.createdAt())
+                lastPR -> linksService.updateGitHubLinkLastPullRequestDate(gitHubLink.linkId(), lastPR.createdAt())
             );
         });
         return pullRequests;

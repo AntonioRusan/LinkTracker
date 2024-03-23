@@ -1,5 +1,6 @@
 package edu.java.clients.stackoverflow;
 
+import edu.java.clients.stackoverflow.models.AnswersResponse;
 import edu.java.clients.stackoverflow.models.QuestionResponse;
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
+@SuppressWarnings("MultipleStringLiterals")
 public class StackOverflowClientImpl implements StackOverflowClient {
 
     private final WebClient webClient;
@@ -41,6 +43,28 @@ public class StackOverflowClientImpl implements StackOverflowClient {
         try {
             Long questionId = getQuestionIdFromUrl(url);
             return getQuestionResponse(questionId);
+        } catch (Exception ex) {
+            LOGGER.error("Не удалось отследить ссылку: " + ex.getMessage());
+            return null;
+        }
+    }
+
+    private AnswersResponse getAnswersResponse(Long questionId) {
+        return webClient
+            .get()
+            .uri("/questions/{questionId}/answers?site=stackoverflow", questionId)
+            .accept(MediaType.APPLICATION_JSON)
+            .retrieve()
+            .bodyToMono(AnswersResponse.class)
+            .doOnError(error -> LOGGER.error("An error has occurred {}", error.getMessage()))
+            .block();
+    }
+
+    @Override
+    public AnswersResponse getAnswers(URI url) {
+        try {
+            Long questionId = getQuestionIdFromUrl(url);
+            return getAnswersResponse(questionId);
         } catch (Exception ex) {
             LOGGER.error("Не удалось отследить ссылку: " + ex.getMessage());
             return null;

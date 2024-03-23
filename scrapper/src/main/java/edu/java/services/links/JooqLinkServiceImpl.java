@@ -9,10 +9,12 @@ import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.Chat;
 import edu.java.models.GitHubLink;
 import edu.java.models.Link;
+import edu.java.models.StackOverflowLink;
 import edu.java.repositories.jooq.JooqChatLinkRepository;
 import edu.java.repositories.jooq.JooqChatRepository;
 import edu.java.repositories.jooq.JooqGitHubLinkRepository;
 import edu.java.repositories.jooq.JooqLinkRepository;
+import edu.java.repositories.jooq.JooqStackOverflowRepository;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -33,17 +35,20 @@ public class JooqLinkServiceImpl implements LinksService {
     private final JooqChatLinkRepository chatLinkRepository;
 
     private final JooqGitHubLinkRepository gitHubLinkRepository;
+    private final JooqStackOverflowRepository stackOverflowLinkRepository;
 
     public JooqLinkServiceImpl(
         JooqLinkRepository linkRepository,
         JooqChatRepository chatRepository,
         JooqChatLinkRepository chatLinkRepository,
-        JooqGitHubLinkRepository gitHubLinkRepository
+        JooqGitHubLinkRepository gitHubLinkRepository,
+        JooqStackOverflowRepository stackOverflowLinkRepository
     ) {
         this.linkRepository = linkRepository;
         this.chatRepository = chatRepository;
         this.chatLinkRepository = chatLinkRepository;
         this.gitHubLinkRepository = gitHubLinkRepository;
+        this.stackOverflowLinkRepository = stackOverflowLinkRepository;
     }
 
     @Override
@@ -152,7 +157,17 @@ public class JooqLinkServiceImpl implements LinksService {
     }
 
     @Override
-    public void updateGitHubLinkLastPullRequestTime(Long gitHubLinkId, OffsetDateTime pullRequestTime) {
-        gitHubLinkRepository.updateLastPullRequestTime(gitHubLinkId, pullRequestTime);
+    public void updateGitHubLinkLastPullRequestDate(Long gitHubLinkId, OffsetDateTime pullRequestDate) {
+        gitHubLinkRepository.updateLastPullRequestDate(gitHubLinkId, pullRequestDate);
+    }
+
+    @Override
+    public Optional<StackOverflowLink> findStackOverflowByLinkId(Long linkId) {
+        return stackOverflowLinkRepository.findByLinkId(linkId);
+    }
+
+    @Override
+    public void updateStackOverflowLastAnswerDate(Long stackOverflowLinkId, OffsetDateTime answersDate) {
+        stackOverflowLinkRepository.updateLastAnswerDate(stackOverflowLinkId, answersDate);
     }
 }

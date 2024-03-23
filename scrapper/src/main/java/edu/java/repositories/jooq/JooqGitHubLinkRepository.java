@@ -33,7 +33,7 @@ public class JooqGitHubLinkRepository implements GitHubLinkRepositoryInterface {
     }
 
     @Override
-    public void updateLastPullRequestTime(Long linkId, OffsetDateTime lastPullRequestDate) {
+    public void updateLastPullRequestDate(Long linkId, OffsetDateTime lastPullRequestDate) {
         dsl.update(GITHUB_LINK)
             .set(GITHUB_LINK.LAST_PULL_REQUEST_DATE, lastPullRequestDate)
             .where(GITHUB_LINK.LINK_ID.equal(linkId))

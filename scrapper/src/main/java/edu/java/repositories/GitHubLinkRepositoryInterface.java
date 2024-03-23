@@ -9,5 +9,5 @@ public interface GitHubLinkRepositoryInterface {
 
     Integer add(GitHubLink link);
 
-    void updateLastPullRequestTime(Long linkId, OffsetDateTime lastPullRequestDate);
+    void updateLastPullRequestDate(Long linkId, OffsetDateTime lastPullRequestDate);
 }

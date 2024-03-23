@@ -9,6 +9,7 @@ import edu.java.controllers.links.LinksApiController;
 import edu.java.models.Chat;
 import edu.java.models.GitHubLink;
 import edu.java.models.Link;
+import edu.java.models.StackOverflowLink;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
@@ -88,7 +89,13 @@ public interface LinksService {
         return Optional.empty();
     }
 
-    default void updateGitHubLinkLastPullRequestTime(Long gitHubLinkId, OffsetDateTime pullRequestTime) {
+    default void updateGitHubLinkLastPullRequestDate(Long gitHubLinkId, OffsetDateTime pullRequestDate) {
+    }
 
+    default Optional<StackOverflowLink> findStackOverflowByLinkId(Long linkId) {
+        return Optional.empty();
+    }
+
+    default void updateStackOverflowLastAnswerDate(Long gitHubLinkId, OffsetDateTime answerDate) {
     }
 }

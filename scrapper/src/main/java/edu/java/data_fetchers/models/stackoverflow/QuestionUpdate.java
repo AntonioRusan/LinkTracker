@@ -10,7 +10,7 @@ public record QuestionUpdate(
 
     public String toString() {
         return String.format(
-            "Обновление вопроса: %s;\nДата: %s\nСсылка: %s;\n",
+            "Обновление вопроса: %s\nДата: %s\nСсылка: %s\n",
             name,
             htmlUrl,
             updatedAt

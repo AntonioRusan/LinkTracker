@@ -9,10 +9,12 @@ import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.Chat;
 import edu.java.models.GitHubLink;
 import edu.java.models.Link;
+import edu.java.models.StackOverflowLink;
 import edu.java.repositories.jdbc.JdbcChatLinkRepository;
 import edu.java.repositories.jdbc.JdbcChatRepository;
 import edu.java.repositories.jdbc.JdbcGitHubLinkRepository;
 import edu.java.repositories.jdbc.JdbcLinkRepository;
+import edu.java.repositories.jdbc.JdbcStackOverflowLinkRepository;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -33,16 +35,19 @@ public class JdbcLinksServiceImpl implements LinksService {
     private final JdbcChatRepository chatRepository;
     private final JdbcChatLinkRepository chatLinkRepository;
     private final JdbcGitHubLinkRepository gitHubLinkRepository;
+    private final JdbcStackOverflowLinkRepository stackOverflowLinkRepository;
 
     public JdbcLinksServiceImpl(
         JdbcLinkRepository linkRepository, JdbcChatRepository chatRepository,
         JdbcChatLinkRepository chatLinkRepository,
-        JdbcGitHubLinkRepository gitHubLinkRepository
+        JdbcGitHubLinkRepository gitHubLinkRepository,
+        JdbcStackOverflowLinkRepository stackOverflowLinkRepository
     ) {
         this.linkRepository = linkRepository;
         this.chatRepository = chatRepository;
         this.chatLinkRepository = chatLinkRepository;
         this.gitHubLinkRepository = gitHubLinkRepository;
+        this.stackOverflowLinkRepository = stackOverflowLinkRepository;
     }
 
     @Override
@@ -81,8 +86,12 @@ public class JdbcLinksServiceImpl implements LinksService {
                 Long addedLinkId =
                     foundLinkByUrl.isPresent() ? foundLinkByUrl.get().id() : linkRepository.add(addedLink);
                 chatLinkRepository.add(tgChatId, addedLinkId);
-                if (URI.create(url).getHost().equals("github.com")) {
-                    gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
+                switch (URI.create(url).getHost()) {
+                    case "github.com" -> gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
+                    case "stackoverflow.com" ->
+                        stackOverflowLinkRepository.add(new StackOverflowLink(addedLinkId, OffsetDateTime.now()));
+                    default -> {
+                    }
                 }
                 return new ResponseEntity<>(
                     new LinkResponse(addedLinkId, URI.create(addedLink.url())),
@@ -147,8 +156,18 @@ public class JdbcLinksServiceImpl implements LinksService {
     }
 
     @Override
-    public void updateGitHubLinkLastPullRequestTime(Long gitHubLinkId, OffsetDateTime pullRequestTime) {
-        gitHubLinkRepository.updateLastPullRequestTime(gitHubLinkId, pullRequestTime);
+    public void updateGitHubLinkLastPullRequestDate(Long gitHubLinkId, OffsetDateTime pullRequestDate) {
+        gitHubLinkRepository.updateLastPullRequestDate(gitHubLinkId, pullRequestDate);
+    }
+
+    @Override
+    public Optional<StackOverflowLink> findStackOverflowByLinkId(Long linkId) {
+        return stackOverflowLinkRepository.findByLinkId(linkId);
+    }
+
+    @Override
+    public void updateStackOverflowLastAnswerDate(Long stackOverflowLinkId, OffsetDateTime answersDate) {
+        stackOverflowLinkRepository.updateLastAnswerDate(stackOverflowLinkId, answersDate);
     }
 
 }
