@@ -29,7 +29,7 @@ import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
 @Service
-@Primary
+
 public class JdbcLinksServiceImpl implements LinksService {
     private final JdbcLinkRepository linkRepository;
     private final JdbcChatRepository chatRepository;
@@ -83,18 +83,22 @@ public class JdbcLinksServiceImpl implements LinksService {
                 String url = addLinkRequest.getLink().toString();
                 Optional<Link> foundLinkByUrl = linkRepository.findByUrl(url);
                 Link addedLink = Link.create(addLinkRequest.getLink().toString());
-                Long addedLinkId =
-                    foundLinkByUrl.isPresent() ? foundLinkByUrl.get().id() : linkRepository.add(addedLink);
-                chatLinkRepository.add(tgChatId, addedLinkId);
-                switch (URI.create(url).getHost()) {
-                    case "github.com" -> gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
-                    case "stackoverflow.com" ->
-                        stackOverflowLinkRepository.add(new StackOverflowLink(addedLinkId, OffsetDateTime.now()));
-                    default -> {
+                Long addedLinkId;
+                if (foundLinkByUrl.isPresent()) {
+                    addedLinkId = foundLinkByUrl.get().id();
+                } else {
+                    addedLinkId = linkRepository.add(addedLink);
+                    switch (URI.create(url).getHost()) {
+                        case "github.com" -> gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
+                        case "stackoverflow.com" ->
+                            stackOverflowLinkRepository.add(new StackOverflowLink(addedLinkId, OffsetDateTime.now()));
+                        default -> {
+                        }
                     }
                 }
+                chatLinkRepository.add(tgChatId, addedLinkId);
                 return new ResponseEntity<>(
-                    new LinkResponse(addedLinkId, URI.create(addedLink.url())),
+                    new LinkResponse(addedLinkId, addLinkRequest.getLink()),
                     HttpStatus.OK
                 );
             }

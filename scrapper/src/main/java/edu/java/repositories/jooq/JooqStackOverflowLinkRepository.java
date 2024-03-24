@@ -9,10 +9,10 @@ import org.springframework.stereotype.Repository;
 import static edu.java.domain.jooq.tables.StackoverflowLink.STACKOVERFLOW_LINK;
 
 @Repository
-public class JooqStackOverflowRepository implements StackOverflowLinkInterface {
+public class JooqStackOverflowLinkRepository implements StackOverflowLinkInterface {
     private final DSLContext dsl;
 
-    public JooqStackOverflowRepository(DSLContext dsl) {
+    public JooqStackOverflowLinkRepository(DSLContext dsl) {
         this.dsl = dsl;
     }
 
