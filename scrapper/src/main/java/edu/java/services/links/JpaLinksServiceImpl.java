@@ -18,6 +18,7 @@ import edu.java.repositories.jpa.JpaChatRepository;
 import edu.java.repositories.jpa.JpaGitHubLinkRepository;
 import edu.java.repositories.jpa.JpaLinkRepository;
 import edu.java.repositories.jpa.JpaStackOverflowLinkRepository;
+import jakarta.transaction.Transactional;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -75,6 +76,7 @@ public class JpaLinksServiceImpl implements LinksService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<LinkResponse> addLink(
         Long tgChatId,
         AddLinkRequest addLinkRequest
@@ -123,6 +125,7 @@ public class JpaLinksServiceImpl implements LinksService {
     }
 
     @Override
+    @Transactional
     public ResponseEntity<LinkResponse> removeLink(
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
@@ -153,7 +156,8 @@ public class JpaLinksServiceImpl implements LinksService {
 
     @Override
     public List<Link> findOlderThanIntervalLinks(Duration interval) {
-        return linkRepository.findOlderThanIntervalLinks(interval).stream().map(LinkEntity::toLink).toList();
+        return linkRepository.findOlderThanIntervalLinks(OffsetDateTime.now().minus(interval)).stream()
+            .map(LinkEntity::toLink).toList();
     }
 
     @Override
@@ -192,6 +196,7 @@ public class JpaLinksServiceImpl implements LinksService {
     }
 
     @Override
+    @Transactional
     public void updateGitHubLinkLastPullRequestDate(Long gitHubLinkId, OffsetDateTime pullRequestDate) {
         Optional<GitHubLinkEntity> linkOpt = gitHubLinkRepository.findById(gitHubLinkId);
         if (linkOpt.isPresent()) {
@@ -206,6 +211,7 @@ public class JpaLinksServiceImpl implements LinksService {
     }
 
     @Override
+    @Transactional
     public void updateStackOverflowLastAnswerDate(Long stackOverflowLinkId, OffsetDateTime answersDate) {
         Optional<StackOverflowLinkEntity> linkOpt = stackOverflowLinkRepository.findById(stackOverflowLinkId);
         if (linkOpt.isPresent()) {

@@ -1,11 +1,13 @@
 package edu.java.models.jpa;
 
 import edu.java.models.GitHubLink;
-import edu.java.models.Link;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.time.OffsetDateTime;
@@ -19,7 +21,8 @@ import lombok.Setter;
 @Entity
 @Table(name = "github_link")
 public class GitHubLinkEntity {
-    @Id @OneToOne @JoinColumn(name = "link_id") private LinkEntity link;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private long id;
+    @OneToOne @JoinColumn(name = "link_id", referencedColumnName = "id") @MapsId private LinkEntity link;
     @Column(name = "last_pull_request_date") private OffsetDateTime lastPullRequestDate;
 
     public GitHubLinkEntity(
@@ -29,6 +32,7 @@ public class GitHubLinkEntity {
         this.link = link;
         this.lastPullRequestDate = lastPullRequestDate;
     }
+
     public GitHubLink toGitHubLink() {
         return new GitHubLink(link.getId(), lastPullRequestDate);
     }

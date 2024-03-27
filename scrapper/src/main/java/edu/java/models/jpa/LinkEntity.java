@@ -4,6 +4,7 @@ import edu.java.models.Link;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,7 +30,7 @@ public class LinkEntity {
     @Column(name = "last_check_time") private OffsetDateTime lastCheckTime;
     @Column(name = "updated_at") private OffsetDateTime updatedAt;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "chat_link",
                joinColumns = @JoinColumn(name = "link_id", referencedColumnName = "id"),
                inverseJoinColumns = @JoinColumn(name = "chat_id", referencedColumnName = "id"))

@@ -7,6 +7,7 @@ import edu.java.models.jpa.LinkEntity;
 import edu.java.repositories.jpa.JpaChatRepository;
 import java.util.Optional;
 import java.util.Set;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import static edu.java.exceptions.api.ApiError.TG_CHAT_ALREADY_REGISTERED;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
 @Service
+@Primary
 public class JpaTgChatServiceImpl implements TgChatService {
     private final JpaChatRepository chatRepository;
 

@@ -20,7 +20,6 @@ import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -89,7 +88,8 @@ public class JdbcLinksServiceImpl implements LinksService {
                 } else {
                     addedLinkId = linkRepository.add(addedLink);
                     switch (URI.create(url).getHost()) {
-                        case "github.com" -> gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
+                        case "github.com" ->
+                            gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
                         case "stackoverflow.com" ->
                             stackOverflowLinkRepository.add(new StackOverflowLink(addedLinkId, OffsetDateTime.now()));
                         default -> {

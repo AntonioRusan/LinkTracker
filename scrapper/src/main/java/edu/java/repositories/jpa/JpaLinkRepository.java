@@ -1,8 +1,7 @@
 package edu.java.repositories.jpa;
 
-import edu.java.models.Link;
 import edu.java.models.jpa.LinkEntity;
-import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,5 +14,5 @@ public interface JpaLinkRepository extends JpaRepository<LinkEntity, Long> {
     Optional<LinkEntity> findByUrl(String url);
 
     @Query(value = "SELECT l FROM LinkEntity l WHERE l.lastCheckTime < ?1")
-    List<LinkEntity> findOlderThanIntervalLinks(Duration interval);
+    List<LinkEntity> findOlderThanIntervalLinks(OffsetDateTime interval);
 }

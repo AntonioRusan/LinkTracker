@@ -48,7 +48,7 @@ public class GithubDataFetcher {
     public Optional<RepositoryUpdate> fetchRepositoryData(Link link) {
         URI url = URI.create(link.url());
         RepositoryResponse repository = gitHubClient.getRepository(url);
-        if (repository.updatedAt().isAfter(link.updatedAt())) {
+        if (repository != null && repository.updatedAt().isAfter(link.updatedAt())) {
             linksService.updateLinkCheckAndUpdatedTime(
                 link.id(),
                 OffsetDateTime.now(),

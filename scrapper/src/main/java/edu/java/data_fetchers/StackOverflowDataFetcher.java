@@ -46,7 +46,7 @@ public class StackOverflowDataFetcher {
     public Optional<QuestionUpdate> fetchQuestionData(Link link) {
         URI uri = URI.create(link.url());
         QuestionResponse questionResponse = stackOverflowClient.getQuestion(uri);
-        if (!questionResponse.items().isEmpty()) {
+        if (questionResponse != null && !questionResponse.items().isEmpty()) {
             QuestionResponse.ItemResponse question = questionResponse.items().getFirst();
             if (question.lastActivityDate().isAfter(link.updatedAt())) {
                 linksService.updateLinkCheckAndUpdatedTime(
@@ -73,7 +73,7 @@ public class StackOverflowDataFetcher {
         List<AnswerUpdate> answers = new ArrayList<>();
 
         linksService.findStackOverflowByLinkId(link.id()).ifPresent(stackOverflowLink -> {
-            if (!answersResponse.items().isEmpty()) {
+            if (answersResponse != null && !answersResponse.items().isEmpty()) {
                 answersResponse.items().forEach(
                     answer -> {
                         if (answer.creationDate().isAfter(stackOverflowLink.lastAnswerDate())) {
