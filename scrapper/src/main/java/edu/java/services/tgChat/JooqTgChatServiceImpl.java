@@ -3,18 +3,18 @@ package edu.java.services.tgChat;
 import edu.java.exceptions.api.base.ConflictException;
 import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.Chat;
-import edu.java.repositories.jdbc.JdbcChatLinkRepository;
-import edu.java.repositories.jdbc.JdbcChatRepository;
+import edu.java.repositories.jooq.JooqChatLinkRepository;
+import edu.java.repositories.jooq.JooqChatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_ALREADY_REGISTERED;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
-public class JdbcTgChatServiceImpl implements TgChatService {
-    private final JdbcChatRepository chatRepository;
-    private final JdbcChatLinkRepository chatLinkRepository;
+public class JooqTgChatServiceImpl implements TgChatService {
+    private final JooqChatRepository chatRepository;
+    private final JooqChatLinkRepository chatLinkRepository;
 
-    public JdbcTgChatServiceImpl(JdbcChatRepository chatRepository, JdbcChatLinkRepository chatLinkRepository) {
+    public JooqTgChatServiceImpl(JooqChatRepository chatRepository, JooqChatLinkRepository chatLinkRepository) {
         this.chatRepository = chatRepository;
         this.chatLinkRepository = chatLinkRepository;
     }

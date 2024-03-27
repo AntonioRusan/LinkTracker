@@ -15,7 +15,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(classes = {ScrapperApplication.class})
+@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
 public class JdbcChatLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private JdbcChatLinkRepository jdbcChatLinkRepository;

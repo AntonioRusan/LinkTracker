@@ -14,7 +14,7 @@ import edu.java.repositories.jooq.JooqChatLinkRepository;
 import edu.java.repositories.jooq.JooqChatRepository;
 import edu.java.repositories.jooq.JooqGitHubLinkRepository;
 import edu.java.repositories.jooq.JooqLinkRepository;
-import edu.java.repositories.jooq.JooqStackOverflowRepository;
+import edu.java.repositories.jooq.JooqStackOverflowLinkRepository;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
@@ -22,27 +22,25 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import static edu.java.exceptions.api.ApiError.LINK_ALREADY_ADDED;
 import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
-@Service
 @SuppressWarnings("NestedIfDepth")
-public class JooqLinkServiceImpl implements LinksService {
+public class JooqLinksServiceImpl implements LinksService {
     private final JooqLinkRepository linkRepository;
     private final JooqChatRepository chatRepository;
     private final JooqChatLinkRepository chatLinkRepository;
 
     private final JooqGitHubLinkRepository gitHubLinkRepository;
-    private final JooqStackOverflowRepository stackOverflowLinkRepository;
+    private final JooqStackOverflowLinkRepository stackOverflowLinkRepository;
 
-    public JooqLinkServiceImpl(
+    public JooqLinksServiceImpl(
         JooqLinkRepository linkRepository,
         JooqChatRepository chatRepository,
         JooqChatLinkRepository chatLinkRepository,
         JooqGitHubLinkRepository gitHubLinkRepository,
-        JooqStackOverflowRepository stackOverflowLinkRepository
+        JooqStackOverflowLinkRepository stackOverflowLinkRepository
     ) {
         this.linkRepository = linkRepository;
         this.chatRepository = chatRepository;
@@ -89,13 +87,18 @@ public class JooqLinkServiceImpl implements LinksService {
                     addedLinkId = foundLinkByUrl.get().id();
                 } else {
                     addedLinkId = linkRepository.add(addedLink);
-                    chatLinkRepository.add(tgChatId, addedLinkId);
-                    if (URI.create(url).getHost().equals("github.com")) {
-                        gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
+                    switch (URI.create(url).getHost()) {
+                        case "github.com" ->
+                            gitHubLinkRepository.add(new GitHubLink(addedLinkId, OffsetDateTime.now()));
+                        case "stackoverflow.com" ->
+                            stackOverflowLinkRepository.add(new StackOverflowLink(addedLinkId, OffsetDateTime.now()));
+                        default -> {
+                        }
                     }
                 }
+                chatLinkRepository.add(tgChatId, addedLinkId);
                 return new ResponseEntity<>(
-                    new LinkResponse(addedLinkId, URI.create(addedLink.url())),
+                    new LinkResponse(addedLinkId, addLinkRequest.getLink()),
                     HttpStatus.OK
                 );
             }

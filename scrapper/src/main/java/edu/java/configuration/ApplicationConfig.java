@@ -12,10 +12,17 @@ public record ApplicationConfig(
     @Bean
     @NotNull
     Scheduler scheduler,
+    AccessType databaseAccessType,
     String githubBaseUrl,
     String stackoverflowBaseUrl,
     String botApiUrl
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
+    }
+
+    public enum AccessType {
+        JDBC,
+        JPA,
+        JOOQ
     }
 }
