@@ -3,8 +3,8 @@ package edu.java.data_fetchers;
 import edu.java.clients.stackoverflow.StackOverflowClient;
 import edu.java.clients.stackoverflow.models.AnswersResponse;
 import edu.java.clients.stackoverflow.models.QuestionResponse;
-import edu.java.data_fetchers.models.stackoverflow.AnswerUpdate;
-import edu.java.data_fetchers.models.stackoverflow.QuestionUpdate;
+import edu.java.data_fetchers.models.UpdateEvent;
+import edu.java.data_fetchers.models.UpdateEventType;
 import edu.java.models.Link;
 import edu.java.services.links.LinksService;
 import java.net.URI;
@@ -30,20 +30,20 @@ public class StackOverflowDataFetcher {
     }
 
     public String fetchData(Link link) {
-        Optional<QuestionUpdate> fetchedQuestion = fetchQuestionData(link);
-        List<AnswerUpdate> fetchedAnswers = fetchAnswersData(link);
+        Optional<UpdateEvent> fetchedQuestion = fetchQuestionData(link);
+        List<UpdateEvent> fetchedAnswers = fetchAnswersData(link);
         List<String> description = new ArrayList<>();
         fetchedQuestion.ifPresent(repository -> description.add(repository.toString()));
         if (!fetchedAnswers.isEmpty()) {
             List<String> answersDescription =
-                fetchedAnswers.stream().map(AnswerUpdate::toString).toList();
+                fetchedAnswers.stream().map(UpdateEvent::toString).toList();
             description.add("Обновление ответов:\n\n" + String.join("\n", answersDescription));
         }
         linksService.updateLinkCheckTime(link.id(), OffsetDateTime.now());
         return String.join("\n\n", description);
     }
 
-    public Optional<QuestionUpdate> fetchQuestionData(Link link) {
+    public Optional<UpdateEvent> fetchQuestionData(Link link) {
         URI uri = URI.create(link.url());
         QuestionResponse questionResponse = stackOverflowClient.getQuestion(uri);
         if (!questionResponse.items().isEmpty()) {
@@ -54,7 +54,8 @@ public class StackOverflowDataFetcher {
                     OffsetDateTime.now(),
                     question.lastActivityDate()
                 );
-                return Optional.of(new QuestionUpdate(
+                return Optional.of(new UpdateEvent(
+                    UpdateEventType.QUESTION_UPDATE,
                     question.title(),
                     question.link(),
                     question.lastActivityDate()
@@ -67,17 +68,19 @@ public class StackOverflowDataFetcher {
         }
     }
 
-    public List<AnswerUpdate> fetchAnswersData(Link link) {
+    public List<UpdateEvent> fetchAnswersData(Link link) {
         URI uri = URI.create(link.url());
         AnswersResponse answersResponse = stackOverflowClient.getAnswers(uri);
-        List<AnswerUpdate> answers = new ArrayList<>();
+        List<UpdateEvent> answers = new ArrayList<>();
 
         linksService.findStackOverflowByLinkId(link.id()).ifPresent(stackOverflowLink -> {
             if (!answersResponse.items().isEmpty()) {
                 answersResponse.items().forEach(
                     answer -> {
                         if (answer.creationDate().isAfter(stackOverflowLink.lastAnswerDate())) {
-                            answers.add(new AnswerUpdate(
+                            answers.add(new UpdateEvent(
+                                UpdateEventType.NEW_ANSWER,
+                                "",
                                 String.format("https://stackoverflow.com/questions/%d/#%d",
                                     answer.questionId(), answer.answerId()
                                 ),
@@ -86,7 +89,7 @@ public class StackOverflowDataFetcher {
                         }
                     }
                 );
-                answers.stream().max(Comparator.comparing(AnswerUpdate::createdAt)).ifPresent(
+                answers.stream().max(Comparator.comparing(UpdateEvent::createdAt)).ifPresent(
                     lastAnswer -> linksService.updateStackOverflowLastAnswerDate(
                         stackOverflowLink.linkId(),
                         lastAnswer.createdAt()

@@ -6,8 +6,8 @@ import edu.java.clients.github.GitHubClient;
 import edu.java.clients.github.models.RepositoryResponse;
 import edu.java.clients.github.models.events.EventsResponse;
 import edu.java.clients.github.models.events.Payload;
-import edu.java.data_fetchers.models.github.PullRequestUpdate;
-import edu.java.data_fetchers.models.github.RepositoryUpdate;
+import edu.java.data_fetchers.models.UpdateEvent;
+import edu.java.data_fetchers.models.UpdateEventType;
 import edu.java.models.Link;
 import edu.java.services.links.LinksService;
 import java.net.URI;
@@ -32,20 +32,20 @@ public class GithubDataFetcher {
     }
 
     public String fetchData(Link link) {
-        Optional<RepositoryUpdate> fetchedRepository = fetchRepositoryData(link);
-        List<PullRequestUpdate> fetchedPullRequests = fetchPullRequestsData(link);
+        Optional<UpdateEvent> fetchedRepository = fetchRepositoryData(link);
+        List<UpdateEvent> fetchedPullRequests = fetchPullRequestsData(link);
         List<String> description = new ArrayList<>();
         fetchedRepository.ifPresent(repository -> description.add(repository.toString()));
         if (!fetchedPullRequests.isEmpty()) {
             List<String> pullRequestsDescription =
-                fetchedPullRequests.stream().map(PullRequestUpdate::toString).toList();
+                fetchedPullRequests.stream().map(UpdateEvent::toString).toList();
             description.add("Обновление Pull Requests:\n\n" + String.join("\n", pullRequestsDescription));
         }
         linksService.updateLinkCheckTime(link.id(), OffsetDateTime.now());
         return String.join("\n\n", description);
     }
 
-    public Optional<RepositoryUpdate> fetchRepositoryData(Link link) {
+    public Optional<UpdateEvent> fetchRepositoryData(Link link) {
         URI url = URI.create(link.url());
         RepositoryResponse repository = gitHubClient.getRepository(url);
         if (repository.updatedAt().isAfter(link.updatedAt())) {
@@ -54,35 +54,41 @@ public class GithubDataFetcher {
                 OffsetDateTime.now(),
                 repository.updatedAt()
             );
-            return Optional.of(new RepositoryUpdate(repository.name(), repository.htmlUrl(), repository.updatedAt()));
+            return Optional.of(new UpdateEvent(
+                UpdateEventType.REPOSITORY_UPDATE,
+                repository.name(),
+                repository.htmlUrl(),
+                repository.updatedAt()
+            ));
         } else {
             return Optional.empty();
         }
     }
 
-    public List<PullRequestUpdate> fetchPullRequestsData(Link link) {
+    public List<UpdateEvent> fetchPullRequestsData(Link link) {
         URI url = URI.create(link.url());
         List<EventsResponse> events = gitHubClient.getEvents(url);
 
         ObjectMapper jsonMapper = new ObjectMapper();
-        List<PullRequestUpdate> pullRequests = new ArrayList<>();
+        List<UpdateEvent> pullRequests = new ArrayList<>();
 
         linksService.findGitHubByLinkId(link.id()).ifPresent(gitHubLink -> {
             events.reversed().forEach(event -> {
                 try {
                     Payload payload = jsonMapper.treeToValue(event.payload(), Payload.class);
                     if (event.createdAt().isAfter(gitHubLink.lastPullRequestDate())) {
-                        pullRequests.add(new PullRequestUpdate(
+                        pullRequests.add(new UpdateEvent(
+                            UpdateEventType.NEW_PULL_REQUEST,
                             payload.pullRequestEvent().title(),
-                            event.createdAt(),
-                            payload.pullRequestEvent().htmlUrl()
+                            payload.pullRequestEvent().htmlUrl(),
+                            event.createdAt()
                         ));
                     }
                 } catch (JsonProcessingException e) {
                     throw new RuntimeException(e);
                 }
             });
-            pullRequests.stream().max(Comparator.comparing(PullRequestUpdate::createdAt)).ifPresent(
+            pullRequests.stream().max(Comparator.comparing(UpdateEvent::createdAt)).ifPresent(
                 lastPR -> linksService.updateGitHubLinkLastPullRequestDate(gitHubLink.linkId(), lastPR.createdAt())
             );
         });
