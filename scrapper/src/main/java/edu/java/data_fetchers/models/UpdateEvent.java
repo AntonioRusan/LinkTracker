@@ -3,6 +3,7 @@ package edu.java.data_fetchers.models;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 
+@SuppressWarnings("MagicNumber")
 public record UpdateEvent(
     UpdateEventType type,
     String name,
