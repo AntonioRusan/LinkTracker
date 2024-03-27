@@ -10,13 +10,15 @@ public record UpdateEvent(
     OffsetDateTime createdAt
 ) {
     public String toString() {
+        String delimeter = "-".repeat(80);
         String formattedDate = createdAt.format(DateTimeFormatter.ofPattern("YYYY-MM-dd hh:mm"));
         return String.format(
-            "%s:\n%s\nСсылка: %s\nДата: %s\n",
+            "%s:\n%s\nСсылка: %s\nДата: %s\n%s\n",
             type.getDescription(),
             name,
             htmlUrl,
-            formattedDate
+            formattedDate,
+            delimeter
         );
     }
 }
