@@ -7,17 +7,15 @@ import edu.java.repositories.jooq.JooqChatLinkRepository;
 import edu.java.repositories.jooq.JooqChatRepository;
 import edu.java.repositories.jooq.JooqLinkRepository;
 import edu.scrapper.database.IntegrationTest;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@SpringBootTest(classes = {ScrapperApplication.class})
+@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jooq"})
 public class JooqChatLinkRepositoryTest extends IntegrationTest {
     @Autowired
     private JooqChatLinkRepository jooqChatLinkRepository;

@@ -22,12 +22,9 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import static edu.java.exceptions.api.ApiError.LINK_ALREADY_ADDED;
 import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
-
-@Service
 
 public class JdbcLinksServiceImpl implements LinksService {
     private final JdbcLinkRepository linkRepository;

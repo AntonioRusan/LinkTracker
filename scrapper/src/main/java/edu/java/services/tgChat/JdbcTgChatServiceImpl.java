@@ -7,11 +7,9 @@ import edu.java.repositories.jdbc.JdbcChatLinkRepository;
 import edu.java.repositories.jdbc.JdbcChatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_ALREADY_REGISTERED;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
-@Service
 public class JdbcTgChatServiceImpl implements TgChatService {
     private final JdbcChatRepository chatRepository;
     private final JdbcChatLinkRepository chatLinkRepository;

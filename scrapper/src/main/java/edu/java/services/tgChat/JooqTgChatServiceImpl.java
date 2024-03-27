@@ -7,11 +7,9 @@ import edu.java.repositories.jooq.JooqChatLinkRepository;
 import edu.java.repositories.jooq.JooqChatRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_ALREADY_REGISTERED;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
-@Service
 public class JooqTgChatServiceImpl implements TgChatService {
     private final JooqChatRepository chatRepository;
     private final JooqChatLinkRepository chatLinkRepository;
