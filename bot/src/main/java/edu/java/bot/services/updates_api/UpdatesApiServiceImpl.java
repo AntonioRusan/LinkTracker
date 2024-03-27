@@ -1,12 +1,8 @@
 package edu.java.bot.services.updates_api;
 
 import api.bot.models.LinkUpdate;
-import edu.java.bot.exceptions.api.ApiError;
-import edu.java.bot.exceptions.api.base.BadRequestException;
-import edu.java.bot.models.User;
-import edu.java.bot.repositories.UserRepository;
-import java.util.List;
-import java.util.Optional;
+import com.pengrad.telegrambot.TelegramBot;
+import com.pengrad.telegrambot.request.SendMessage;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -14,30 +10,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
+@SuppressWarnings({"MagicNumber", "MultipleStringLiterals"})
 public class UpdatesApiServiceImpl implements UpdatesApiService {
-    private final UserRepository userRepository;
+    private final TelegramBot telegramBot;
     private final static Logger LOGGER = LogManager.getLogger();
 
-    public UpdatesApiServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UpdatesApiServiceImpl(
+        TelegramBot telegramBot
+    ) {
+        this.telegramBot = telegramBot;
     }
 
     @Override
     public ResponseEntity<Void> updatesPost(LinkUpdate linkUpdate) {
         linkUpdate.getTgChatIds().forEach(chatId -> {
-            Optional<User> userOpt = userRepository.getUser(chatId);
-            if (userOpt.isPresent()) {
-                List<String> userLinks = userOpt.get().getLinkList();
-                String link = linkUpdate.getUrl().toString();
-                if (userLinks.contains(link)) {
-                    LOGGER.info(String.format("Обновление ссылки %s пользователя %d", link, chatId));
-                } else {
-                    throw new BadRequestException(ApiError.LINK_NOT_FOUND);
-                }
-            } else {
-                throw new BadRequestException(ApiError.CHATS_NOT_FOUND);
-            }
+            String link = linkUpdate.getUrl().toString();
+            String message = String.format("Обновление ссылки %s:\n\n%s", link, linkUpdate.getDescription());
+            telegramBot.execute(new SendMessage(chatId, message));
+            LOGGER.info(String.format("Обновление ссылки %s пользователя %d", link, chatId));
         });
+
         return new ResponseEntity<>(
             HttpStatus.OK
         );

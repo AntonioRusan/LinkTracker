@@ -11,7 +11,7 @@ import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;
 import api.scrapper.models.ListLinksResponse;
 import api.scrapper.models.RemoveLinkRequest;
-import edu.java.services.links_api.LinksApiService;
+import edu.java.services.links.LinksService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Tag(name = "links", description = "the links API")
 public interface LinksApi {
 
-    default LinksApiService getDelegate() {
-        return new LinksApiService() {
+    default LinksService getDelegate() {
+        return new LinksService() {
         };
     }
 
@@ -74,7 +74,7 @@ public interface LinksApi {
         @Parameter(name = "RemoveLinkRequest", description = "", required = true) @Valid @RequestBody
         RemoveLinkRequest removeLinkRequest
     ) {
-        return getDelegate().linksDelete(tgChatId, removeLinkRequest);
+        return getDelegate().removeLink(tgChatId, removeLinkRequest);
     }
 
     /**
@@ -110,7 +110,7 @@ public interface LinksApi {
         @NotNull @Parameter(name = "Tg-Chat-Id", description = "", required = true, in = ParameterIn.HEADER)
         @RequestHeader(value = "Tg-Chat-Id", required = true) Long tgChatId
     ) {
-        return getDelegate().linksGet(tgChatId);
+        return getDelegate().getAllLinks(tgChatId);
     }
 
     /**
@@ -154,7 +154,7 @@ public interface LinksApi {
         @Parameter(name = "AddLinkRequest", description = "", required = true) @Valid @RequestBody
         AddLinkRequest addLinkRequest
     ) {
-        return getDelegate().linksPost(tgChatId, addLinkRequest);
+        return getDelegate().addLink(tgChatId, addLinkRequest);
     }
 
 }

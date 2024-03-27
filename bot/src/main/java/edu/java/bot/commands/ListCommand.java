@@ -2,17 +2,16 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.repositories.UserRepository;
-import java.util.List;
+import edu.java.bot.services.bot_command.BotCommandService;
 
 public class ListCommand implements Command {
-    private UserRepository userRepository;
+    private BotCommandService botCommandService;
 
     public ListCommand() {
     }
 
-    public ListCommand(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public ListCommand(BotCommandService botCommandService) {
+        this.botCommandService = botCommandService;
     }
 
     @Override
@@ -28,7 +27,7 @@ public class ListCommand implements Command {
     @Override
     public SendMessage handleCommand(Update update) {
         Long chatId = update.message().chat().id();
-        List<String> trackedUrls = userRepository.getUserLinks(chatId);
+        String trackedUrls = botCommandService.listLinks(chatId);
         String response = !trackedUrls.isEmpty() ? "Отслеживаемые ссылки:\n" + String.join("\n", trackedUrls)
             : "Нет отслеживаемых ссылок!";
         return new SendMessage(chatId, response);

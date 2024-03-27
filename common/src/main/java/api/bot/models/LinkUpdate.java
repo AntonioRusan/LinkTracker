@@ -23,6 +23,9 @@ public class LinkUpdate {
     @Valid
     private List<Long> tgChatIds;
 
+    public LinkUpdate() {
+    }
+
     public LinkUpdate(Long id, URI url, String description, List<Long> tgChatIds) {
         this.id = id;
         this.url = url;

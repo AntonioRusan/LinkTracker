@@ -14,6 +14,9 @@ public class AddLinkRequest {
 
     private URI link;
 
+    public AddLinkRequest() {
+    }
+
     public AddLinkRequest(URI link) {
         this.link = link;
     }

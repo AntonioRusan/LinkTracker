@@ -14,6 +14,9 @@ public class RemoveLinkRequest {
 
     private URI link;
 
+    public RemoveLinkRequest() {
+    }
+
     public RemoveLinkRequest(URI link) {
         this.link = link;
     }

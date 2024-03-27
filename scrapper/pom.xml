@@ -136,16 +136,12 @@
             <scope>runtime</scope>
         </dependency>
 
+
         <!-- OpenApi -->
         <dependency>
             <groupId>org.openapitools</groupId>
             <artifactId>jackson-databind-nullable</artifactId>
             <version>0.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>3.2.3</version>
         </dependency>
         <dependency>
             <groupId>io.swagger</groupId>
@@ -178,6 +174,11 @@
             <groupId>edu.java</groupId>
             <artifactId>common</artifactId>
             <version>0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jooq</groupId>
+            <artifactId>jooq</artifactId>
+            <version>3.19.6</version>
         </dependency>
 
 

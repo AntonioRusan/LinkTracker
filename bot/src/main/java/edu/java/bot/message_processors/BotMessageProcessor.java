@@ -10,13 +10,25 @@ import edu.java.bot.commands.ListCommand;
 import edu.java.bot.commands.StartCommand;
 import edu.java.bot.commands.TrackCommand;
 import edu.java.bot.commands.UntrackCommand;
-import edu.java.bot.repositories.UserRepository;
+import edu.java.bot.services.bot_command.BotCommandService;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BotMessageProcessor implements MessageProcessor {
-    private final UserRepository userRepository;
+    private final BotCommandService botCommandService;
+
+    public BotMessageProcessor(BotCommandService botCommandService) {
+        this.botCommandService = botCommandService;
+        commandList = List.of(
+            new StartCommand(botCommandService),
+            new ListCommand(botCommandService),
+            new HelpCommand(commandDescriptionList),
+            new TrackCommand(botCommandService),
+            new UntrackCommand(botCommandService)
+        );
+    }
+
     public final List<String> commandDescriptionList = List.of(
         new StartCommand().commandNameAndDescription(),
         new ListCommand().commandNameAndDescription(),
@@ -25,17 +37,6 @@ public class BotMessageProcessor implements MessageProcessor {
         new UntrackCommand().commandNameAndDescription()
     );
     private final List<Command> commandList;
-
-    public BotMessageProcessor(UserRepository userRepository) {
-        this.userRepository = userRepository;
-        commandList = List.of(
-            new StartCommand(userRepository),
-            new ListCommand(userRepository),
-            new HelpCommand(commandDescriptionList),
-            new TrackCommand(userRepository),
-            new UntrackCommand(userRepository)
-        );
-    }
 
     @Override
     public List<Command> commandList() {

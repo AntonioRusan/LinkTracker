@@ -4,13 +4,16 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import edu.java.ScrapperApplication;
-import edu.java.clients.stackoverflow.models.QuestionResponse;
 import edu.java.clients.stackoverflow.StackOverflowClient;
+import edu.java.clients.stackoverflow.models.QuestionResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.time.OffsetDateTime;
 import java.util.List;
+import edu.scrapper.database.IntegrationTest;
 import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
@@ -23,7 +26,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {ScrapperApplication.class})
 @WireMockTest
-public class StackOverflowClientTest {
+public class StackOverflowClientTest extends IntegrationTest {
 
     @Autowired
     private StackOverflowClient stackOverflowClient;
@@ -39,18 +42,18 @@ public class StackOverflowClientTest {
     }
 
     @Test
-    public void testGetQuestionNotFound() {
+    public void testGetQuestionNotFound() throws URISyntaxException {
         wireMockExtension.stubFor(WireMock.get(WireMock.urlPathEqualTo("/questions/1?site=stackoverflow"))
             .willReturn(WireMock.aResponse()
                 .withHeader("Content-Type", "application/json")
                 .withStatus(404)));
         QuestionResponse questionResponse =
-            stackOverflowClient.getQuestion("https://stackoverflow.com/questions/1/test-question");
+            stackOverflowClient.getQuestion(new URI("https://stackoverflow.com/questions/1/test-question"));
         assertThat(questionResponse).isNull();
     }
 
     @Test
-    public void testGetQuestion() throws IOException {
+    public void testGetQuestion() throws IOException, URISyntaxException {
         String okResponse = FileUtils.readFileToString(
             new File("src/test/resources/stackoverflow/stackoverflow_ok_response.json"),
             StandardCharsets.UTF_8
@@ -65,7 +68,7 @@ public class StackOverflowClientTest {
         );
 
         QuestionResponse questionResponse =
-            stackOverflowClient.getQuestion("https://stackoverflow.com/questions/1/test-question");
+            stackOverflowClient.getQuestion(new URI("https://stackoverflow.com/questions/1/test-question"));
         QuestionResponse expectedResponse = new QuestionResponse(
             List.of(
                 new QuestionResponse.ItemResponse(

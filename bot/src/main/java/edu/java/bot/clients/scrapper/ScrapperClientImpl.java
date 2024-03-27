@@ -72,7 +72,7 @@ public class ScrapperClientImpl implements ScrapperClient {
         return webClient
             .get()
             .uri("/api/links")
-            .header("id", String.valueOf(tgChatId))
+            .header("Tg-Chat-Id", String.valueOf(tgChatId))
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
             .onStatus(
@@ -92,7 +92,7 @@ public class ScrapperClientImpl implements ScrapperClient {
         return webClient
             .post()
             .uri("/api/links")
-            .header("id", String.valueOf(tgChatId))
+            .header("Tg-Chat-Id", String.valueOf(tgChatId))
             .bodyValue(addLinkRequest)
             .accept(MediaType.APPLICATION_JSON)
             .retrieve()
@@ -114,7 +114,7 @@ public class ScrapperClientImpl implements ScrapperClient {
         return webClient
             .method(HttpMethod.DELETE)
             .uri("/api/links")
-            .header("id", String.valueOf(tgChatId))
+            .header("Tg-Chat-Id", String.valueOf(tgChatId))
             .accept(MediaType.APPLICATION_JSON)
             .bodyValue(removeLinkRequest)
             .retrieve()

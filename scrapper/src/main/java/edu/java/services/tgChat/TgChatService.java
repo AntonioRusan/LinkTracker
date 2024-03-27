@@ -1,4 +1,4 @@
-package edu.java.services.tgChat_api;
+package edu.java.services.tgChat;
 
 import edu.java.controllers.tgChat.TgChatApi;
 import edu.java.controllers.tgChat.TgChatApiController;
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
  * A delegate to be called by the {@link TgChatApiController}}.
  */
 
-public interface TgChatApiService {
+public interface TgChatService {
 
     /**
      * DELETE /tg-chat/{id} : Удалить чат
@@ -20,7 +20,7 @@ public interface TgChatApiService {
      *     or Чат не существует (status code 404)
      * @see TgChatApi#tgChatIdDelete
      */
-    default ResponseEntity<Void> tgChatIdDelete(Long id) {
+    default ResponseEntity<Void> unregisterChat(Long id) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -32,7 +32,7 @@ public interface TgChatApiService {
      *     or Некорректные параметры запроса (status code 400)
      * @see TgChatApi#tgChatIdPost
      */
-    default ResponseEntity<Void> tgChatIdPost(Long id) {
+    default ResponseEntity<Void> registerChat(Long id) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 

@@ -2,19 +2,19 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.repositories.UserRepository;
+import edu.java.bot.services.bot_command.BotCommandService;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
 public class TrackCommand implements Command {
-    private UserRepository userRepository;
+    private BotCommandService botCommandService;
 
     public TrackCommand() {
     }
 
-    public TrackCommand(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public TrackCommand(BotCommandService botCommandService) {
+        this.botCommandService = botCommandService;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class TrackCommand implements Command {
         String url = commandText.substring(commandName().length()).trim();
         String response;
         if (isValidUrl(url)) {
-            response = userRepository.addLinkToUser(chatId, url);
+            response = botCommandService.addLink(chatId, url);
         } else {
             response = "Введена неверная или пустая ссылка!";
         }

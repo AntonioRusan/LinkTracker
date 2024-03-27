@@ -10,6 +10,7 @@ import api.bot.models.LinkUpdate;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+import edu.scrapper.database.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.RegisterExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {ScrapperApplication.class})
 @WireMockTest
-public class BotClientTest {
+public class BotClientTest extends IntegrationTest  {
 
     @Autowired
     private BotClient botWebClient;

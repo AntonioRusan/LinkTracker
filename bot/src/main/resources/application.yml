@@ -9,6 +9,8 @@ spring:
     time-zone: UTC
   config:
     import: optional:file:.env[.properties]
+  liquibase:
+    enabled: false
 
 server:
   port: 8090

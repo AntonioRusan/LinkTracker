@@ -1,4 +1,4 @@
-package edu.java.services.links_api;
+package edu.java.services.links;
 
 import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;
@@ -6,6 +6,15 @@ import api.scrapper.models.ListLinksResponse;
 import api.scrapper.models.RemoveLinkRequest;
 import edu.java.controllers.links.LinksApi;
 import edu.java.controllers.links.LinksApiController;
+import edu.java.models.Chat;
+import edu.java.models.GitHubLink;
+import edu.java.models.Link;
+import edu.java.models.StackOverflowLink;
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -14,7 +23,7 @@ import org.springframework.http.ResponseEntity;
  */
 
 @SuppressWarnings("MultipleStringLiterals")
-public interface LinksApiService {
+public interface LinksService {
 
     /**
      * DELETE /links : Убрать отслеживание ссылки
@@ -26,7 +35,7 @@ public interface LinksApiService {
      *     or Ссылка не найдена (status code 404)
      * @see LinksApi#linksDelete
      */
-    default ResponseEntity<LinkResponse> linksDelete(
+    default ResponseEntity<LinkResponse> removeLink(
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
     ) {
@@ -42,7 +51,7 @@ public interface LinksApiService {
      *     or Некорректные параметры запроса (status code 400)
      * @see LinksApi#linksGet
      */
-    default ResponseEntity<ListLinksResponse> linksGet(Long tgChatId) {
+    default ResponseEntity<ListLinksResponse> getAllLinks(Long tgChatId) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -55,11 +64,38 @@ public interface LinksApiService {
      *     or Некорректные параметры запроса (status code 400)
      * @see LinksApi#linksPost
      */
-    default ResponseEntity<LinkResponse> linksPost(
+    default ResponseEntity<LinkResponse> addLink(
         Long tgChatId,
         AddLinkRequest addLinkRequest
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    default List<Link> findOlderThanIntervalLinks(Duration interval) {
+        return new ArrayList<>();
+    }
+
+    default void updateLinkCheckAndUpdatedTime(Long linkId, OffsetDateTime lastCheckTime, OffsetDateTime updatedAt) {
+    }
+
+    default void updateLinkCheckTime(Long linkId, OffsetDateTime lastCheckTime) {
+    }
+
+    default List<Chat> findAllChatByLinkId(Long linkId) {
+        return new ArrayList<>();
+    }
+
+    default Optional<GitHubLink> findGitHubByLinkId(Long linkId) {
+        return Optional.empty();
+    }
+
+    default void updateGitHubLinkLastPullRequestDate(Long gitHubLinkId, OffsetDateTime pullRequestDate) {
+    }
+
+    default Optional<StackOverflowLink> findStackOverflowByLinkId(Long linkId) {
+        return Optional.empty();
+    }
+
+    default void updateStackOverflowLastAnswerDate(Long gitHubLinkId, OffsetDateTime answerDate) {
+    }
 }

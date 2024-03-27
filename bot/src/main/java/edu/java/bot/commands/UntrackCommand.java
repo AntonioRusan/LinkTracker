@@ -2,20 +2,20 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.repositories.UserRepository;
+import edu.java.bot.services.bot_command.BotCommandService;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
 public class UntrackCommand implements Command {
 
-    private UserRepository userRepository;
+    private BotCommandService botCommandService;
 
     public UntrackCommand() {
     }
 
-    public UntrackCommand(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UntrackCommand(BotCommandService botCommandService) {
+        this.botCommandService = botCommandService;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class UntrackCommand implements Command {
         String url = commandText.substring(commandName().length()).trim();
         String response;
         if (isValidUrl(url)) {
-            response = userRepository.removeLinkFromUser(chatId, url);
+            response = botCommandService.removeLink(chatId, url);
         } else {
             response = "Введена неверная или пустая ссылка!";
         }

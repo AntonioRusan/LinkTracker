@@ -2,17 +2,16 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
-import edu.java.bot.models.User;
-import edu.java.bot.repositories.UserRepository;
+import edu.java.bot.services.bot_command.BotCommandService;
 
 public class StartCommand implements Command {
-    private UserRepository userRepository;
+    private BotCommandService botCommandService;
 
     public StartCommand() {
     }
 
-    public StartCommand(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public StartCommand(BotCommandService botCommandService) {
+        this.botCommandService = botCommandService;
     }
 
     @Override
@@ -30,9 +29,8 @@ public class StartCommand implements Command {
         Long chatId = update.message().chat().id();
         String firstName = update.message().chat().firstName();
         String lastName = update.message().chat().lastName();
-        String repositoryResponse = userRepository.addUser(chatId, new User(chatId, firstName, lastName));
         String response = "Привет, " + firstName
-            + " " + lastName + "!\n" + repositoryResponse;
+            + " " + lastName + "!\n" + botCommandService.registerChat(chatId);
         return new SendMessage(chatId, response);
     }
 }
