@@ -16,13 +16,8 @@ public class RetryUtils {
 
     public static ExchangeFilterFunction getRetryFilter(String clientName, RetryConfig retryConfig) {
         Retry retry = getRetry(clientName, retryConfig);
-        return (request, next) -> next.exchange(request)
-            .flatMap(clientResponse -> Mono.just(clientResponse)
-                .filter(response -> clientResponse.statusCode().isError())
-                .flatMap(response -> clientResponse.createException())
-                .flatMap(Mono::error)
-                .thenReturn(clientResponse))
-            .retryWhen(retry);
+        return (response, next) -> next.exchange(response)
+            .flatMap(Mono::just).retryWhen(retry);
     }
 
     private static Retry getRetry(String clientName, RetryConfig retryConfig) {
