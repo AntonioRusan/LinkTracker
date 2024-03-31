@@ -28,6 +28,7 @@ public class JooqChatRepositoryTest extends IntegrationTest {
         Chat chat = new Chat(TEST_ID);
         Integer updated = jooqChatRepository.add(chat);
         assertThat(updated).isEqualTo(1);
+        jooqChatRepository.delete(TEST_ID);
     }
 
     @Test
@@ -41,7 +42,6 @@ public class JooqChatRepositoryTest extends IntegrationTest {
         Optional<Chat> chatFromDb = jooqChatRepository.findById(TEST_ID);
         assertTrue(chatFromDb.isPresent());
         assertThat(chatFromDb.get().id()).isEqualTo(TEST_ID);
-        jooqChatRepository.delete(TEST_ID);
     }
 
     @Test
