@@ -52,8 +52,12 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 
-  codec:
-    max-in-memory-size: 20MB
+
+  cache:
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
 
 server:
   port: 8080
@@ -64,3 +68,18 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger-ui
+
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      http-status-code: TOO_MANY_REQUESTS
+      http-response-body: "Too much requests! Try again later."
+      url: /api/.*
+      rate-limits:
+        - bandwidths:
+            - capacity: 60
+              time: 1
+              unit: minutes
+          cache-key: getRemoteAddr()
