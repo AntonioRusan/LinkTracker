@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,6 +20,8 @@ public class RateLimiterTest extends IntegrationTest {
     private MockMvc mockMvc;
 
     @Test
+    @Transactional
+    @Rollback
     void testRateLimiter() throws Exception {
         mockMvc.perform(post("/api/tg-chat/1"))
             .andExpect(status().isOk());
@@ -29,5 +33,6 @@ public class RateLimiterTest extends IntegrationTest {
 
         mockMvc.perform(get("/api/links").header("Tg-Chat-Id", 1))
             .andExpect(status().isTooManyRequests());
+
     }
 }
