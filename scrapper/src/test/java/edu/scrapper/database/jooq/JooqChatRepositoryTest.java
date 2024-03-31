@@ -41,6 +41,7 @@ public class JooqChatRepositoryTest extends IntegrationTest {
         Optional<Chat> chatFromDb = jooqChatRepository.findById(TEST_ID);
         assertTrue(chatFromDb.isPresent());
         assertThat(chatFromDb.get().id()).isEqualTo(TEST_ID);
+        jooqChatRepository.delete(TEST_ID);
     }
 
     @Test
