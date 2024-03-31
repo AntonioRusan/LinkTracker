@@ -1,6 +1,5 @@
-package edu.java.retry;
+package utils.retry;
 
-import edu.java.configuration.ApplicationConfig;
 import java.util.List;
 import java.util.function.Predicate;
 import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
@@ -8,10 +7,14 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 import reactor.util.retry.Retry;
 import reactor.util.retry.RetryBackoffSpec;
+import utils.retry.model.RetryConfig;
+import utils.retry.type.LinearRetry;
 
 public class RetryUtils {
+    private RetryUtils() {
+    }
 
-    public static ExchangeFilterFunction getRetryFilter(String clientName, ApplicationConfig.RetryConfig retryConfig) {
+    public static ExchangeFilterFunction getRetryFilter(String clientName, RetryConfig retryConfig) {
         Retry retry = getRetry(clientName, retryConfig);
         return (request, next) -> next.exchange(request)
             .flatMap(clientResponse -> Mono.just(clientResponse)
@@ -22,8 +25,8 @@ public class RetryUtils {
             .retryWhen(retry);
     }
 
-    private static Retry getRetry(String clientName, ApplicationConfig.RetryConfig retryConfig) {
-        ApplicationConfig.RetryConfig.RetryItem retryItem = retryConfig.retryItems().stream()
+    private static Retry getRetry(String clientName, RetryConfig retryConfig) {
+        RetryConfig.RetryItem retryItem = retryConfig.retryItems().stream()
             .filter(item -> item.clientName().equals(clientName)).findFirst()
             .orElseThrow(() -> new RuntimeException("No such client in config"));
         return switch (retryItem.type()) {

@@ -1,4 +1,4 @@
-package edu.java.retry;
+package utils.retry.type;
 
 import java.time.Duration;
 import java.util.function.Predicate;
@@ -15,7 +15,7 @@ public class LinearRetry extends Retry {
     public final Duration minBackoff;
     public final Duration maxBackoff;
     public final Duration increment;
-    public final long maxAttempts;
+    public final Long maxAttempts;
     public final Predicate<Throwable> errorFilter;
     public final Supplier<Scheduler> backoffSchedulerSupplier;
 
@@ -32,7 +32,12 @@ public class LinearRetry extends Retry {
         this.backoffSchedulerSupplier = backoffSchedulerSupplier;
     }
 
-    public static LinearRetry linearRetry(long maxAttempts, Duration minBackoff, Duration maxBackoff, Duration increment) {
+    public static LinearRetry linearRetry(
+        Long maxAttempts,
+        Duration minBackoff,
+        Duration maxBackoff,
+        Duration increment
+    ) {
         return new LinearRetry(
             minBackoff,
             maxBackoff,
@@ -74,7 +79,7 @@ public class LinearRetry extends Retry {
                         if (nextBackoff.compareTo(this.maxBackoff) > 0) {
                             nextBackoff = this.maxBackoff;
                         }
-                    } catch (ArithmeticException var19) {
+                    } catch (ArithmeticException exception) {
                         nextBackoff = this.maxBackoff;
                     }
                     return

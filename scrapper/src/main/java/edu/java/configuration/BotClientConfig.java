@@ -3,7 +3,7 @@ package edu.java.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
-import static edu.java.retry.RetryUtils.getRetryFilter;
+import static utils.retry.RetryUtils.getRetryFilter;
 
 @Configuration
 public class BotClientConfig {

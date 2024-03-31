@@ -1,12 +1,13 @@
 package edu.java.configuration;
 
-import edu.java.handlers.WebClientErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
+import utils.retry.RetryUtils;
 
 @Configuration
+@SuppressWarnings("MagicNumber")
 public class GitHubClientConfig {
     private final ApplicationConfig applicationConfig;
 
@@ -27,7 +28,7 @@ public class GitHubClientConfig {
                     )
                     .build()
             )
-            .filter(WebClientErrorHandler.errorHandler())
+            .filter(RetryUtils.getRetryFilter("github", applicationConfig.retry()))
             .baseUrl(applicationConfig.githubBaseUrl())
             .build();
     }

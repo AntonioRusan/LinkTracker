@@ -20,6 +20,23 @@ app:
         increment: 3s
         error-codes: 500
 
+      - client-name: github
+        type: exponential
+        max-attempts: 2
+        min-backoff: 1s
+        max-backoff: 15s
+        jitter: 0.75
+        error-codes: 404
+
+      - client-name: stackoverflow
+        type: constant
+        max-attempts: 5
+        min-backoff: 1s
+        max-backoff: 15s
+        error-codes:
+          - 404
+          - 500
+
 spring:
   application:
     name: scrapper
