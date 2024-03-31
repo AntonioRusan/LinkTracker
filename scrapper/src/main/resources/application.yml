@@ -10,6 +10,16 @@ app:
   stackoverflow_base_url: ${STACK_OVERFLOW_BASE_URL:https://api.stackexchange.com/2.3/}
   bot_api_url: ${BOT_API_URL:http://localhost:8090}
 
+  retry:
+    retryItems:
+      - client-name: bot
+        type: linear
+        max-attempts: 5
+        min-backoff: 1s
+        max-backoff: 15s
+        increment: 3s
+        error-codes: 500
+
 spring:
   application:
     name: scrapper
@@ -24,6 +34,9 @@ spring:
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
+
+  codec:
+    max-in-memory-size: 20MB
 
 server:
   port: 8080
