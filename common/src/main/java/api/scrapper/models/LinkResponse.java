@@ -5,21 +5,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.net.URI;
 import java.util.Objects;
 import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * LinkResponse
  */
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class LinkResponse {
 
     private Long id;
 
     private URI url;
-
-    public LinkResponse(Long id, URI url) {
-        this.id = id;
-        this.url = url;
-    }
 
     public LinkResponse id(Long id) {
         this.id = id;

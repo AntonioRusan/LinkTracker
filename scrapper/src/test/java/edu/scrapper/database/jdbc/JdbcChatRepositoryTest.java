@@ -48,7 +48,7 @@ public class JdbcChatRepositoryTest extends IntegrationTest {
     @Rollback
     void deleteTest() {
         Chat chat = new Chat(TEST_ID);
-        Integer updated = jdbcChatRepository.add(chat);
+        jdbcChatRepository.add(chat);
         Integer deleted = jdbcChatRepository.delete(TEST_ID);
         assertThat(deleted).isEqualTo(1);
     }

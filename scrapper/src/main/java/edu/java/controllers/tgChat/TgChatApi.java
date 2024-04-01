@@ -67,7 +67,8 @@ public interface TgChatApi {
             @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH)
             @PathVariable("id") Long id
     ) {
-        return getDelegate().unregisterChat(id);
+        getDelegate().unregisterChat(id);
+        return ResponseEntity.ok().build();
     }
 
     /**
@@ -107,7 +108,8 @@ public interface TgChatApi {
             @Parameter(name = "id", description = "", required = true, in = ParameterIn.PATH)
             @PathVariable("id") Long id
     ) {
-        return getDelegate().registerChat(id);
+        getDelegate().registerChat(id);
+        return ResponseEntity.ok().build();
     }
 
 }

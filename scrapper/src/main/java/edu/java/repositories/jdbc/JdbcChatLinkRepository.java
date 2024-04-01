@@ -20,10 +20,10 @@ public class JdbcChatLinkRepository implements ChatLinkRepositoryInterface {
     public List<Link> findAllLinksByChatId(Long chatId) {
         return jdbcClient.sql("""
                 SELECT l.*
-                FROM chat_link
+                FROM chat_link cl
                 INNER JOIN link l
-                ON l.id = chat_link.link_id
-                WHERE chat_link.chat_id = :chatId
+                ON l.id = cl.link_id
+                WHERE cl.chat_id = :chatId
                 """)
             .param("chatId", chatId)
             .query(Link.class)
@@ -34,10 +34,10 @@ public class JdbcChatLinkRepository implements ChatLinkRepositoryInterface {
     public List<Chat> findAllChatsByLinkId(Long linkId) {
         return jdbcClient.sql("""
                 SELECT c.*
-                FROM chat_link
+                FROM chat_link cl
                 INNER JOIN chat c
-                ON c.id = chat_link.chat_id
-                WHERE chat_link.link_id = :linkId
+                ON c.id = cl.chat_id
+                WHERE cl.link_id = :linkId
                 """)
             .param("linkId", linkId)
             .query(Chat.class)

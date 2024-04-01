@@ -74,7 +74,7 @@ public interface LinksApi {
         @Parameter(name = "RemoveLinkRequest", description = "", required = true) @Valid @RequestBody
         RemoveLinkRequest removeLinkRequest
     ) {
-        return getDelegate().removeLink(tgChatId, removeLinkRequest);
+        return ResponseEntity.ok(getDelegate().removeLink(tgChatId, removeLinkRequest));
     }
 
     /**
@@ -110,7 +110,7 @@ public interface LinksApi {
         @NotNull @Parameter(name = "Tg-Chat-Id", description = "", required = true, in = ParameterIn.HEADER)
         @RequestHeader(value = "Tg-Chat-Id", required = true) Long tgChatId
     ) {
-        return getDelegate().getAllLinks(tgChatId);
+        return ResponseEntity.ok(getDelegate().getAllLinks(tgChatId));
     }
 
     /**
@@ -154,7 +154,7 @@ public interface LinksApi {
         @Parameter(name = "AddLinkRequest", description = "", required = true) @Valid @RequestBody
         AddLinkRequest addLinkRequest
     ) {
-        return getDelegate().addLink(tgChatId, addLinkRequest);
+        return ResponseEntity.ok(getDelegate().addLink(tgChatId, addLinkRequest));
     }
 
 }

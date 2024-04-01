@@ -15,13 +15,12 @@ import edu.java.repositories.jooq.JooqChatRepository;
 import edu.java.repositories.jooq.JooqGitHubLinkRepository;
 import edu.java.repositories.jooq.JooqLinkRepository;
 import edu.java.repositories.jooq.JooqStackOverflowLinkRepository;
+import jakarta.transaction.Transactional;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import static edu.java.exceptions.api.ApiError.LINK_ALREADY_ADDED;
 import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
@@ -50,16 +49,14 @@ public class JooqLinksServiceImpl implements LinksService {
     }
 
     @Override
-    public ResponseEntity<ListLinksResponse> getAllLinks(Long tgChatId) {
+    @Transactional
+    public ListLinksResponse getAllLinks(Long tgChatId) {
         if (chatRepository.findById(tgChatId).isPresent()) {
-            return new ResponseEntity<>(
-                new ListLinksResponse(
-                    chatLinkRepository.findAllLinksByChatId(tgChatId)
-                        .stream()
-                        .map(link -> new LinkResponse(link.id(), URI.create(link.url())))
-                        .toList()
-                ),
-                HttpStatus.OK
+            return new ListLinksResponse(
+                chatLinkRepository.findAllLinksByChatId(tgChatId)
+                    .stream()
+                    .map(link -> new LinkResponse(link.id(), URI.create(link.url())))
+                    .toList()
             );
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
@@ -67,7 +64,8 @@ public class JooqLinksServiceImpl implements LinksService {
     }
 
     @Override
-    public ResponseEntity<LinkResponse> addLink(
+    @Transactional
+    public LinkResponse addLink(
         Long tgChatId,
         AddLinkRequest addLinkRequest
     ) {
@@ -97,10 +95,7 @@ public class JooqLinksServiceImpl implements LinksService {
                     }
                 }
                 chatLinkRepository.add(tgChatId, addedLinkId);
-                return new ResponseEntity<>(
-                    new LinkResponse(addedLinkId, addLinkRequest.getLink()),
-                    HttpStatus.OK
-                );
+                return new LinkResponse(addedLinkId, addLinkRequest.getLink());
             }
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
@@ -108,7 +103,8 @@ public class JooqLinksServiceImpl implements LinksService {
     }
 
     @Override
-    public ResponseEntity<LinkResponse> removeLink(
+    @Transactional
+    public LinkResponse removeLink(
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
     ) {
@@ -122,10 +118,7 @@ public class JooqLinksServiceImpl implements LinksService {
                 Link link = foundLinkOpt.get();
                 chatLinkRepository.delete(tgChatId, link.id());
                 //linkRepository.delete(link.id());
-                return new ResponseEntity<>(
-                    new LinkResponse(link.id(), URI.create(link.url())),
-                    HttpStatus.OK
-                );
+                return new LinkResponse(link.id(), URI.create(link.url()));
             } else {
                 throw new NotFoundException(LINK_NOT_FOUND);
             }

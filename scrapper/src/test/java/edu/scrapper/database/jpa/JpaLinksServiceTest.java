@@ -6,9 +6,7 @@ import api.scrapper.models.ListLinksResponse;
 import edu.java.ScrapperApplication;
 import edu.java.models.GitHubLink;
 import edu.java.models.StackOverflowLink;
-import edu.java.services.links.JpaLinksServiceImpl;
 import edu.java.services.links.LinksService;
-import edu.java.services.tgChat.JpaTgChatServiceImpl;
 import edu.java.services.tgChat.TgChatService;
 import edu.scrapper.database.IntegrationTest;
 import java.net.URI;
@@ -16,11 +14,10 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jpa"})
@@ -39,35 +36,28 @@ public class JpaLinksServiceTest extends IntegrationTest {
     @Transactional
     @Rollback
     void addLinkTest() {
-        ResponseEntity<Void> chatResult = chatService.registerChat(CHAT_TEST_ID);
-        assertThat(chatResult.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        ResponseEntity<LinkResponse> linkResult =
-            linksService.addLink(CHAT_TEST_ID, new AddLinkRequest(URI.create(GIT_HUB_TEST_URL)));
-        assertThat(linkResult.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
+        assertDoesNotThrow(() -> chatService.registerChat(CHAT_TEST_ID));
+        assertDoesNotThrow(() -> linksService.addLink(CHAT_TEST_ID, new AddLinkRequest(URI.create(GIT_HUB_TEST_URL))));
     }
 
     @Test
     @Transactional
     @Rollback
     void getAllLinkTest() {
-        ResponseEntity<Void> chatResult = chatService.registerChat(CHAT_TEST_ID);
-        assertThat(chatResult.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        ResponseEntity<LinkResponse> linkResult =
-            linksService.addLink(CHAT_TEST_ID, new AddLinkRequest(URI.create(GIT_HUB_TEST_URL)));
-        assertThat(linkResult.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        ResponseEntity<ListLinksResponse> allLinksResult = linksService.getAllLinks(CHAT_TEST_ID);
-        assertThat(allLinksResult.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(200));
-        assertThat(allLinksResult.getBody().getLinks().getFirst().getUrl().toString()).isEqualTo(GIT_HUB_TEST_URL);
+        assertDoesNotThrow(() -> chatService.registerChat(CHAT_TEST_ID));
+        assertDoesNotThrow(() -> linksService.addLink(CHAT_TEST_ID, new AddLinkRequest(URI.create(GIT_HUB_TEST_URL))));
+        ListLinksResponse allLinksResult = linksService.getAllLinks(CHAT_TEST_ID);
+        assertThat(allLinksResult.getLinks().getFirst().getUrl().toString()).isEqualTo(GIT_HUB_TEST_URL);
     }
 
     @Test
     @Transactional
     @Rollback
     void addGitHubLinkTest() {
-        ResponseEntity<Void> chatResult = chatService.registerChat(CHAT_TEST_ID);
-        ResponseEntity<LinkResponse> addLinkResult =
+        chatService.registerChat(CHAT_TEST_ID);
+        LinkResponse addLinkResult =
             linksService.addLink(CHAT_TEST_ID, new AddLinkRequest(URI.create(GIT_HUB_TEST_URL)));
-        Optional<GitHubLink> gitHubResult = linksService.findGitHubByLinkId(addLinkResult.getBody().getId());
+        Optional<GitHubLink> gitHubResult = linksService.findGitHubByLinkId(addLinkResult.getId());
         assertTrue(gitHubResult.isPresent());
     }
 
@@ -75,11 +65,11 @@ public class JpaLinksServiceTest extends IntegrationTest {
     @Transactional
     @Rollback
     void addStackOverflowLinkTest() {
-        ResponseEntity<Void> chatResult = chatService.registerChat(CHAT_TEST_ID);
-        ResponseEntity<LinkResponse> addLinkResult =
+        chatService.registerChat(CHAT_TEST_ID);
+        LinkResponse addLinkResult =
             linksService.addLink(CHAT_TEST_ID, new AddLinkRequest(URI.create(STACKOVERFLOW_TEST_URL)));
         Optional<StackOverflowLink> stackOverflowResult =
-            linksService.findStackOverflowByLinkId(addLinkResult.getBody().getId());
+            linksService.findStackOverflowByLinkId(addLinkResult.getId());
         assertTrue(stackOverflowResult.isPresent());
     }
 }

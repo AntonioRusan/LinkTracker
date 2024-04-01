@@ -56,9 +56,9 @@ public class JooqLinkRepositoryTest extends IntegrationTest {
     @Rollback
     void findAllTest() {
         Link link = Link.create(TEST_URL);
-        Long addedId1 = jooqLinkRepository.add(link);
+        jooqLinkRepository.add(link);
         link = Link.create("test2.com");
-        Long addedId2 = jooqLinkRepository.add(link);
+        jooqLinkRepository.add(link);
         List<Link> linksFromDb = jooqLinkRepository.findAll();
         assertThat(linksFromDb.size()).isEqualTo(2);
     }

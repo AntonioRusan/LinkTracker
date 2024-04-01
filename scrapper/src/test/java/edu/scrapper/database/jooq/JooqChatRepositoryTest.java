@@ -48,7 +48,7 @@ public class JooqChatRepositoryTest extends IntegrationTest {
     @Rollback
     void deleteTest() {
         Chat chat = new Chat(TEST_ID);
-        Integer updated = jooqChatRepository.add(chat);
+        jooqChatRepository.add(chat);
         Integer deleted = jooqChatRepository.delete(TEST_ID);
         assertThat(deleted).isEqualTo(1);
     }

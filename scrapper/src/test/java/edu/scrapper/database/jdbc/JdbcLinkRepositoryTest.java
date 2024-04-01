@@ -56,9 +56,9 @@ public class JdbcLinkRepositoryTest extends IntegrationTest {
     @Rollback
     void findAllTest() {
         Link link = Link.create(TEST_URL);
-        Long addedId1 = jdbcLinkRepository.add(link);
+        jdbcLinkRepository.add(link);
         link = Link.create("test2.com");
-        Long addedId2 = jdbcLinkRepository.add(link);
+        jdbcLinkRepository.add(link);
         List<Link> linksFromDb = jdbcLinkRepository.findAll();
         assertThat(linksFromDb.size()).isEqualTo(2);
     }

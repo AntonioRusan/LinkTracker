@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * ApiErrorResponse
  */
-
-public class ApiErrorResponse {
+@NoArgsConstructor @AllArgsConstructor public class ApiErrorResponse {
 
     private String description;
 
@@ -21,22 +22,7 @@ public class ApiErrorResponse {
 
     private String exceptionMessage;
 
-    @Valid
-    private List<String> stacktrace;
-
-    public ApiErrorResponse(
-        String description,
-        String code,
-        String exceptionName,
-        String exceptionMessage,
-        List<String> stacktrace
-    ) {
-        this.description = description;
-        this.code = code;
-        this.exceptionName = exceptionName;
-        this.exceptionMessage = exceptionMessage;
-        this.stacktrace = stacktrace;
-    }
+    @Valid private List<String> stacktrace;
 
     public ApiErrorResponse description(String description) {
         this.description = description;
@@ -49,8 +35,7 @@ public class ApiErrorResponse {
      * @return description
      */
 
-    @Schema(name = "description", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @JsonProperty("description")
+    @Schema(name = "description", requiredMode = Schema.RequiredMode.NOT_REQUIRED) @JsonProperty("description")
     public String getDescription() {
         return description;
     }
@@ -70,8 +55,7 @@ public class ApiErrorResponse {
      * @return code
      */
 
-    @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @JsonProperty("code")
+    @Schema(name = "code", requiredMode = Schema.RequiredMode.NOT_REQUIRED) @JsonProperty("code")
     public String getCode() {
         return code;
     }
@@ -91,8 +75,7 @@ public class ApiErrorResponse {
      * @return exceptionName
      */
 
-    @Schema(name = "exceptionName", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @JsonProperty("exceptionName")
+    @Schema(name = "exceptionName", requiredMode = Schema.RequiredMode.NOT_REQUIRED) @JsonProperty("exceptionName")
     public String getExceptionName() {
         return exceptionName;
     }
@@ -113,8 +96,7 @@ public class ApiErrorResponse {
      */
 
     @Schema(name = "exceptionMessage", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @JsonProperty("exceptionMessage")
-    public String getExceptionMessage() {
+    @JsonProperty("exceptionMessage") public String getExceptionMessage() {
         return exceptionMessage;
     }
 
@@ -141,8 +123,7 @@ public class ApiErrorResponse {
      * @return stacktrace
      */
 
-    @Schema(name = "stacktrace", requiredMode = Schema.RequiredMode.NOT_REQUIRED)
-    @JsonProperty("stacktrace")
+    @Schema(name = "stacktrace", requiredMode = Schema.RequiredMode.NOT_REQUIRED) @JsonProperty("stacktrace")
     public List<String> getStacktrace() {
         return stacktrace;
     }
@@ -151,8 +132,7 @@ public class ApiErrorResponse {
         this.stacktrace = stacktrace;
     }
 
-    @Override
-    public boolean equals(Object o) {
+    @Override public boolean equals(Object o) {
         if (this == o) {
             return true;
         }
@@ -167,13 +147,11 @@ public class ApiErrorResponse {
             && Objects.equals(this.stacktrace, apiErrorResponse.stacktrace);
     }
 
-    @Override
-    public int hashCode() {
+    @Override public int hashCode() {
         return Objects.hash(description, code, exceptionName, exceptionMessage, stacktrace);
     }
 
-    @Override
-    public String toString() {
+    @Override public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("class ApiErrorResponse {\n");
         sb.append("    description: ").append(toIndentedString(description)).append("\n");

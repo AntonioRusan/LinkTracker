@@ -5,21 +5,17 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import java.net.URI;
 import java.util.Objects;
 import javax.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * AddLinkRequest
  */
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class AddLinkRequest {
 
     private URI link;
-
-    public AddLinkRequest() {
-    }
-
-    public AddLinkRequest(URI link) {
-        this.link = link;
-    }
 
     public AddLinkRequest link(URI link) {
         this.link = link;
