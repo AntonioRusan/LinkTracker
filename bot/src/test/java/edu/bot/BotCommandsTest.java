@@ -110,7 +110,10 @@ public class BotCommandsTest {
         );
 
         SendMessage expectedResponse =
-            new SendMessage(chatId, "Список команд:\n" + String.join("\n", botMessageProcessor.commandDescriptionList));
+            new SendMessage(
+                chatId,
+                "Список команд:\n" + String.join("\n", botMessageProcessor.commandDescriptionList())
+            );
 
         SendMessage actualResponse = botMessageProcessor.processMessage(fakeUpdate);
 

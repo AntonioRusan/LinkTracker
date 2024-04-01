@@ -3,6 +3,7 @@ package edu.java.bot.services.updates_api;
 import api.bot.models.LinkUpdate;
 import com.pengrad.telegrambot.TelegramBot;
 import com.pengrad.telegrambot.request.SendMessage;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -11,15 +12,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @SuppressWarnings({"MagicNumber", "MultipleStringLiterals"})
+@RequiredArgsConstructor
 public class UpdatesApiServiceImpl implements UpdatesApiService {
     private final TelegramBot telegramBot;
     private final static Logger LOGGER = LogManager.getLogger();
-
-    public UpdatesApiServiceImpl(
-        TelegramBot telegramBot
-    ) {
-        this.telegramBot = telegramBot;
-    }
 
     @Override
     public ResponseEntity<Void> updatesPost(LinkUpdate linkUpdate) {

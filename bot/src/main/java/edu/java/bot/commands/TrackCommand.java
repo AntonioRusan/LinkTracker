@@ -6,16 +6,11 @@ import edu.java.bot.services.bot_command.BotCommandService;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class TrackCommand implements Command {
-    private BotCommandService botCommandService;
-
-    public TrackCommand() {
-    }
-
-    public TrackCommand(BotCommandService botCommandService) {
-        this.botCommandService = botCommandService;
-    }
+    private final BotCommandService botCommandService;
 
     @Override
     public String commandName() {

@@ -16,27 +16,24 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class BotMessageProcessor implements MessageProcessor {
-    private final BotCommandService botCommandService;
+
+    private final List<Command> commandList;
 
     public BotMessageProcessor(BotCommandService botCommandService) {
-        this.botCommandService = botCommandService;
-        commandList = List.of(
+        List<Command> commands = new java.util.ArrayList<>(List.of(
             new StartCommand(botCommandService),
             new ListCommand(botCommandService),
-            new HelpCommand(commandDescriptionList),
             new TrackCommand(botCommandService),
             new UntrackCommand(botCommandService)
-        );
+        ));
+        HelpCommand helpCommand = new HelpCommand(commands.stream().map(Command::commandNameAndDescription).toList());
+        commands.add(helpCommand);
+        this.commandList = commands;
     }
 
-    public final List<String> commandDescriptionList = List.of(
-        new StartCommand().commandNameAndDescription(),
-        new ListCommand().commandNameAndDescription(),
-        new HelpCommand().commandNameAndDescription(),
-        new TrackCommand().commandNameAndDescription(),
-        new UntrackCommand().commandNameAndDescription()
-    );
-    private final List<Command> commandList;
+    public List<String> commandDescriptionList() {
+        return commandList.stream().map(Command::commandNameAndDescription).toList();
+    }
 
     @Override
     public List<Command> commandList() {

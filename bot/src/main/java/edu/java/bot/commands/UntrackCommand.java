@@ -6,17 +6,12 @@ import edu.java.bot.services.bot_command.BotCommandService;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 public class UntrackCommand implements Command {
 
-    private BotCommandService botCommandService;
-
-    public UntrackCommand() {
-    }
-
-    public UntrackCommand(BotCommandService botCommandService) {
-        this.botCommandService = botCommandService;
-    }
+    private final BotCommandService botCommandService;
 
     @Override
     public String commandName() {
