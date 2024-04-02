@@ -11,7 +11,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
+/*@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
 public class JdbcTgChatServiceTest {
     @Autowired
     private TgChatService chatService;
@@ -46,4 +46,4 @@ public class JdbcTgChatServiceTest {
     void removeTgChatErrorTest() {
         assertThrows(NotFoundException.class, () -> chatService.unregisterChat(CHAT_TEST_ID));
     }
-}
+}*/

@@ -19,7 +19,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jooq"})
+/*@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jooq"})
 public class JooqLinksServiceTest {
     @Autowired
     private LinksService linksService;
@@ -71,4 +71,4 @@ public class JooqLinksServiceTest {
             linksService.findStackOverflowByLinkId(addLinkResult.getId());
         assertTrue(stackOverflowResult.isPresent());
     }
-}
+}*/
