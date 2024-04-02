@@ -10,6 +10,7 @@ import edu.java.services.links.LinksService;
 import edu.java.services.tgChat.TgChatService;
 import java.net.URI;
 import java.util.Optional;
+import edu.scrapper.database.IntegrationTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +20,8 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-/*@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
-public class JdbcLinksServiceTest {
+@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
+public class JdbcLinksServiceTest extends IntegrationTest {
     @Autowired
     private LinksService linksService;
     @Autowired
@@ -71,4 +72,4 @@ public class JdbcLinksServiceTest {
             linksService.findStackOverflowByLinkId(addLinkResult.getId());
         assertTrue(stackOverflowResult.isPresent());
     }
-}*/
+}

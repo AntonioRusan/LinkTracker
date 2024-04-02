@@ -74,9 +74,4 @@ public class JpaLinksServiceTest extends IntegrationTest {
             linksService.findStackOverflowByLinkId(addLinkResult.getId());
         assertTrue(stackOverflowResult.isPresent());
     }
-
-    @DynamicPropertySource
-    static void setJpaDatabaseAccessType(DynamicPropertyRegistry registry) {
-        registry.add("app.database-access-type", () -> "jpa");
-    }
 }
