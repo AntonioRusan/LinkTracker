@@ -11,7 +11,6 @@ import edu.java.models.Link;
 import edu.java.models.StackOverflowLink;
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,31 +39,19 @@ public interface LinksService {
         return null;
     }
 
-    default List<Link> findOlderThanIntervalLinks(Duration interval) {
-        return new ArrayList<>();
-    }
+    List<Link> findOlderThanIntervalLinks(Duration interval);
 
-    default void updateLinkCheckAndUpdatedTime(Long linkId, OffsetDateTime lastCheckTime, OffsetDateTime updatedAt) {
-    }
+    void updateLinkCheckAndUpdatedTime(Long linkId, OffsetDateTime lastCheckTime, OffsetDateTime updatedAt);
 
-    default void updateLinkCheckTime(Long linkId, OffsetDateTime lastCheckTime) {
-    }
+    void updateLinkCheckTime(Long linkId, OffsetDateTime lastCheckTime);
 
-    default List<Chat> findAllChatByLinkId(Long linkId) {
-        return new ArrayList<>();
-    }
+    List<Chat> findAllChatByLinkId(Long linkId);
 
-    default Optional<GitHubLink> findGitHubByLinkId(Long linkId) {
-        return Optional.empty();
-    }
+    Optional<GitHubLink> findGitHubByLinkId(Long linkId);
 
-    default void updateGitHubLinkLastPullRequestDate(Long gitHubLinkId, OffsetDateTime pullRequestDate) {
-    }
+    void updateGitHubLinkLastPullRequestDate(Long gitHubLinkId, OffsetDateTime pullRequestDate);
 
-    default Optional<StackOverflowLink> findStackOverflowByLinkId(Long linkId) {
-        return Optional.empty();
-    }
+    Optional<StackOverflowLink> findStackOverflowByLinkId(Long linkId);
 
-    default void updateStackOverflowLastAnswerDate(Long gitHubLinkId, OffsetDateTime answerDate) {
-    }
+    void updateStackOverflowLastAnswerDate(Long gitHubLinkId, OffsetDateTime answerDate);
 }

@@ -7,10 +7,8 @@ import edu.java.controllers.tgChat.TgChatApiController;
  */
 
 public interface TgChatService {
-    default void unregisterChat(Long id) {
-    }
+    void unregisterChat(Long id);
 
-    default void registerChat(Long id) {
-    }
+    void registerChat(Long id);
 
 }
