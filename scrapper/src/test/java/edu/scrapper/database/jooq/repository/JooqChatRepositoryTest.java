@@ -1,8 +1,8 @@
-package edu.scrapper.database.jdbc;
+package edu.scrapper.database.jooq.repository;
 
 import edu.java.ScrapperApplication;
 import edu.java.models.Chat;
-import edu.java.repositories.jdbc.JdbcChatRepository;
+import edu.java.repositories.jooq.JooqChatRepository;
 import edu.scrapper.database.IntegrationTest;
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
-public class JdbcChatRepositoryTest extends IntegrationTest {
+@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jooq"})
+public class JooqChatRepositoryTest extends IntegrationTest {
     @Autowired
-    private JdbcChatRepository jdbcChatRepository;
+    private JooqChatRepository jooqChatRepository;
 
     private static final Long TEST_ID = 111L;
 
@@ -26,7 +26,7 @@ public class JdbcChatRepositoryTest extends IntegrationTest {
     @Rollback
     void addTest() {
         Chat chat = new Chat(TEST_ID);
-        Integer updated = jdbcChatRepository.add(chat);
+        Integer updated = jooqChatRepository.add(chat);
         assertThat(updated).isEqualTo(1);
     }
 
@@ -35,10 +35,10 @@ public class JdbcChatRepositoryTest extends IntegrationTest {
     @Rollback
     void findByIdTest() {
         Chat chat = new Chat(TEST_ID);
-        Integer updated = jdbcChatRepository.add(chat);
+        Integer updated = jooqChatRepository.add(chat);
         assertThat(updated).isEqualTo(1);
 
-        Optional<Chat> chatFromDb = jdbcChatRepository.findById(TEST_ID);
+        Optional<Chat> chatFromDb = jooqChatRepository.findById(TEST_ID);
         assertTrue(chatFromDb.isPresent());
         assertThat(chatFromDb.get().id()).isEqualTo(TEST_ID);
     }
@@ -48,8 +48,8 @@ public class JdbcChatRepositoryTest extends IntegrationTest {
     @Rollback
     void deleteTest() {
         Chat chat = new Chat(TEST_ID);
-        jdbcChatRepository.add(chat);
-        Integer deleted = jdbcChatRepository.delete(TEST_ID);
+        jooqChatRepository.add(chat);
+        Integer deleted = jooqChatRepository.delete(TEST_ID);
         assertThat(deleted).isEqualTo(1);
     }
 
@@ -58,11 +58,11 @@ public class JdbcChatRepositoryTest extends IntegrationTest {
     @Rollback
     void findAllTest() {
         Chat chat = new Chat(TEST_ID);
-        jdbcChatRepository.add(chat);
+        jooqChatRepository.add(chat);
         chat = new Chat(TEST_ID + 1);
-        jdbcChatRepository.add(chat);
+        jooqChatRepository.add(chat);
 
-        List<Chat> chatsFromDb = jdbcChatRepository.findAll();
+        List<Chat> chatsFromDb = jooqChatRepository.findAll();
         assertThat(chatsFromDb.size()).isEqualTo(2);
     }
 }

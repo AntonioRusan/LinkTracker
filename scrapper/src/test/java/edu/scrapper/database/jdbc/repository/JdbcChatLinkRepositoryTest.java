@@ -1,4 +1,4 @@
-package edu.scrapper.database.jdbc;
+package edu.scrapper.database.jdbc.repository;
 
 import edu.java.ScrapperApplication;
 import edu.java.models.Chat;
