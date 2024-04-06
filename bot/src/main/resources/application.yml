@@ -2,6 +2,8 @@ app:
   telegram-token: ${TELEGRAM_BOT_TOKEN}
   scrapper_api_url: ${SCRAPPER_API_URL:http://localhost:8080}
 
+  scrapper-topic-name: link-updates
+
 spring:
   application:
     name: bot

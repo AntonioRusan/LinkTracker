@@ -15,7 +15,9 @@ public record ApplicationConfig(
     AccessType databaseAccessType,
     String githubBaseUrl,
     String stackoverflowBaseUrl,
-    String botApiUrl
+    String botApiUrl,
+    String linkUpdatesTopicName,
+    Boolean useQueue
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }

@@ -1,5 +1,6 @@
 package edu.java.configuration.kafka;
 
+import api.bot.models.LinkUpdate;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -12,9 +13,11 @@ import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 
 @Configuration
-public class KafkaProducerConfig {
+public class KafkaProducerConfiguration {
     @Bean
-    public ProducerFactory<String, Object> producerFactory(KafkaProducerConfigProperties kafkaProducerConfigProperties) {
+    public ProducerFactory<String, LinkUpdate> producerFactory(
+        KafkaProducerConfigProperties kafkaProducerConfigProperties
+    ) {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProducerConfigProperties.bootstrapServers());
         props.put(ProducerConfig.CLIENT_ID_CONFIG, kafkaProducerConfigProperties.clientId());
@@ -37,7 +40,7 @@ public class KafkaProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Object> kafkaTemplate(ProducerFactory<String, Object> producerFactory) {
+    public KafkaTemplate<String, LinkUpdate> kafkaTemplate(ProducerFactory<String, LinkUpdate> producerFactory) {
         return new KafkaTemplate<>(producerFactory);
     }
 }

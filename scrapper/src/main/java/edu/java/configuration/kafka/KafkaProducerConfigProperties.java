@@ -1,12 +1,12 @@
 package edu.java.configuration.kafka;
 
+import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
-import java.time.Duration;
 
 @Validated
 @ConfigurationProperties(prefix = "kafka")
-public record KafkaProducerConfigProperties (
+public record KafkaProducerConfigProperties(
     String bootstrapServers,
     String clientId,
     String acksMode,
@@ -19,5 +19,5 @@ public record KafkaProducerConfigProperties (
     String securityProtocol,
     String saslMechanism,
     String saslJaasConfig
-){
+) {
 }

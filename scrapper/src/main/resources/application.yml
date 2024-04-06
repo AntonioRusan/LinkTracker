@@ -10,6 +10,8 @@ app:
   stackoverflow_base_url: ${STACK_OVERFLOW_BASE_URL:https://api.stackexchange.com/2.3/}
   bot_api_url: ${BOT_API_URL:http://localhost:8090}
 
+  link-updates-topic-name: link-updates
+  use-queue: true
 spring:
   application:
     name: scrapper
@@ -34,6 +36,8 @@ kafka:
   batchSize: 100_000
   maxInFlightPerConnection: 5
   enableIdempotence: true
+
+
 
 server:
   port: 8080
