@@ -46,20 +46,6 @@ public class KafkaUpdatesConsumerTest extends IntegrationTest {
     private LinkUpdatesHandler linkUpdatesHandler;
     private static final String testUrl = "https://stackoverflow.com/questions/1/test-question";
 
-    @Bean
-    public NewTopic newTopic() {
-        return TopicBuilder.name(applicationConfig.scrapperTopicName())
-            .compact()
-            .build();
-    }
-
-    @Bean
-    public NewTopic newTopicDlt() {
-        return TopicBuilder.name(applicationConfig.scrapperTopicName() + "-dlt")
-            .compact()
-            .build();
-    }
-
     @Test
     void updatesConsumerTest() throws URISyntaxException {
         LinkUpdate updateRequest = new LinkUpdate(
