@@ -18,15 +18,19 @@ import liquibase.exception.LiquibaseException;
 import liquibase.resource.DirectoryResourceAccessor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.JdbcDatabaseContainer;
+import org.testcontainers.containers.KafkaContainer;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
 public abstract class IntegrationTest {
     public static PostgreSQLContainer<?> POSTGRES;
+    public static KafkaContainer KAFKA;
     private final static Logger LOGGER = LogManager.getLogger();
 
     static {
@@ -37,6 +41,9 @@ public abstract class IntegrationTest {
         POSTGRES.start();
 
         runMigrations(POSTGRES);
+
+        KAFKA = new KafkaContainer(DockerImageName.parse("confluentinc/cp-kafka:7.4.4"));
+        KAFKA.start();
     }
 
     private static void runMigrations(JdbcDatabaseContainer<?> dbContainer) {
@@ -71,10 +78,12 @@ public abstract class IntegrationTest {
     }
 
     @DynamicPropertySource
-    static void jdbcProperties(DynamicPropertyRegistry registry) {
+    static void jdbcAndKafkaProperties(DynamicPropertyRegistry registry) {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
+
+        registry.add("kafka.bootstrapServers", KAFKA::getBootstrapServers);
     }
 
 }

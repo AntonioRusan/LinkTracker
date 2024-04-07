@@ -28,7 +28,6 @@ springdoc:
 kafka:
   bootstrapServers: localhost:29092
   groupId: bot
-  autoOffsetReset: latest
-  maxPollIntervalMs: 300_000
+  autoOffsetReset: earliest
   enableAutoCommit: false
   concurrency: 1

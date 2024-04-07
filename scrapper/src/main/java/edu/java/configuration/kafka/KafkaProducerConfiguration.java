@@ -21,18 +21,6 @@ public class KafkaProducerConfiguration {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProducerConfigProperties.bootstrapServers());
         props.put(ProducerConfig.CLIENT_ID_CONFIG, kafkaProducerConfigProperties.clientId());
-        props.put(ProducerConfig.ACKS_CONFIG, kafkaProducerConfigProperties.acksMode());
-        props.put(
-            ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG,
-            (int) kafkaProducerConfigProperties.deliveryTimeout().toMillis()
-        );
-        props.put(ProducerConfig.LINGER_MS_CONFIG, kafkaProducerConfigProperties.lingerMs());
-        props.put(ProducerConfig.BATCH_SIZE_CONFIG, kafkaProducerConfigProperties.batchSize());
-        props.put(
-            ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION,
-            kafkaProducerConfigProperties.maxInFlightPerConnection()
-        );
-        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, kafkaProducerConfigProperties.enableIdempotence());
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         return new DefaultKafkaProducerFactory<>(
             props,

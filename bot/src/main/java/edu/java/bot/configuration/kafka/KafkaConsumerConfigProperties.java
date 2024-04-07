@@ -9,7 +9,6 @@ public record KafkaConsumerConfigProperties(
     String bootstrapServers,
     String groupId,
     String autoOffsetReset,
-    Integer maxPollIntervalMs,
     Boolean enableAutoCommit,
     Integer concurrency
 ) {

@@ -30,14 +30,6 @@ spring:
 kafka:
   bootstrapServers: localhost:29092
   clientId: scrapper
-  acksMode: all
-  deliveryTimeout: 60s
-  lingerMs: 12_000
-  batchSize: 100_000
-  maxInFlightPerConnection: 5
-  enableIdempotence: true
-
-
 
 server:
   port: 8080
