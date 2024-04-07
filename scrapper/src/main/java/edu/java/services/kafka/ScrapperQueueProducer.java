@@ -22,9 +22,9 @@ public class ScrapperQueueProducer {
             kafkaTemplate.send(applicationConfig.linkUpdatesTopicName(), update);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
-                LOGGER.info("Sent message=[" + update + "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                LOGGER.info("Отправлено в очередь сообщение = {}.", update);
             } else {
-                LOGGER.error("Unable to send message=[" + update + "] due to : " + ex.getMessage());
+                LOGGER.error("Ошибка отправки сообщения = {}. Ошибка: {}" + ex.getMessage(), update, ex.getMessage());
             }
         });
     }

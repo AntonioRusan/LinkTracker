@@ -34,9 +34,11 @@ public class KafkaProducerConfiguration {
         );
         props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, kafkaProducerConfigProperties.enableIdempotence());
         props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(props);
+        return new DefaultKafkaProducerFactory<>(
+            props,
+            new StringSerializer(),
+            new JsonSerializer<LinkUpdate>()
+        );
     }
 
     @Bean

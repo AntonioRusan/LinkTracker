@@ -3,12 +3,12 @@ package edu.java.configuration.updates_notification;
 import edu.java.services.kafka.ScrapperQueueProducer;
 import edu.java.services.updates_notification.KafkaUpdatesNotificationServiceImpl;
 import edu.java.services.updates_notification.UpdatesNotificationService;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConditionalOnProperty(prefix = "app", name = "useQueue", havingValue = "true")
+@ConditionalOnExpression("${app.useQueue:true}")
 public class KafkaUpdatesNotificationConfig {
 
     @Bean

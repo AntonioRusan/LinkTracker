@@ -1,7 +1,6 @@
 package edu.java.bot.services.updates_api;
 
 import api.bot.models.LinkUpdate;
-import com.pengrad.telegrambot.TelegramBot;
 import edu.java.bot.handlers.LinkUpdatesHandler;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 @SuppressWarnings({"MagicNumber", "MultipleStringLiterals"})
 @RequiredArgsConstructor
 public class UpdatesApiServiceImpl implements UpdatesApiService {
-    private final TelegramBot telegramBot;
     private final LinkUpdatesHandler linkUpdatesHandler;
     private final static Logger LOGGER = LogManager.getLogger();
 

@@ -1,11 +1,11 @@
 package edu.java.schedulers;
 
 import api.bot.models.LinkUpdate;
-import edu.java.clients.bot.BotClient;
 import edu.java.configuration.ApplicationConfig;
 import edu.java.data_fetchers.DataFetcher;
 import edu.java.models.Chat;
 import edu.java.services.links.LinksService;
+import edu.java.services.updates_notification.UpdatesNotificationService;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class LinkUpdaterScheduler {
     private final ApplicationConfig applicationConfig;
     private final LinksService linksService;
     private final DataFetcher dataFetcher;
-    private final BotClient botClient;
+    private final UpdatesNotificationService updatesNotificationService;
 
     @Scheduled(fixedDelayString = "#{@scheduler.interval}")
     public void update() {
@@ -43,7 +43,7 @@ public class LinkUpdaterScheduler {
                         );
                         List<Long> tgChatIds =
                             linksService.findAllChatByLinkId(link.id()).stream().map(Chat::id).toList();
-                        botClient.sendUpdate(new LinkUpdate(
+                        updatesNotificationService.sendUpdateNotification(new LinkUpdate(
                             link.id(),
                             uri,
                             fetchedLinkData,
