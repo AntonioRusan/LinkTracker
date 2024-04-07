@@ -18,6 +18,7 @@ public class KafkaDeadLetterQueueProducerConfig {
     public ProducerFactory<String, LinkUpdate> producerFactory(KafkaConsumerConfigProperties kafkaConsumerProperties) {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaConsumerProperties.bootstrapServers());
+        props.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         return new DefaultKafkaProducerFactory<>(
             props,
             new StringSerializer(),

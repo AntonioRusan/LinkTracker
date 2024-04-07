@@ -53,6 +53,13 @@ public class KafkaUpdatesConsumerTest extends IntegrationTest {
             .build();
     }
 
+    @Bean
+    public NewTopic newTopicDlt() {
+        return TopicBuilder.name(applicationConfig.scrapperTopicName() + "-dlt")
+            .compact()
+            .build();
+    }
+
     @Test
     void updatesConsumerTest() throws URISyntaxException {
         LinkUpdate updateRequest = new LinkUpdate(
@@ -102,11 +109,14 @@ public class KafkaUpdatesConsumerTest extends IntegrationTest {
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "bot-test");
         consumerProps.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         consumerProps.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
+        consumerProps.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        consumerProps.put(JsonDeserializer.VALUE_DEFAULT_TYPE, LinkUpdate.class);
+        consumerProps.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
 
         KafkaConsumer<String, LinkUpdate> consumer = new KafkaConsumer(
             consumerProps,
             new StringDeserializer(),
-            new JsonDeserializer<LinkUpdate>()
+            new JsonDeserializer<>(LinkUpdate.class)
         );
         consumer.subscribe(List.of(applicationConfig.scrapperTopicName() + "-dlt"));
 
