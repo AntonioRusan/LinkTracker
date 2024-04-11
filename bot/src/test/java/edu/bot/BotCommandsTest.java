@@ -9,10 +9,14 @@ import edu.java.bot.models.User;
 import edu.java.bot.repositories.UserRepository;
 import edu.java.bot.services.bot_command.BotCommandService;
 import edu.java.bot.services.bot_command.BotCommandServiceImpl;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.List;
+import io.micrometer.core.instrument.simple.SimpleMeterRegistry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -21,6 +25,8 @@ public class BotCommandsTest {
     private final String userLastName = "Snow";
     private final Long chatId = 1L;
     private final User testUser = new User(chatId, userFirstName, userLastName);
+
+    private final MeterRegistry meterRegistry = new SimpleMeterRegistry();
 
     private Update getFakeUpdate(String fakeMessageText) {
 
@@ -47,7 +53,7 @@ public class BotCommandsTest {
         BotCommandService botCommandService = Mockito.mock(BotCommandServiceImpl.class);
         when(botCommandService.registerChat(chatId)).thenReturn("Вы успешно зарегистрированы!");
 
-        BotMessageProcessor botMessageProcessor = new BotMessageProcessor(botCommandService);
+        BotMessageProcessor botMessageProcessor = new BotMessageProcessor(botCommandService, meterRegistry);
 
         SendMessage expectedResponse = new SendMessage(chatId, "Привет, " + userFirstName
             + " " + userLastName + "!\n" + "Вы успешно зарегистрированы!");
@@ -66,7 +72,8 @@ public class BotCommandsTest {
         when(botCommandService.listLinks(chatId)).thenReturn("");
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
-            botCommandService
+            botCommandService,
+            meterRegistry
         );
 
         SendMessage expectedResponse = new SendMessage(chatId, "Нет отслеживаемых ссылок!");
@@ -87,7 +94,8 @@ public class BotCommandsTest {
         when(botCommandService.listLinks(chatId)).thenReturn(String.join(";\n", trackedUrls));
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
-            botCommandService
+            botCommandService,
+            meterRegistry
         );
 
         SendMessage expectedResponse =
@@ -106,7 +114,8 @@ public class BotCommandsTest {
         BotCommandService botCommandService = Mockito.mock(BotCommandServiceImpl.class);
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
-            botCommandService
+            botCommandService,
+            meterRegistry
         );
 
         SendMessage expectedResponse =
@@ -135,7 +144,8 @@ public class BotCommandsTest {
         userRepository.addUser(chatId, testUser);
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
-            botCommandService
+            botCommandService,
+            meterRegistry
         );
 
         SendMessage expectedResponse = new SendMessage(chatId, "Отслеживаем изменения по ссылке: " + url);
@@ -155,7 +165,8 @@ public class BotCommandsTest {
         BotCommandService botCommandService = Mockito.mock(BotCommandServiceImpl.class);
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
-            botCommandService
+            botCommandService,
+            meterRegistry
         );
 
         SendMessage expectedResponse = new SendMessage(chatId, "Введена неверная или пустая ссылка!");
@@ -181,7 +192,8 @@ public class BotCommandsTest {
         userRepository.addLinkToUser(chatId, url);
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
-            botCommandService
+            botCommandService,
+            meterRegistry
         );
 
         SendMessage expectedResponse = new SendMessage(chatId, "Прекращаем отслеживание изменений по ссылке: "
@@ -205,7 +217,8 @@ public class BotCommandsTest {
         userRepository.addUser(chatId, testUser);
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
-            botCommandService
+            botCommandService,
+            meterRegistry
         );
 
         SendMessage expectedResponse = new SendMessage(chatId, "Введена неверная или пустая ссылка!");

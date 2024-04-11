@@ -11,6 +11,8 @@ import edu.java.bot.commands.StartCommand;
 import edu.java.bot.commands.TrackCommand;
 import edu.java.bot.commands.UntrackCommand;
 import edu.java.bot.services.bot_command.BotCommandService;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -18,8 +20,12 @@ import org.springframework.stereotype.Component;
 public class BotMessageProcessor implements MessageProcessor {
 
     private final List<Command> commandList;
+    private final Counter handledUserMessagesCounter;
 
-    public BotMessageProcessor(BotCommandService botCommandService) {
+    public BotMessageProcessor(BotCommandService botCommandService, MeterRegistry meterRegistry) {
+        this.handledUserMessagesCounter = Counter.builder("handled_user_messages")
+            .description("a number of handles telegram user messages")
+            .register(meterRegistry);
         List<Command> commands = new java.util.ArrayList<>(List.of(
             new StartCommand(botCommandService),
             new ListCommand(botCommandService),
@@ -48,6 +54,8 @@ public class BotMessageProcessor implements MessageProcessor {
             if (update.message().text().startsWith(command.commandName())) {
                 response = command.handleCommand(update);
                 foundCommandFlag = true;
+                handledUserMessagesCounter.increment();
+                break;
             }
         }
         if (!foundCommandFlag) {
