@@ -25,7 +25,6 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.awaitility.Awaitility.await;
 
 @SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.use-queue=true"})
-@DirtiesContext
 public class KafkaUpdateNotificationTest extends IntegrationTest {
 
     @Autowired
