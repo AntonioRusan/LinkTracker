@@ -3,16 +3,11 @@ package edu.java.bot.commands;
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
 import edu.java.bot.services.bot_command.BotCommandService;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 public class StartCommand implements Command {
-    private BotCommandService botCommandService;
-
-    public StartCommand() {
-    }
-
-    public StartCommand(BotCommandService botCommandService) {
-        this.botCommandService = botCommandService;
-    }
+    private final BotCommandService botCommandService;
 
     @Override
     public String commandName() {

@@ -7,15 +7,13 @@ import edu.java.bot.clients.scrapper.ScrapperClient;
 import edu.java.bot.exceptions.api.base.ApiException;
 import java.net.URI;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class BotCommandServiceImpl implements BotCommandService {
     private final ScrapperClient scrapperClient;
-
-    public BotCommandServiceImpl(ScrapperClient scrapperClient) {
-        this.scrapperClient = scrapperClient;
-    }
 
     @Override
     public String registerChat(Long tgChatId) {

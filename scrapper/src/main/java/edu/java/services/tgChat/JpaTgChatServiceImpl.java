@@ -5,10 +5,9 @@ import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.jpa.ChatEntity;
 import edu.java.models.jpa.LinkEntity;
 import edu.java.repositories.jpa.JpaChatRepository;
+import jakarta.transaction.Transactional;
 import java.util.Optional;
 import java.util.Set;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_ALREADY_REGISTERED;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
@@ -20,29 +19,25 @@ public class JpaTgChatServiceImpl implements TgChatService {
     }
 
     @Override
-    public ResponseEntity<Void> unregisterChat(Long id) {
+    @Transactional
+    public void unregisterChat(Long id) {
         Optional<ChatEntity> chatOpt = chatRepository.findById(id);
         if (chatOpt.isPresent()) {
             ChatEntity chat = chatOpt.get();
             Set<LinkEntity> links = chat.getLinks();
             links.forEach(link -> link.deleteChat(chat));
-            return new ResponseEntity<>(
-                HttpStatus.OK
-            );
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
         }
     }
 
     @Override
-    public ResponseEntity<Void> registerChat(Long id) {
+    @Transactional
+    public void registerChat(Long id) {
         if (chatRepository.findById(id).isPresent()) {
             throw new ConflictException(TG_CHAT_ALREADY_REGISTERED);
         } else {
             chatRepository.save(new ChatEntity(id));
-            return new ResponseEntity<>(
-                HttpStatus.OK
-            );
         }
     }
 }

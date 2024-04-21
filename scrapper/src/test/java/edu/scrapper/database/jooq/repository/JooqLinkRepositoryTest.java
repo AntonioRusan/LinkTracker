@@ -1,8 +1,8 @@
-package edu.scrapper.database.jdbc;
+package edu.scrapper.database.jooq.repository;
 
 import edu.java.ScrapperApplication;
 import edu.java.models.Link;
-import edu.java.repositories.jdbc.JdbcLinkRepository;
+import edu.java.repositories.jooq.JooqLinkRepository;
 import edu.scrapper.database.IntegrationTest;
 import java.util.List;
 import java.util.Optional;
@@ -14,10 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
-public class JdbcLinkRepositoryTest extends IntegrationTest {
+@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jooq"})
+public class JooqLinkRepositoryTest extends IntegrationTest {
     @Autowired
-    private JdbcLinkRepository jdbcLinkRepository;
+    private JooqLinkRepository jooqLinkRepository;
 
     private static final String TEST_URL = "test.com";
 
@@ -26,7 +26,7 @@ public class JdbcLinkRepositoryTest extends IntegrationTest {
     @Rollback
     void addTest() {
         Link link = Link.create(TEST_URL);
-        Long addedId = jdbcLinkRepository.add(link);
+        Long addedId = jooqLinkRepository.add(link);
         assertTrue(addedId > 0);
     }
 
@@ -35,8 +35,8 @@ public class JdbcLinkRepositoryTest extends IntegrationTest {
     @Rollback
     void findByIdTest() {
         Link link = Link.create(TEST_URL);
-        Long addedId = jdbcLinkRepository.add(link);
-        Optional<Link> linkFromDb = jdbcLinkRepository.findById(addedId);
+        Long addedId = jooqLinkRepository.add(link);
+        Optional<Link> linkFromDb = jooqLinkRepository.findById(addedId);
         assertTrue(linkFromDb.isPresent());
         assertThat(linkFromDb.get().url()).isEqualTo(TEST_URL);
     }
@@ -46,8 +46,8 @@ public class JdbcLinkRepositoryTest extends IntegrationTest {
     @Rollback
     void deleteTest() {
         Link link = Link.create(TEST_URL);
-        Long addedId = jdbcLinkRepository.add(link);
-        Integer deleted = jdbcLinkRepository.delete(addedId);
+        Long addedId = jooqLinkRepository.add(link);
+        Integer deleted = jooqLinkRepository.delete(addedId);
         assertThat(deleted).isEqualTo(1);
     }
 
@@ -56,10 +56,10 @@ public class JdbcLinkRepositoryTest extends IntegrationTest {
     @Rollback
     void findAllTest() {
         Link link = Link.create(TEST_URL);
-        Long addedId1 = jdbcLinkRepository.add(link);
+        jooqLinkRepository.add(link);
         link = Link.create("test2.com");
-        Long addedId2 = jdbcLinkRepository.add(link);
-        List<Link> linksFromDb = jdbcLinkRepository.findAll();
+        jooqLinkRepository.add(link);
+        List<Link> linksFromDb = jooqLinkRepository.findAll();
         assertThat(linksFromDb.size()).isEqualTo(2);
     }
 
