@@ -1,6 +1,16 @@
 app:
   telegram-token: ${TELEGRAM_BOT_TOKEN}
-  scrapper_api_url: ${SCRAPPER_API_URL:http://localhost:8080}
+  scrapper_api_url: ${SCRAPPER_API_URL:http://localhost:8080}\
+
+  retry:
+    retryItems:
+      - client-name: scrapper
+        type: linear
+        max-attempts: 5
+        min-backoff: 1s
+        max-backoff: 15s
+        increment: 3s
+        error-codes: 500
 
 spring:
   application:
@@ -12,6 +22,12 @@ spring:
   liquibase:
     enabled: false
 
+  cache:
+    cache-names:
+      - rate-limit-buckets
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=3600s
+
 server:
   port: 8090
 
@@ -21,3 +37,17 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger-ui
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      http-status-code: TOO_MANY_REQUESTS
+      http-response-body: "Too much requests! Try again later."
+      url: /api/.*
+      rate-limits:
+        - bandwidths:
+            - capacity: 60
+              time: 1
+              unit: minutes
+          cache-key: getRemoteAddr()

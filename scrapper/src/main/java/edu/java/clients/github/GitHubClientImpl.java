@@ -5,6 +5,7 @@ import edu.java.clients.github.models.events.EventsResponse;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -67,11 +68,11 @@ public class GitHubClientImpl implements GitHubClient {
     public List<EventsResponse> getEvents(URI url) {
         try {
             Pair<String, String> ownerAndRepo = getOwnerAndRepoFromUrl(url);
-            return Arrays.stream(getEventsResponse(ownerAndRepo.getValue0(), ownerAndRepo.getValue1()))
-                .filter(item -> item.type().equals("PullRequestEvent")).toList();
+            var gg = Arrays.stream(getEventsResponse(ownerAndRepo.getValue0(), ownerAndRepo.getValue1()));
+            return gg.filter(item -> item.type().equals("PullRequestEvent")).toList();
         } catch (Exception ex) {
             LOGGER.error("Не удалось отследить ссылку: " + ex.getMessage());
-            return null;
+            return new ArrayList<>();
         }
     }
 

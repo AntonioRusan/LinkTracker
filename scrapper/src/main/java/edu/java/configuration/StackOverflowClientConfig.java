@@ -1,9 +1,9 @@
 package edu.java.configuration;
 
-import edu.java.handlers.WebClientErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
+import utils.retry.RetryUtils;
 
 @Configuration
 public class StackOverflowClientConfig {
@@ -16,9 +16,9 @@ public class StackOverflowClientConfig {
     @Bean("stackOverflowWebClient")
     public WebClient stackOverflowWebClient() {
         return WebClient
-                .builder()
-                .filter(WebClientErrorHandler.errorHandler())
-                .baseUrl(applicationConfig.stackoverflowBaseUrl())
-                .build();
+            .builder()
+            .filter(RetryUtils.getRetryFilter("stackoverflow", applicationConfig.retry()))
+            .baseUrl(applicationConfig.stackoverflowBaseUrl())
+            .build();
     }
 }
