@@ -12,6 +12,10 @@ import api.scrapper.models.LinkResponse;
 import api.scrapper.models.ListLinksResponse;
 import api.scrapper.models.RemoveLinkRequest;
 import edu.java.exceptions.api.LinksApiException;
+import edu.java.exceptions.api.base.ApiException;
+import edu.java.exceptions.api.base.BadRequestException;
+import edu.java.exceptions.api.base.ConflictException;
+import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.services.links.LinksService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -30,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import java.util.List;
 
 @Controller
 @RequestMapping("/api")
@@ -38,6 +43,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequiredArgsConstructor
 public class LinksApiController {
     private final LinksService linksService;
+    private final List<Class<? extends ApiException>> apiExceptionClassList =
+        List.of(NotFoundException.class, BadRequestException.class, ConflictException.class, NotFoundException.class);
 
     /**
      * DELETE /links : Убрать отслеживание ссылки
@@ -78,7 +85,11 @@ public class LinksApiController {
         try {
             return ResponseEntity.ok(linksService.removeLink(tgChatId, removeLinkRequest));
         } catch (Exception ex) {
-            throw new LinksApiException(ex.getMessage());
+            if (!apiExceptionClassList.contains(ex.getClass())) {
+                throw new LinksApiException(ex.getMessage());
+            } else {
+                throw ex;
+            }
         }
     }
 
@@ -117,7 +128,11 @@ public class LinksApiController {
         try {
             return ResponseEntity.ok(linksService.getAllLinks(tgChatId));
         } catch (Exception ex) {
-            throw new LinksApiException(ex.getMessage());
+            if (!apiExceptionClassList.contains(ex.getClass())) {
+                throw new LinksApiException(ex.getMessage());
+            } else {
+                throw ex;
+            }
         }
     }
 
@@ -164,7 +179,11 @@ public class LinksApiController {
         try {
             return ResponseEntity.ok(linksService.addLink(tgChatId, addLinkRequest));
         } catch (Exception ex) {
-            throw new LinksApiException(ex.getMessage());
+            if (!apiExceptionClassList.contains(ex.getClass())) {
+                throw new LinksApiException(ex.getMessage());
+            } else {
+                throw ex;
+            }
         }
     }
 

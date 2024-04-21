@@ -8,6 +8,10 @@ package edu.java.controllers.tgChat;
 
 import api.models.ApiErrorResponse;
 import edu.java.exceptions.api.LinksApiException;
+import edu.java.exceptions.api.base.ApiException;
+import edu.java.exceptions.api.base.BadRequestException;
+import edu.java.exceptions.api.base.ConflictException;
+import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.services.tgChat.TgChatService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -16,6 +20,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -31,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequiredArgsConstructor
 public class TgChatApiController {
     private final TgChatService tgChatService;
+    private final List<Class<? extends ApiException>> apiExceptionClassList =
+        List.of(NotFoundException.class, BadRequestException.class, ConflictException.class, NotFoundException.class);
 
     /**
      * DELETE /tg-chat/{id} : Удалить чат
@@ -72,7 +79,11 @@ public class TgChatApiController {
             tgChatService.unregisterChat(id);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
-            throw new LinksApiException(ex.getMessage());
+            if (!apiExceptionClassList.contains(ex.getClass())) {
+                throw new LinksApiException(ex.getMessage());
+            } else {
+                throw ex;
+            }
         }
     }
 
@@ -116,7 +127,11 @@ public class TgChatApiController {
             tgChatService.registerChat(id);
             return ResponseEntity.ok().build();
         } catch (Exception ex) {
-            throw new LinksApiException(ex.getMessage());
+            if (!apiExceptionClassList.contains(ex.getClass())) {
+                throw new LinksApiException(ex.getMessage());
+            } else {
+                throw ex;
+            }
         }
 
     }
