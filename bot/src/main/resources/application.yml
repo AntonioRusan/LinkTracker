@@ -23,8 +23,9 @@ spring:
     import: optional:file:.env[.properties]
   liquibase:
     enabled: false
-
   cache:
+    jcache:
+      provider: com.github.benmanes.caffeine.jcache.spi.CaffeineCachingProvider
     cache-names:
       - rate-limit-buckets
     caffeine:

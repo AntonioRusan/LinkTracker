@@ -33,7 +33,7 @@ import static org.awaitility.Awaitility.await;
 
 @SpringBootTest(classes = {BotApplication.class})
 public class KafkaUpdatesConsumerTest extends IntegrationTest {
-    /*@Autowired
+    @Autowired
     private ApplicationConfig applicationConfig;
     @MockBean
     private TelegramBot telegramBot;
@@ -114,5 +114,5 @@ public class KafkaUpdatesConsumerTest extends IntegrationTest {
                 }
             );
         consumer.unsubscribe();
-    }*/
+    }
 }
