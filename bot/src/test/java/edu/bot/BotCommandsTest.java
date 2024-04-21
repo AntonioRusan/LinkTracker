@@ -48,6 +48,7 @@ public class BotCommandsTest {
         when(botCommandService.registerChat(chatId)).thenReturn("Вы успешно зарегистрированы!");
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(botCommandService);
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse = new SendMessage(chatId, "Привет, " + userFirstName
             + " " + userLastName + "!\n" + "Вы успешно зарегистрированы!");
@@ -68,6 +69,7 @@ public class BotCommandsTest {
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
             botCommandService
         );
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse = new SendMessage(chatId, "Нет отслеживаемых ссылок!");
 
@@ -89,6 +91,7 @@ public class BotCommandsTest {
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
             botCommandService
         );
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse =
             new SendMessage(chatId, "Отслеживаемые ссылки:\n" + String.join(";\n", trackedUrls));
@@ -108,6 +111,7 @@ public class BotCommandsTest {
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
             botCommandService
         );
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse =
             new SendMessage(
@@ -137,6 +141,7 @@ public class BotCommandsTest {
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
             botCommandService
         );
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse = new SendMessage(chatId, "Отслеживаем изменения по ссылке: " + url);
 
@@ -157,6 +162,7 @@ public class BotCommandsTest {
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
             botCommandService
         );
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse = new SendMessage(chatId, "Введена неверная или пустая ссылка!");
 
@@ -183,6 +189,7 @@ public class BotCommandsTest {
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
             botCommandService
         );
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse = new SendMessage(chatId, "Прекращаем отслеживание изменений по ссылке: "
             + url);
@@ -207,6 +214,7 @@ public class BotCommandsTest {
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(
             botCommandService
         );
+        botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse = new SendMessage(chatId, "Введена неверная или пустая ссылка!");
 
