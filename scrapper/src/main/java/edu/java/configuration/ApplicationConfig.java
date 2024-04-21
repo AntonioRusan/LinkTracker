@@ -5,6 +5,7 @@ import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.validation.annotation.Validated;
+import utils.retry.model.RetryConfig;
 
 @Validated
 @ConfigurationProperties(prefix = "app", ignoreUnknownFields = false)
@@ -17,7 +18,8 @@ public record ApplicationConfig(
     String stackoverflowBaseUrl,
     String botApiUrl,
     String linkUpdatesTopicName,
-    Boolean useQueue
+    Boolean useQueue,
+    RetryConfig retry
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
     }

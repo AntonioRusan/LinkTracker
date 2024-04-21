@@ -28,6 +28,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @Testcontainers
+@DirtiesContext
 public abstract class IntegrationTest {
     public static PostgreSQLContainer<?> POSTGRES;
     public static KafkaContainer KAFKA;

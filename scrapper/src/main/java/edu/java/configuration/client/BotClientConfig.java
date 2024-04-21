@@ -4,6 +4,7 @@ import edu.java.configuration.ApplicationConfig;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
+import static utils.retry.RetryUtils.getRetryFilter;
 
 @Configuration
 public class BotClientConfig {
@@ -17,6 +18,7 @@ public class BotClientConfig {
     public WebClient botWebClient() {
         return WebClient
             .builder()
+            .filter(getRetryFilter("bot", applicationConfig.retry()))
             .baseUrl(applicationConfig.botApiUrl())
             .build();
     }
