@@ -11,7 +11,7 @@ app:
   bot_api_url: ${BOT_API_URL:http://localhost:8090}
 
   link-updates-topic-name: link-updates
-  use-queue: true
+  use-queue: false
 
   retry:
     retryItems:
