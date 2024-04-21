@@ -37,6 +37,8 @@ services:
       ZOOKEEPER_SERVER_ID:
     ports:
       - "22181:2181"
+    volumes:
+      - zookeeper_data:/var/lib/zookeeper/data
 
   kafka:
     container_name: kafka
@@ -56,8 +58,36 @@ services:
     volumes:
       - kafka:/var/lib/kafka/data
 
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 9090:9090
+    restart: unless-stopped
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=grafana
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - grafana_data:/var/lib/grafana
+
 volumes:
   postgresql: { }
   kafka: { }
+  zookeeper_data: { }
+  prometheus_data: { }
+  grafana_data: { }
 networks:
   backend: { }

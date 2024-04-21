@@ -24,10 +24,13 @@
         <spring-boot.version>3.2.2</spring-boot.version>
         <spring-cloud.version>2023.0.0</spring-cloud.version>
         <spring-dotenv.version>4.0.0</spring-dotenv.version>
+        <spring-boot-starter-actuator.version>3.2.4</spring-boot-starter-actuator.version>
 
         <!-- Other -->
         <jetbrains-annotations.version>24.1.0</jetbrains-annotations.version>
         <java-telegram-bot-api.version>7.0.1</java-telegram-bot-api.version>
+        <micrometer-registry-prometheus.version>1.12.5</micrometer-registry-prometheus.version>
+        <micrometer-tracing-bridge-brave.version>1.2.5</micrometer-tracing-bridge-brave.version>
 
         <!-- Tests -->
         <testcontainers.version>1.19.4</testcontainers.version>

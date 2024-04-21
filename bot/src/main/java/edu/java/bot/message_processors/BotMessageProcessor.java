@@ -11,6 +11,8 @@ import edu.java.bot.commands.StartCommand;
 import edu.java.bot.commands.TrackCommand;
 import edu.java.bot.commands.UntrackCommand;
 import edu.java.bot.services.bot_command.BotCommandService;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
 import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +23,14 @@ public class BotMessageProcessor implements MessageProcessor {
 
     private List<Command> commandList;
     private final BotCommandService botCommandService;
+    private final Counter handledUserMessagesCounter;
 
-    public BotMessageProcessor(BotCommandService botCommandService) {
+    public BotMessageProcessor(BotCommandService botCommandService, MeterRegistry meterRegistry) {
         this.botCommandService = botCommandService;
         this.commandList = new ArrayList<>();
+        this.handledUserMessagesCounter = Counter.builder("handled_user_messages")
+            .description("a number of handles telegram user messages")
+            .register(meterRegistry);
     }
 
     @PostConstruct
@@ -57,6 +63,8 @@ public class BotMessageProcessor implements MessageProcessor {
             if (update.message().text().startsWith(command.commandName())) {
                 response = command.handleCommand(update);
                 foundCommandFlag = true;
+                handledUserMessagesCounter.increment();
+                break;
             }
         }
         if (!foundCommandFlag) {

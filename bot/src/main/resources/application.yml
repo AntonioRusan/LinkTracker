@@ -47,6 +47,20 @@ kafka:
   enableAutoCommit: false
   concurrency: 1
 
+management:
+  server:
+    port: 8091
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: info, health, prometheus
+      path-mapping:
+        prometheus: metrics
+  metrics:
+    tags:
+      app: ${spring.application.name}
+
 bucket4j:
   enabled: true
   filters:

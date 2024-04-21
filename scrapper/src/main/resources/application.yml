@@ -75,6 +75,21 @@ springdoc:
   swagger-ui:
     path: /swagger-ui
 
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /
+      exposure:
+        include: info, health, prometheus
+      path-mapping:
+        prometheus: metrics
+  metrics:
+    tags:
+      app: ${spring.application.name}
+
+
 
 bucket4j:
   enabled: true
