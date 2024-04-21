@@ -11,15 +11,24 @@ import edu.java.bot.commands.StartCommand;
 import edu.java.bot.commands.TrackCommand;
 import edu.java.bot.commands.UntrackCommand;
 import edu.java.bot.services.bot_command.BotCommandService;
+import jakarta.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
 @Component
 public class BotMessageProcessor implements MessageProcessor {
 
-    private final List<Command> commandList;
+    private List<Command> commandList;
+    private final BotCommandService botCommandService;
 
     public BotMessageProcessor(BotCommandService botCommandService) {
+        this.botCommandService = botCommandService;
+        this.commandList = new ArrayList<>();
+    }
+
+    @PostConstruct
+    public void initializeCommandList() {
         List<Command> commands = new java.util.ArrayList<>(List.of(
             new StartCommand(botCommandService),
             new ListCommand(botCommandService),

@@ -17,6 +17,8 @@ public record ApplicationConfig(
     String githubBaseUrl,
     String stackoverflowBaseUrl,
     String botApiUrl,
+    String linkUpdatesTopicName,
+    Boolean useQueue,
     RetryConfig retry
 ) {
     public record Scheduler(boolean enable, @NotNull Duration interval, @NotNull Duration forceCheckDelay) {
@@ -27,5 +29,4 @@ public record ApplicationConfig(
         JPA,
         JOOQ
     }
-
 }

@@ -1,4 +1,4 @@
-package edu.java.configuration;
+package edu.java.configuration.database;
 
 import edu.java.repositories.jooq.JooqChatLinkRepository;
 import edu.java.repositories.jooq.JooqChatRepository;

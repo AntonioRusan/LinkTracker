@@ -12,6 +12,8 @@ public record ApplicationConfig(
     String telegramToken,
     @NotEmpty
     String scrapperApiUrl,
+    @NotEmpty
+    String scrapperTopicName,
     RetryConfig retry
 ) {
 

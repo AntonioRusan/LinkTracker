@@ -10,6 +10,9 @@ app:
   stackoverflow_base_url: ${STACK_OVERFLOW_BASE_URL:https://api.stackexchange.com/2.3/}
   bot_api_url: ${BOT_API_URL:http://localhost:8090}
 
+  link-updates-topic-name: link-updates
+  use-queue: false
+
   retry:
     retryItems:
       - client-name: bot
@@ -52,12 +55,15 @@ spring:
     password: postgres
     driver-class-name: org.postgresql.Driver
 
-
   cache:
     cache-names:
       - rate-limit-buckets
     caffeine:
       spec: maximumSize=100000,expireAfterAccess=3600s
+
+kafka:
+  bootstrapServers: localhost:29092
+  clientId: scrapper
 
 server:
   port: 8080

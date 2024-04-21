@@ -1,4 +1,4 @@
-package edu.java.configuration;
+package edu.java.configuration.database;
 
 import edu.java.repositories.jdbc.JdbcChatLinkRepository;
 import edu.java.repositories.jdbc.JdbcChatRepository;

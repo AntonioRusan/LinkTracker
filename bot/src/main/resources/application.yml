@@ -1,6 +1,6 @@
 app:
   telegram-token: ${TELEGRAM_BOT_TOKEN}
-  scrapper_api_url: ${SCRAPPER_API_URL:http://localhost:8080}\
+  scrapper_api_url: ${SCRAPPER_API_URL:http://localhost:8080}
 
   retry:
     retryItems:
@@ -12,6 +12,8 @@ app:
         increment: 3s
         error-codes: 500
 
+  scrapper-topic-name: link-updates
+
 spring:
   application:
     name: bot
@@ -21,7 +23,6 @@ spring:
     import: optional:file:.env[.properties]
   liquibase:
     enabled: false
-
   cache:
     cache-names:
       - rate-limit-buckets
@@ -37,6 +38,14 @@ logging:
 springdoc:
   swagger-ui:
     path: /swagger-ui
+
+
+kafka:
+  bootstrapServers: localhost:29092
+  groupId: bot
+  autoOffsetReset: earliest
+  enableAutoCommit: false
+  concurrency: 1
 
 bucket4j:
   enabled: true
