@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
-@EnableCaching
 @EnableConfigurationProperties({ApplicationConfig.class, KafkaConsumerConfigProperties.class})
+@EnableCaching
 public class BotApplication {
     public static void main(String[] args) {
         SpringApplication.run(BotApplication.class, args);

@@ -8,8 +8,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootApplication
-@EnableCaching
 @EnableConfigurationProperties({ApplicationConfig.class, KafkaProducerConfigProperties.class})
+@EnableCaching
 public class ScrapperApplication {
     public static void main(String[] args) {
         SpringApplication.run(ScrapperApplication.class, args);
