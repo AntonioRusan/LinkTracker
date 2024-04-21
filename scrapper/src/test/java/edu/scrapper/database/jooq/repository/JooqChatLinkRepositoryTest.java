@@ -1,4 +1,4 @@
-package edu.scrapper.database.jooq;
+package edu.scrapper.database.jooq.repository;
 
 import edu.java.ScrapperApplication;
 import edu.java.models.Chat;

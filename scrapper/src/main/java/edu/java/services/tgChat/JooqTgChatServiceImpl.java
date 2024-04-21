@@ -5,8 +5,7 @@ import edu.java.exceptions.api.base.NotFoundException;
 import edu.java.models.Chat;
 import edu.java.repositories.jooq.JooqChatLinkRepository;
 import edu.java.repositories.jooq.JooqChatRepository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import jakarta.transaction.Transactional;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_ALREADY_REGISTERED;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
@@ -20,27 +19,23 @@ public class JooqTgChatServiceImpl implements TgChatService {
     }
 
     @Override
-    public ResponseEntity<Void> unregisterChat(Long id) {
+    @Transactional
+    public void unregisterChat(Long id) {
         if (chatRepository.findById(id).isPresent()) {
             chatLinkRepository.deleteByChatId(id);
             chatRepository.delete(id);
-            return new ResponseEntity<>(
-                HttpStatus.OK
-            );
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
         }
     }
 
     @Override
-    public ResponseEntity<Void> registerChat(Long id) {
+    @Transactional
+    public void registerChat(Long id) {
         if (chatRepository.findById(id).isPresent()) {
             throw new ConflictException(TG_CHAT_ALREADY_REGISTERED);
         } else {
             chatRepository.add(new Chat(id));
-            return new ResponseEntity<>(
-                HttpStatus.OK
-            );
         }
     }
 }

@@ -10,7 +10,6 @@ import javax.validation.Valid;
 /**
  * ListLinksResponse
  */
-
 public class ListLinksResponse {
 
     @Valid

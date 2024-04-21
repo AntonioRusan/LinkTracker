@@ -4,7 +4,7 @@ app:
     interval: 60s
     force-check-delay: 10s
 
-  database-access-type: jpa
+  database-access-type: jdbc
 
   github_base_url: ${GITHUB_BASE_URL:https://api.github.com/}
   stackoverflow_base_url: ${STACK_OVERFLOW_BASE_URL:https://api.stackexchange.com/2.3/}

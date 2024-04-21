@@ -26,8 +26,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import static edu.java.exceptions.api.ApiError.LINK_ALREADY_ADDED;
 import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
@@ -53,18 +51,15 @@ public class JpaLinksServiceImpl implements LinksService {
     }
 
     @Override
-    public ResponseEntity<ListLinksResponse> getAllLinks(Long tgChatId) {
+    public ListLinksResponse getAllLinks(Long tgChatId) {
         Optional<ChatEntity> chatOpt = chatRepository.findById(tgChatId);
         if (chatOpt.isPresent()) {
             ChatEntity chat = chatOpt.get();
-            return new ResponseEntity<>(
-                new ListLinksResponse(
-                    chat.getLinks()
-                        .stream()
-                        .map(link -> new LinkResponse(link.getId(), URI.create(link.getUrl())))
-                        .toList()
-                ),
-                HttpStatus.OK
+            return new ListLinksResponse(
+                chat.getLinks()
+                    .stream()
+                    .map(link -> new LinkResponse(link.getId(), URI.create(link.getUrl())))
+                    .toList()
             );
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
@@ -73,7 +68,7 @@ public class JpaLinksServiceImpl implements LinksService {
 
     @Override
     @Transactional
-    public ResponseEntity<LinkResponse> addLink(
+    public LinkResponse addLink(
         Long tgChatId,
         AddLinkRequest addLinkRequest
     ) {
@@ -110,10 +105,7 @@ public class JpaLinksServiceImpl implements LinksService {
                 }
                 chat.addLink(addedLink);
                 addedLink.addChat(chat);
-                return new ResponseEntity<>(
-                    new LinkResponse(addedLink.getId(), addLinkRequest.getLink()),
-                    HttpStatus.OK
-                );
+                return new LinkResponse(addedLink.getId(), addLinkRequest.getLink());
             }
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
@@ -122,7 +114,7 @@ public class JpaLinksServiceImpl implements LinksService {
 
     @Override
     @Transactional
-    public ResponseEntity<LinkResponse> removeLink(
+    public LinkResponse removeLink(
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
     ) {
@@ -138,10 +130,8 @@ public class JpaLinksServiceImpl implements LinksService {
                 LinkEntity link = foundLinkOpt.get();
                 chat.deleteLink(link);
                 //linkRepository.delete(link.id());
-                return new ResponseEntity<>(
-                    new LinkResponse(link.getId(), URI.create(link.getUrl())),
-                    HttpStatus.OK
-                );
+                return
+                    new LinkResponse(link.getId(), URI.create(link.getUrl()));
             } else {
                 throw new NotFoundException(LINK_NOT_FOUND);
             }

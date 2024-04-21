@@ -1,4 +1,4 @@
-package edu.scrapper.database.jpa;
+package edu.scrapper.database.jooq.service;
 
 import api.scrapper.models.AddLinkRequest;
 import api.scrapper.models.LinkResponse;
@@ -9,21 +9,19 @@ import edu.java.models.StackOverflowLink;
 import edu.java.services.links.LinksService;
 import edu.java.services.tgChat.TgChatService;
 import edu.scrapper.database.IntegrationTest;
-import java.net.URI;
-import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
+import java.net.URI;
+import java.util.Optional;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jpa"})
-public class JpaLinksServiceTest extends IntegrationTest {
+@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jooq"})
+public class JooqLinksServiceTest extends IntegrationTest {
     @Autowired
     private LinksService linksService;
     @Autowired

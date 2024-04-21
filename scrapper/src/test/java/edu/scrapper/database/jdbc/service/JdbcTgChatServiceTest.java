@@ -1,4 +1,4 @@
-package edu.scrapper.database.jpa;
+package edu.scrapper.database.jdbc.service;
 
 import edu.java.ScrapperApplication;
 import edu.java.exceptions.api.base.ConflictException;
@@ -9,12 +9,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.transaction.annotation.Transactional;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-
-@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jpa"})
-public class JpaTgChatServiceTest extends IntegrationTest {
+@SpringBootTest(classes = {ScrapperApplication.class}, properties = {"app.database-access-type=jdbc"})
+public class JdbcTgChatServiceTest extends IntegrationTest {
     @Autowired
     private TgChatService chatService;
     private static final Long CHAT_TEST_ID = 111L;

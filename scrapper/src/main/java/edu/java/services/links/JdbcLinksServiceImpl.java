@@ -15,17 +15,18 @@ import edu.java.repositories.jdbc.JdbcChatRepository;
 import edu.java.repositories.jdbc.JdbcGitHubLinkRepository;
 import edu.java.repositories.jdbc.JdbcLinkRepository;
 import edu.java.repositories.jdbc.JdbcStackOverflowLinkRepository;
+import jakarta.transaction.Transactional;
 import java.net.URI;
 import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
 import static edu.java.exceptions.api.ApiError.LINK_ALREADY_ADDED;
 import static edu.java.exceptions.api.ApiError.LINK_NOT_FOUND;
 import static edu.java.exceptions.api.ApiError.TG_CHAT_NOT_FOUND;
 
+@RequiredArgsConstructor
 public class JdbcLinksServiceImpl implements LinksService {
     private final JdbcLinkRepository linkRepository;
     private final JdbcChatRepository chatRepository;
@@ -33,30 +34,15 @@ public class JdbcLinksServiceImpl implements LinksService {
     private final JdbcGitHubLinkRepository gitHubLinkRepository;
     private final JdbcStackOverflowLinkRepository stackOverflowLinkRepository;
 
-    public JdbcLinksServiceImpl(
-        JdbcLinkRepository linkRepository, JdbcChatRepository chatRepository,
-        JdbcChatLinkRepository chatLinkRepository,
-        JdbcGitHubLinkRepository gitHubLinkRepository,
-        JdbcStackOverflowLinkRepository stackOverflowLinkRepository
-    ) {
-        this.linkRepository = linkRepository;
-        this.chatRepository = chatRepository;
-        this.chatLinkRepository = chatLinkRepository;
-        this.gitHubLinkRepository = gitHubLinkRepository;
-        this.stackOverflowLinkRepository = stackOverflowLinkRepository;
-    }
-
     @Override
-    public ResponseEntity<ListLinksResponse> getAllLinks(Long tgChatId) {
+    @Transactional
+    public ListLinksResponse getAllLinks(Long tgChatId) {
         if (chatRepository.findById(tgChatId).isPresent()) {
-            return new ResponseEntity<>(
-                new ListLinksResponse(
-                    chatLinkRepository.findAllLinksByChatId(tgChatId)
-                        .stream()
-                        .map(link -> new LinkResponse(link.id(), URI.create(link.url())))
-                        .toList()
-                ),
-                HttpStatus.OK
+            return new ListLinksResponse(
+                chatLinkRepository.findAllLinksByChatId(tgChatId)
+                    .stream()
+                    .map(link -> new LinkResponse(link.id(), URI.create(link.url())))
+                    .toList()
             );
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
@@ -64,7 +50,8 @@ public class JdbcLinksServiceImpl implements LinksService {
     }
 
     @Override
-    public ResponseEntity<LinkResponse> addLink(
+    @Transactional
+    public LinkResponse addLink(
         Long tgChatId,
         AddLinkRequest addLinkRequest
     ) {
@@ -94,10 +81,7 @@ public class JdbcLinksServiceImpl implements LinksService {
                     }
                 }
                 chatLinkRepository.add(tgChatId, addedLinkId);
-                return new ResponseEntity<>(
-                    new LinkResponse(addedLinkId, addLinkRequest.getLink()),
-                    HttpStatus.OK
-                );
+                return new LinkResponse(addedLinkId, addLinkRequest.getLink());
             }
         } else {
             throw new NotFoundException(TG_CHAT_NOT_FOUND);
@@ -105,7 +89,8 @@ public class JdbcLinksServiceImpl implements LinksService {
     }
 
     @Override
-    public ResponseEntity<LinkResponse> removeLink(
+    @Transactional
+    public LinkResponse removeLink(
         Long tgChatId,
         RemoveLinkRequest removeLinkRequest
     ) {
@@ -119,10 +104,7 @@ public class JdbcLinksServiceImpl implements LinksService {
                 Link link = foundLinkOpt.get();
                 chatLinkRepository.delete(tgChatId, link.id());
                 //linkRepository.delete(link.id());
-                return new ResponseEntity<>(
-                    new LinkResponse(link.id(), URI.create(link.url())),
-                    HttpStatus.OK
-                );
+                return new LinkResponse(link.id(), URI.create(link.url()));
             } else {
                 throw new NotFoundException(LINK_NOT_FOUND);
             }

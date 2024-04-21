@@ -2,17 +2,16 @@ package edu.java.bot.commands;
 
 import com.pengrad.telegrambot.model.Update;
 import com.pengrad.telegrambot.request.SendMessage;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HelpCommand implements Command {
-    private List<String> commandList;
-
-    public HelpCommand() {
-
-    }
+    private final List<String> commandList;
 
     public HelpCommand(List<String> commandList) {
-        this.commandList = commandList;
+        ArrayList<String> tmpCommands = new ArrayList<>(commandList);
+        tmpCommands.add(this.commandNameAndDescription());
+        this.commandList = tmpCommands;
     }
 
     @Override

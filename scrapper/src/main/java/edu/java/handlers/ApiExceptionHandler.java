@@ -1,6 +1,8 @@
 package edu.java.handlers;
 
 import api.models.ApiErrorResponse;
+import edu.java.exceptions.api.LinksApiException;
+import edu.java.exceptions.api.TgChatApiException;
 import edu.java.exceptions.api.base.BadRequestException;
 import edu.java.exceptions.api.base.ConflictException;
 import edu.java.exceptions.api.base.NotFoundException;
@@ -13,6 +15,35 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
+    @ExceptionHandler(LinksApiException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ApiErrorResponse> linksApiExceptionHandle(LinksApiException exception) {
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ApiErrorResponse(
+                    exception.getDescription(),
+                    String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                    exception.getClass().getName(),
+                    exception.getMessage(),
+                    Arrays.stream(exception.getStackTrace()).map(StackTraceElement::toString).toList()
+                )
+            );
+    }
+
+    @ExceptionHandler(TgChatApiException.class)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ApiErrorResponse> tgChatApiExceptionHandle(TgChatApiException exception) {
+        return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ApiErrorResponse(
+                    exception.getDescription(),
+                    String.valueOf(HttpStatus.INTERNAL_SERVER_ERROR.value()),
+                    exception.getClass().getName(),
+                    exception.getMessage(),
+                    Arrays.stream(exception.getStackTrace()).map(StackTraceElement::toString).toList()
+                )
+            );
+    }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
