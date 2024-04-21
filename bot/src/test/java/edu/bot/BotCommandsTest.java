@@ -54,7 +54,6 @@ public class BotCommandsTest {
         when(botCommandService.registerChat(chatId)).thenReturn("Вы успешно зарегистрированы!");
 
         BotMessageProcessor botMessageProcessor = new BotMessageProcessor(botCommandService, meterRegistry);
-        BotMessageProcessor botMessageProcessor = new BotMessageProcessor(botCommandService);
         botMessageProcessor.initializeCommandList();
 
         SendMessage expectedResponse = new SendMessage(chatId, "Привет, " + userFirstName

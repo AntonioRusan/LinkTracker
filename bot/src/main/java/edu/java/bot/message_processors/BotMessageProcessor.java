@@ -25,7 +25,7 @@ public class BotMessageProcessor implements MessageProcessor {
     private final BotCommandService botCommandService;
     private final Counter handledUserMessagesCounter;
 
-    public BotMessageProcessor(BotCommandService botCommandService) {
+    public BotMessageProcessor(BotCommandService botCommandService, MeterRegistry meterRegistry) {
         this.botCommandService = botCommandService;
         this.commandList = new ArrayList<>();
         this.handledUserMessagesCounter = Counter.builder("handled_user_messages")
