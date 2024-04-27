@@ -7,6 +7,7 @@ import api.scrapper.models.RemoveLinkRequest;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockExtension;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import edu.bot.IntegrationTest;
 import edu.java.bot.BotApplication;
 import edu.java.bot.exceptions.api.base.BadRequestException;
 import edu.java.bot.exceptions.api.base.ConflictException;
@@ -37,8 +38,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = {BotApplication.class})
 @WireMockTest
-@DirtiesContext
-public class ScrapperClientTest {
+public class ScrapperClientTest extends IntegrationTest {
 
     @Autowired
     private ScrapperClient scrapperClient;

@@ -11,4 +11,4 @@ ENV KAFKA_URL=${KAFKA_URL}
 WORKDIR /app
 COPY target/scrapper.jar app/scrapper.jar
 
-ENTRYPOINT ["java","-jar","/scrapper.jar"]
+ENTRYPOINT ["java","-jar","scrapper.jar"]

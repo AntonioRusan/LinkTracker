@@ -11,4 +11,4 @@ ENV KAFKA_URL=${KAFKA_URL}
 WORKDIR /app
 COPY target/bot.jar app/bot.jar
 
-ENTRYPOINT ["java","-jar","/bot.jar"]
+ENTRYPOINT ["java","-jar","bot.jar"]
