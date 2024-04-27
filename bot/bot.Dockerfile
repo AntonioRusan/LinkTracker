@@ -8,6 +8,7 @@ ENV SCRAPPER_API_URL=${SCRAPPER_API_URL}
 ENV POSTGRES_HOST=${POSTGRES_HOST}
 ENV KAFKA_URL=${KAFKA_URL}
 
-COPY ./target/bot.jar bot.jar
+WORKDIR /app
+COPY ./target/bot.jar /app/bot.jar
 EXPOSE 8090
-ENTRYPOINT ["java","-jar","/bot.jar"]
+ENTRYPOINT ["java","-jar","/app/bot.jar"]
