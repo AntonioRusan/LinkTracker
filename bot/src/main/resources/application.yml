@@ -41,7 +41,7 @@ springdoc:
 
 
 kafka:
-  bootstrapServers: localhost:29092
+  bootstrapServers: ${KAFKA_URL:http://localhost:29092/}
   groupId: bot
   autoOffsetReset: earliest
   enableAutoCommit: false

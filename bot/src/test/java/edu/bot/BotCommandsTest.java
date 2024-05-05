@@ -20,7 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.when;
 
-public class BotCommandsTest {
+public class BotCommandsTest{
     private final String userFirstName = "John";
     private final String userLastName = "Snow";
     private final Long chatId = 1L;
